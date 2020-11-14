@@ -294,9 +294,10 @@
     },
     head() {
       return {
-        title: 'HSCode-内容详情',
+        title: 'HSCode编码-海关编码详情',
         meta: [
-          { hid: 'index', name: 'index', content: 'index page' }
+          { hid: 'keywords', name: 'keywords', content: '外贸、跨境、海关编码、查询、hscode查询、hscode编码、搜索' },
+          { hid: 'description', name: 'description', content: '最全面、方便、准确的外贸、跨境、海关编码查询、hscode查询' }
         ]
       }
     }
