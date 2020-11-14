@@ -8,13 +8,15 @@ axios.defaults.baseURL = 'https://hscode.vip/api/'
 Vue.prototype.$http = axios
 
 // 发起request请求时展示进度条 Nprogress.start()
-axios.interceptors.request.use(config => {
-  // console.log(config)
-  NProgress.start()
-  return config // 在最后必须return config
-})
-// 接收到response时隐藏进度条 Nprogress.done()
-axios.interceptors.response.use(config => {
-  NProgress.done()
-  return config
-})
+// 当是客户端时才配置
+if (process.client) {
+  axios.interceptors.request.use(config => {
+    NProgress.start()
+    return config // 在最后必须return config
+  })
+  // 接收到response时隐藏进度条 Nprogress.done()
+  axios.interceptors.response.use(config => {
+    NProgress.done()
+    return config
+  })
+}

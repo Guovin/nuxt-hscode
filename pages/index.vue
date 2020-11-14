@@ -28,7 +28,7 @@
       <el-footer class="footer">
         copyright <a href="https://www.hscode.vip" target="blank">www.hscode.vip</a> 版权归 HSCode编码网 <a href="#"
           @click="drawer = true">网站声明</a>
-        <div class="note">本站所有数据全部收集于互联网，仅供学习与参考，如有侵权，请联系360996299@qq.com！</div>
+        <div class="note">本站所有数据仅供学习与参考，如有疑问，请联系360996299@qq.com！</div>
       </el-footer>
     </el-container>
     <!-- 回到顶部 -->
