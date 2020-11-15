@@ -41,6 +41,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
   export default {
     data() {
       return {
@@ -122,15 +123,19 @@
         return val
       }
     },
-    created() {
-      this.getListByKey(this.$route.query.key)
+    async asyncData({ query }) {
+      const { data: res } = await axios.post(`search?keyword=${query.key}`)
+      if (res.code !== 200) {
+        return this.$message.error(`${res.data}`)
+      }
+      return { key: query.key, urlKey: query.key, keyList: res.data.list, showCard: true, total: res.data.length }
     },
     head() {
       return {
         title: 'HSCode编码-搜索结果',
         meta: [
-         { hid: 'keywords', name: 'keywords', content: '外贸、跨境、海关编码、查询、hscode查询、hscode编码、搜索' },
-         { hid: 'description', name: 'description', content: '最全面、方便、准确的外贸、跨境、海关编码查询、hscode查询' }
+          { hid: 'keywords', name: 'keywords', content: '外贸、跨境、海关编码、查询、hscode查询、hscode编码、搜索' },
+          { hid: 'description', name: 'description', content: '最全面、方便、准确的外贸、跨境、海关编码查询、hscode查询' }
         ]
       }
     }
