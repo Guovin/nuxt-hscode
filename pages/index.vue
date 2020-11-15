@@ -64,14 +64,14 @@
         this.$router.push({
           path: '/table',
           query: {
-            key: this.key
+            key: encodeURI(this.key)
           }
         })
       },
       //输入框change事件
       inputChange() {
         if (this.$route.path === '/table') {
-          return this.$refs['child'].getListByKey(this.key)
+          return this.$refs['child'].getListByKey(encodeURI(this.key))
         }
         this.getKey()
       },

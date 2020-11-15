@@ -191,6 +191,8 @@
 </template>
 
 <script>
+  import axios from 'axios'
+  import Message from 'element-ui'
   export default {
     data() {
       return {
@@ -213,20 +215,6 @@
       }
     },
     methods: {
-      // 根据hscode获取数据列表
-      async getListByHsCode() {
-        const { data: res } = await this.$http.post(`hscode?hscode=${this.$route.query.hscode}`)
-        if (res.code !== 200) {
-          return this.$message.error(`${res.data}`)
-        }
-        const arr = []
-        arr.push(res.data.info)
-        this.goodList = arr
-        this.codeList()
-        this.ciqList()
-        this.getElementList(this.goodList)
-        this.changeNumber()
-      },
       //生成申报要素列表
       getElementList() {
         var element
@@ -288,9 +276,19 @@
       }
     },
     created() {
-      this.getListByHsCode()
-      this.title = this.$route.query.title
-      this.example = this.$route.query.example
+      this.codeList()
+      this.ciqList()
+      this.getElementList(this.goodList)
+      this.changeNumber()
+    },
+    async asyncData({ query }) {
+      const { data: res } = await axios.post(`hscode?hscode=${encodeURI(query.hscode)}`)
+      if (res.code !== 200) {
+        return Message.error(`${res.data}`)
+      }
+      const arr = []
+      arr.push(res.data.info)
+      return { goodList: arr, title: decodeURI(query.title), example: decodeURI(query.example) }
     },
     head() {
       return {

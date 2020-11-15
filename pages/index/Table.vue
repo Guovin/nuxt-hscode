@@ -42,6 +42,7 @@
 
 <script>
   import axios from 'axios'
+  import Message from 'element-ui'
   export default {
     data() {
       return {
@@ -70,7 +71,7 @@
       async getListByKey(key) {
         this.key = key
         this.urlKey = key
-        const { data: res } = await this.$http.post(`search?keyword=${key}`)
+        const { data: res } = await this.$http.post(`search?keyword=${encodeURI(key)}`)
         // console.log(res)
         if (res.code !== 200) {
           return this.$message.error(`${res.data}`)
@@ -103,8 +104,8 @@
           path: 'detail',
           query: {
             hscode: hscode,
-            title: title,
-            example: example
+            title: encodeURI(title),
+            example: encodeURI(example)
           }
         })
       },
@@ -124,11 +125,12 @@
       }
     },
     async asyncData({ query }) {
+      let decodeKey = decodeURI(query.key)
       const { data: res } = await axios.post(`search?keyword=${query.key}`)
       if (res.code !== 200) {
-        return this.$message.error(`${res.data}`)
+        return Message.error(`${res.data}`)
       }
-      return { key: query.key, urlKey: query.key, keyList: res.data.list, showCard: true, total: res.data.length }
+      return { key: decodeKey, urlKey: decodeKey, keyList: res.data.list, showCard: true, total: res.data.length }
     },
     head() {
       return {
