@@ -62,7 +62,7 @@
       // 根据关键词获取数据列表
       getKey() {
         this.$router.push({
-          path: '/table',
+          path: 'table',
           query: {
             key: encodeURI(this.key)
           }
