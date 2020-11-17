@@ -104,8 +104,8 @@
           path: 'detail',
           query: {
             hscode: hscode,
-            title: encodeURI(title),
-            example: encodeURI(example)
+            title: encodeURIComponent(title),
+            example: encodeURIComponent(example)
           }
         })
       },
@@ -125,7 +125,7 @@
       }
     },
     async asyncData({ query }) {
-      let decodeKey = decodeURI(query.key)
+      let decodeKey = decodeURIComponent(query.key)
       const { data: res } = await axios.post(`search?keyword=${query.key}`)
       if (res.code !== 200) {
         return Message.error(`${res.data}`)
