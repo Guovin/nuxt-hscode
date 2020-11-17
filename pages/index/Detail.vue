@@ -282,13 +282,13 @@
       this.changeNumber()
     },
     async asyncData({ query }) {
-      const { data: res } = await axios.post(`hscode?hscode=${encodeURI(query.hscode)}`)
+      const { data: res } = await axios.post(`hscode?hscode=${encodeURIComponent(query.hscode)}`)
       if (res.code !== 200) {
         return Message.error(`${res.data}`)
       }
       const arr = []
       arr.push(res.data.info)
-      return { goodList: arr, title: decodeURI(query.title), example: decodeURI(query.example) }
+      return { goodList: arr, title: decodeURIComponent(query.title), example: decodeURIComponent(query.example) }
     },
     head() {
       return {
