@@ -85,15 +85,6 @@
           return this.$router.push('/')
         }
       }
-    },
-    head() {
-      return {
-        title: 'HSCode编码查询-首页',
-        meta: [
-          { hid: 'keywords', name: 'keywords', content: '外贸、跨境、海关编码、查询、hscode查询、hscode编码、搜索' },
-          { hid: 'description', name: 'description', content: '最全面、方便、准确的外贸、跨境、海关编码查询、hscode查询' }
-        ]
-      }
     }
   }
 </script>
