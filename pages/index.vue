@@ -71,19 +71,45 @@ export default {
     }
   },
   methods: {
+    // 对查询关键字中的特殊字符进行编码
+    encodeSearchKey (key) {
+      const encodeArr = [{
+        code: '%',
+        encode: '%25'
+      }, {
+        code: '?',
+        encode: '%3F'
+      }, {
+        code: '#',
+        encode: '%23'
+      }, {
+        code: '&',
+        encode: '%26'
+      }, {
+        code: '=',
+        encode: '%3D'
+      }];
+      return key.replace(/[%?#&=]/g, ($, index, str) => {
+        for (const k of encodeArr) {
+          if (k.code === $) {
+            return k.encode;
+          }
+        }
+      });
+    },
     // 根据关键词获取数据列表
     getKey () {
       this.$router.push({
         path: 'table',
         query: {
-          key: encodeURIComponent(this.key).replace(/%/g, '%25')
+          key: this.encodeSearchKey(encodeURIComponent(this.key))
         }
       })
     },
     //输入框change事件
     inputChange () {
       if (this.$route.path === '/table') {
-        return this.$refs['child'].getListByKey(encodeURIComponent(this.key).replace(/%/g, '%25'))
+        return this.$refs['child'].getListByKey(this.encodeSearchKey(encodeURIComponent(this.key)))
       }
       this.getKey()
     },

@@ -304,13 +304,13 @@ export default {
     this.changeNumber()
   },
   async asyncData ({ query }) {
-    const { data: res } = await axios.post(`hscode?hscode=${encodeURIComponent(query.hscode).replace(/%/g, '25%')}`)
+    const { data: res } = await axios.post(`hscode?hscode=${query.hscode}`)
     if (res.code !== 200) {
       return Message.error(`${res.data}`)
     }
     const arr = []
     arr.push(res.data.info)
-    return { goodList: arr, title: decodeURIComponent(query.title.replace(/%25/g, '%')), example: decodeURIComponent(query.example.replace(/%25/g, '%')) }
+    return { goodList: arr, title: decodeURIComponent(decodeURIComponent(query.title)), example: decodeURIComponent(decodeURIComponent(query.example)) }
   },
   head () {
     return {

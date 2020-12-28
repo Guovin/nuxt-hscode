@@ -103,7 +103,7 @@ export default {
     async getListByKey (key) {
       this.key = key
       this.urlKey = key
-      const { data: res } = await this.$http.post(`search?keyword=${encodeURI(key).replace(/%/g, '25%')}`)
+      const { data: res } = await this.$http.post(`search?keyword=${key}`)
       // console.log(res)
       if (res.code !== 200) {
         return this.$message.error(`${res.data}`)
@@ -130,14 +130,40 @@ export default {
       this.currentPage = newPage
       this.getListByKey(this.urlKey)
     },
+    // 对查询关键字中的特殊字符进行编码
+    encodeSearchKey (key) {
+      const encodeArr = [{
+        code: '%',
+        encode: '%25'
+      }, {
+        code: '?',
+        encode: '%3F'
+      }, {
+        code: '#',
+        encode: '%23'
+      }, {
+        code: '&',
+        encode: '%26'
+      }, {
+        code: '=',
+        encode: '%3D'
+      }];
+      return key.replace(/[%?#&=]/g, ($, index, str) => {
+        for (const k of encodeArr) {
+          if (k.code === $) {
+            return k.encode;
+          }
+        }
+      });
+    },
     // 点击详情跳转
     showDetail (hscode, title, example) {
       this.$router.push({
         path: 'detail',
         query: {
-          hscode: hscode,
-          title: encodeURIComponent(title).replace(/%/g, '%25'),
-          example: encodeURIComponent(example).replace(/%/g, '%25')
+          hscode: this.encodeSearchKey(encodeURIComponent(hscode)),
+          title: this.encodeSearchKey(encodeURIComponent(title)),
+          example: this.encodeSearchKey(encodeURIComponent(example))
         }
       })
     },
@@ -157,7 +183,7 @@ export default {
     }
   },
   async asyncData ({ query }) {
-    let decodeKey = decodeURIComponent(query.key.replace(/%25/g, '%'))
+    let decodeKey = decodeURIComponent(decodeURIComponent(query.key))
     const { data: res } = await axios.post(`search?keyword=${query.key}`)
     if (res.code !== 200) {
       return Message.error(`${res.data}`)
