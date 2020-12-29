@@ -57,6 +57,8 @@
            target="blank">www.hscode.vip</a> 版权归 HSCode编码网 <a href="#"
            @click="drawer = true">网站声明</a>
         <div class="note">本站所有数据仅供学习与参考，如有疑问，请联系360996299@qq.com！</div>
+        <a href="https://www.miit.gov.cn/"
+           target="blank">粤ICP备20062496号-1</a>
       </el-footer>
     </el-container>
     <!-- 回到顶部 -->
@@ -217,8 +219,8 @@ export default {
   text-align: center;
   font-size: 14px;
   background-color: #1f2939;
-  height: 30px;
-  line-height: 30px;
+  height: 90px !important;
+  line-height: 28px;
 }
 
 .note {
