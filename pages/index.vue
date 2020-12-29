@@ -245,7 +245,7 @@ export default {
   margin: auto;
   margin-top: 50px;
   margin-bottom: 30px;
-  width: 68%;
+  width: 65%;
   background-color: rgba(255, 255, 255, 0.01);
   border: rgba(255, 255, 255, 0.01);
 }
@@ -260,6 +260,6 @@ export default {
 }
 
 .parentFont {
-  font-size: 15px;
+  font-size: 14px;
 }
 </style>
