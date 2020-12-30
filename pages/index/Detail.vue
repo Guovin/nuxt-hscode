@@ -304,6 +304,7 @@ export default {
     this.changeNumber()
   },
   async asyncData ({ query }) {
+    console.log(query.hscode)
     const { data: res } = await axios.post(`hscode?hscode=${query.hscode}`)
     if (res.code !== 200) {
       return Message.error(`${res.data}`)
