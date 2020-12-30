@@ -11,8 +11,7 @@
         </el-breadcrumb>
         <!-- logo区域 -->
         <div class="logo_container">
-          <span class="logo"
-                @click="goHome">
+          <span class="logo" @click="goHome">
             <span class="hs">HS</span>Code
           </span>
         </div>
@@ -20,33 +19,38 @@
       <el-main>
         <el-card class="searchCard">
           <!-- 搜索区域 -->
-          <el-input placeholder="请输入商品名称或商品编码"
-                    v-model="key"
-                    @change="inputChange"
-                    clearable>
-            <el-button slot="append"
-                       icon="el-icon-search"
-                       @click="getKey"></el-button>
+          <el-input placeholder="请输入商品名称或商品编码" v-model="key" @change="inputChange" clearable>
+            <el-button slot="append" icon="el-icon-search" @click="getKey"></el-button>
           </el-input>
+        </el-card>
+        <!-- 树形分类区域 -->
+        <el-card v-if="this.$route.path==='/'" class="treeCard">
+          <el-tree :load="loadNode" lazy :props="treeProps">
+            <!-- 自定义渲染节点内容 -->
+            <span slot-scope="{ node, data }">
+              <span class="parentFont">{{ node.label }}</span>
+              <span>
+                <!-- 通过判断是否是叶子节点来显示查看按钮 -->
+                <el-button type="text" size="mini" v-if="node.isLeaf == true" @click="() => searchPrefix(data)">
+                  查看
+                </el-button>
+              </span>
+            </span>
+          </el-tree>
         </el-card>
         <nuxt-child ref="child" />
       </el-main>
       <el-footer class="footer">
-        copyright <a href="https://www.hscode.vip"
-           target="blank">www.hscode.vip</a> 版权归 HSCode编码网 <a href="#"
-           @click="drawer = true">网站声明</a>
+        copyright <a href="https://www.hscode.vip" target="blank">www.hscode.vip</a> 版权归 HSCode编码网 <a href="#"
+          @click="drawer = true">网站声明</a>
         <div class="note">本站所有数据仅供学习与参考，如有疑问，请联系360996299@qq.com！</div>
+        <a href="https://www.miit.gov.cn/" target="blank">粤ICP备20062496号-1</a>
       </el-footer>
     </el-container>
     <!-- 回到顶部 -->
-    <el-backtop target=".home"
-                :visibility-height="150"></el-backtop>
+    <el-backtop target=".home" :visibility-height="150"></el-backtop>
     <!-- 网站声明 -->
-    <el-drawer title="免责声明"
-               size="250px"
-               :visible.sync="drawer"
-               :direction="direction"
-               :before-close="handleClose">
+    <el-drawer title="免责声明" size="250px" :visible.sync="drawer" :direction="direction" :before-close="handleClose">
       <div>
         1、HSCode编码网(www.hscode.vip)提醒您：在使用HSCode编码网提供的任何服务前，请务必仔细阅读并透彻理解本免责声明，您可以选择不使用HSCode编码网提供的服务，但如果您使用HSCode编码网的任何服务，您的使用行为将被视为对本声明全部内容的完全认可。
         <br>
@@ -61,115 +65,196 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      // 关键词
-      key: '',
-      drawer: false,
-      direction: 'btt',
-    }
-  },
-  methods: {
-    // 对查询关键字中的特殊字符进行编码
-    encodeSearchKey (key) {
-      const encodeArr = [{
-        code: '%',
-        encode: '%25'
-      }, {
-        code: '?',
-        encode: '%3F'
-      }, {
-        code: '#',
-        encode: '%23'
-      }, {
-        code: '&',
-        encode: '%26'
-      }, {
-        code: '=',
-        encode: '%3D'
-      }];
-      return key.replace(/[%?#&=]/g, ($, index, str) => {
-        for (const k of encodeArr) {
-          if (k.code === $) {
-            return k.encode;
+  import axios from 'axios'
+  import { Message } from 'element-ui'
+  export default {
+    data() {
+      return {
+        // 关键词
+        key: '',
+        drawer: false,
+        direction: 'btt',
+        //树形分类父节点数据
+        parentData: [],
+        // 树形分类子节点数据
+        childrenData: [],
+        //树形分类选项配置
+        treeProps: {
+          label: 'class', //配置节点属性名称
+          isLeaf: 'leaf' //配置叶子节点属性名称
+        }
+      }
+    },
+    methods: {
+      // 对查询关键字中的特殊字符进行编码
+      encodeSearchKey(key) {
+        const encodeArr = [{
+          code: '%',
+          encode: '%25'
+        }, {
+          code: '?',
+          encode: '%3F'
+        }, {
+          code: '#',
+          encode: '%23'
+        }, {
+          code: '&',
+          encode: '%26'
+        }, {
+          code: '=',
+          encode: '%3D'
+        }];
+        return key.replace(/[%?#&=]/g, ($, index, str) => {
+          for (const k of encodeArr) {
+            if (k.code === $) {
+              return k.encode;
+            }
+          }
+        });
+      },
+      // 根据关键词获取数据列表
+      async getKey() {
+        if (this.key !== '') {
+          //判断搜索关键词合法性
+          const { data: res } = await this.$http.post(`search?keyword=${this.encodeSearchKey(encodeURIComponent(this.key))}`)
+          if (res.code !== 200) {
+            return this.$message.error(`${res.data}`)
+          } else {
+            this.$router.push({
+              path: 'table',
+              query: {
+                key: this.encodeSearchKey(encodeURIComponent(this.key))
+              }
+            })
+          }
+        } else {
+          return this.$message.info("请输入搜索内容！")
+        }
+      },
+      //输入框change事件
+      inputChange() {
+        if (this.key !== '') {
+          if (this.$route.path === '/table') {
+            return this.$refs['child'].getListByKey(this.encodeSearchKey(encodeURIComponent(this.key)))
+          } else {
+            this.getKey()
           }
         }
-      });
-    },
-    // 根据关键词获取数据列表
-    getKey () {
-      this.$router.push({
-        path: 'table',
-        query: {
-          key: this.encodeSearchKey(encodeURIComponent(this.key))
+        else {
+          return this.$message.info('请输入搜索内容！')
         }
-      })
-    },
-    //输入框change事件
-    inputChange () {
-      if (this.$route.path === '/table') {
-        return this.$refs['child'].getListByKey(this.encodeSearchKey(encodeURIComponent(this.key)))
+      },
+      //网站声明抽屉
+      handleClose(done) {
+        done()
+      },
+      //返回首页
+      goHome() {
+        if (this.$route.path !== '/') {
+          return this.$router.push('/')
+        }
+      },
+      //树形控件数据加载
+      loadNode(node, resolve) {
+        if (node.level === 0) {
+          //初始化树状图最开始就展示的数据
+          let res = []
+          this.parentData.forEach((value) => {
+            res.push({ class: value })
+          })
+          return resolve(res);
+        }
+        if (node.level > 1) return resolve([]);
+        //根据父节点的名称寻找子节点数据
+        let parentClass = node.data.class
+        let data = this.childrenData[parentClass]
+        let children = []
+        //遍历加载叶子节点
+        data.forEach((value) => {
+          //class用于显示名称，leaf显示为叶子节点，prefix用于查看跳转
+          children.push({ class: value.sub_class, leaf: true, prefix: value.hscode_prefix })
+        })
+        resolve(children);
+      },
+      //查询hscode前缀
+      searchPrefix(data) {
+        //根据当前叶子节点的prefix属性来搜索
+        this.key = data.prefix
+        this.getKey()
       }
-      this.getKey()
     },
-    //网站声明抽屉
-    handleClose (done) {
-      done()
-    },
-    //返回首页
-    goHome () {
-      if (this.$route.path !== '/') {
-        return this.$router.push('/')
+    async asyncData() {
+      let { data: res } = await axios.post('/hscode/getAllHscodeClassify')
+      if (res.code !== 200) {
+        return Message.error("获取分类信息失败！")
       }
+      return { parentData: res.data.class, childrenData: res.data.info }
     }
   }
-}
 </script>
 
-<style scoped>
-.home {
-  height: 100%;
-  overflow: auto;
-  display: flex;
-  min-height: 100vh;
-}
+<style>
+  .home {
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    min-height: 100vh;
+  }
 
-.el-header {
-  height: 100px !important;
-}
+  .el-header {
+    height: 100px !important;
+  }
 
-.el-card {
-  margin: auto;
-  margin-top: 50px;
-  margin-bottom: 30px;
-  width: 50%;
-}
+  .el-breadcrumb {
+    margin-top: 10px;
+  }
 
-.el-breadcrumb {
-  margin-top: 10px;
-}
+  .footer {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    background-color: #1f2939;
+    height: 90px !important;
+    line-height: 28px;
+  }
 
-.footer {
-  width: 100%;
-  text-align: center;
-  font-size: 14px;
-  background-color: #1f2939;
-  height: 30px;
-  line-height: 30px;
-}
+  .note {
+    font-size: 10px;
+  }
 
-.note {
-  font-size: 10px;
-}
+  .el-drawer div {
+    font-size: 10px;
+    margin-left: 10px;
+  }
 
-.el-drawer div {
-  font-size: 10px;
-  margin-left: 10px;
-}
+  .searchCard {
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 30px;
+    width: 50%;
+    background-color: rgba(255, 255, 255, 0.01);
+    border: rgba(255, 255, 255, 0.01);
+  }
 
-.searchCard {
-  background-color: rgba(255, 255, 255, 0.01);
-  border: rgba(255, 255, 255, 0.01);
-}
+  .treeCard {
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 30px;
+    width: 65%;
+    background-color: rgba(255, 255, 255, 0.01);
+    border: rgba(255, 255, 255, 0.01);
+  }
+
+  .el-tree {
+    border-radius: 0.5%;
+    padding: 15px 0 15px 0;
+  }
+
+  .el-tree-node__children span {
+    font-size: 10px;
+  }
+
+  .parentFont {
+    font-size: 14px;
+  }
 </style>

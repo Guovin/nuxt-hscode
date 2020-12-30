@@ -42,7 +42,7 @@
 
 <script>
   import axios from 'axios'
-  import Message from 'element-ui'
+  import { Message } from 'element-ui'
   export default {
     data() {
       return {
@@ -71,23 +71,22 @@
       async getListByKey(key) {
         this.key = key
         this.urlKey = key
-        console.log(key)
+        key = this.encodeSearchKey(encodeURIComponent(key))
         const { data: res } = await this.$http.post(`search?keyword=${key}`)
-        // console.log(res)
         if (res.code !== 200) {
           return this.$message.error(`${res.data}`)
         }
         this.showCard = true
         // 根据分页显示要求处理数据
-        if (this.pageSize !== 10 && this.currentPage === 1) {
+        //当是第一页时显示
+        if (this.currentPage === 1) {
           this.keyList = res.data.list.slice(0, this.pageSize)
-        } else if (this.pageSize !== 10 && this.currentPage === 2) {
-          this.keyList = res.data.list.slice(this.pageSize)
-        } else {
-          this.keyList = res.data.list
+        }
+        //当不是第一页时显示
+        else {
+          this.keyList = res.data.list.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
         }
         this.total = res.data.length
-        // console.log(this.keyList)
       },
       // 分页条数改变触发事件
       handleSizeChange(newPageSize) {
@@ -153,7 +152,6 @@
     },
     async asyncData({ query }) {
       let decodeKey = decodeURIComponent(decodeURIComponent(query.key))
-      console.log(query.key)
       const { data: res } = await axios.post(`search?keyword=${query.key}`)
       if (res.code !== 200) {
         return Message.error(`${res.data}`)
@@ -197,5 +195,6 @@
     background-color: #fff;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+    padding: 10px 0 10px 0;
   }
 </style>
