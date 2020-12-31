@@ -153,7 +153,7 @@ export default {
     inputChange () {
       if (this.key !== '') {
         if (this.$route.path === '/table') {
-          return this.$refs['child'].getListByKey(this.encodeSearchKey(encodeURIComponent(this.key)))
+          return this.$refs['child'].getListByKey(this.key)
         } else {
           this.getKey()
         }

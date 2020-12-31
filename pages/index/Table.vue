@@ -101,11 +101,14 @@ export default {
   methods: {
     // 根据关键词获取数据列表
     async getListByKey (key) {
-      //传入的key是经转码的
+      //传入的key是经解码的
       this.key = key
+      //转码再进行搜索
+      let decodeKey = this.encodeSearchKey(encodeURIComponent(key))
       //保存当前查询结果的key，避免用户修改输入框导致分页错误
-      this.urlKey = key
-      const { data: res } = await this.$http.post(`search?keyword=${key}`)
+      this.urlKey = this.key
+      console.log(decodeKey)
+      const { data: res } = await this.$http.post(`search?keyword=${decodeKey}`)
       if (res.code !== 200) {
         return this.$message.error(`${res.data}`)
       }
@@ -124,11 +127,13 @@ export default {
     // 分页条数改变触发事件
     handleSizeChange (newPageSize) {
       this.pageSize = newPageSize
+      console.log(this.urlKey)
       this.getListByKey(this.urlKey)
     },
     // 分页当前页切换触发事件
     handleCurrentChange (newPage) {
       this.currentPage = newPage
+      console.log(this.urlKey)
       this.getListByKey(this.urlKey)
     },
     // 对查询关键字中的特殊字符进行编码
@@ -171,8 +176,7 @@ export default {
     // 筛选变色
     showDate (val) {
       val = val + ''
-      //需要解码两次才能获取到正确的输入内容
-      const keys = decodeURIComponent(decodeURIComponent(this.key)).split('')
+      const keys = this.key.split('')
       //遍历搜索词，商品名称存在该字的话就变色
       keys.forEach(item => {
         if (val.indexOf(item) !== - 1 && item !== '') {
@@ -189,7 +193,8 @@ export default {
     if (res.code !== 200) {
       return Message.error(`${res.data}`)
     }
-    return { key: query.key, urlKey: query.key, keyList: res.data.list, showCard: true, total: res.data.length }
+    //需要解码两次才能获取到正确的输入内容
+    return { key: decodeURIComponent(decodeURIComponent(query.key)), urlKey: decodeURIComponent(decodeURIComponent(query.key)), keyList: res.data.list, showCard: true, total: res.data.length }
   },
   head () {
     return {
