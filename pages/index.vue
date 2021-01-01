@@ -19,8 +19,8 @@
       <el-main>
         <el-card class="searchCard">
           <!-- 搜索区域 -->
-          <el-input placeholder="请输入商品名称或商品编码" v-model="key" @change="inputChange" clearable>
-            <el-button slot="append" icon="el-icon-search"></el-button>
+          <el-input placeholder="请输入商品名称或商品编码" v-model="key" @keyup.enter.native="inputKeyUpEnter" clearable>
+            <el-button slot="append" icon="el-icon-search" @click="inputKeyUpEnter"></el-button>
           </el-input>
         </el-card>
         <!-- 树形分类区域 -->
@@ -106,10 +106,15 @@
           return this.$message.info("请输入搜索内容！")
         }
       },
-      //输入框change事件
-      inputChange() {
+      //输入框回车事件
+      inputKeyUpEnter() {
         if (this.key !== '') {
           if (this.$route.path === '/table') {
+            //url的query参数根据搜索而变化，实现源码也能动态刷新
+            var { merge } = require('webpack-merge')
+            this.$router.push({
+              query: merge(this.$route.query, { 'key': encodeURIComponent(this.key) })
+            })
             return this.$refs['child'].getListByKey(encodeURIComponent(this.key))
           } else {
             this.getKey()
