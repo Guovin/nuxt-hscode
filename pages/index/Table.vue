@@ -108,7 +108,7 @@
           path: 'detail',
           query: {
             //链接携带的参数转码传输
-            hscode: encodeURIComponent(hscode),
+            hscode: hscode,
             title: encodeURIComponent(title),
             example: encodeURIComponent(example)
           }

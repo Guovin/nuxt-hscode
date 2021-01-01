@@ -282,13 +282,17 @@
       this.changeNumber()
     },
     async asyncData({ query }) {
+      //避免字符含%时查看源码失败，需将%转为%25
+      query.title = query.title.replace(/%/g, '%25')
+      query.example = query.example.replace(/%/g, '%25')
       const { data: res } = await axios.post(`hscode?hscode=${query.hscode}`)
       if (res.code !== 200) {
         return Message.error(`${res.data}`)
       }
       const arr = []
       arr.push(res.data.info)
-      return { goodList: arr, title: decodeURIComponent(query.title), example: decodeURIComponent(query.example) }
+      //执行两次解码即可恢复原字符
+      return { goodList: arr, title: decodeURIComponent(decodeURIComponent(query.title)), example: decodeURIComponent(decodeURIComponent(query.example)) }
     },
     head() {
       return {
