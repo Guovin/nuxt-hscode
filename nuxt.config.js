@@ -51,8 +51,7 @@ export default {
         config.externals = {
           vue: 'Vue',
           axios: 'axios',
-          nprogress: 'NProgress',
-          'element-ui': 'element-ui'
+          nprogress: 'NProgress'
         }
       }
     }
