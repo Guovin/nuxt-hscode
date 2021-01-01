@@ -28,7 +28,7 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    { src: '@/plugins/axios', ssr: true },
+    { src: '@/plugins/axios', ssr: false },
     { src: '@/plugins/element', ssr: true }
   ],
 

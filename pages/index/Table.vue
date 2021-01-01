@@ -69,9 +69,12 @@
     methods: {
       // 根据关键词获取数据列表
       async getListByKey(key) {
-        this.key = key
-        this.urlKey = key
-        key = this.encodeSearchKey(encodeURIComponent(key))
+        //传入的key是经转码的
+        //解码保存
+        let decodeKey = decodeURIComponent(decodeURIComponent(key))
+        this.key = decodeKey
+        //保存当前查询结果的key，避免用户修改输入框导致分页错误
+        this.urlKey = decodeKey
         const { data: res } = await this.$http.post(`search?keyword=${key}`)
         if (res.code !== 200) {
           return this.$message.error(`${res.data}`)
@@ -91,12 +94,13 @@
       // 分页条数改变触发事件
       handleSizeChange(newPageSize) {
         this.pageSize = newPageSize
-        this.getListByKey(this.urlKey)
+        //需要转码后再执行搜索
+        this.getListByKey(this.encodeSearchKey(encodeURIComponent(this.urlKey)))
       },
       // 分页当前页切换触发事件
       handleCurrentChange(newPage) {
         this.currentPage = newPage
-        this.getListByKey(this.urlKey)
+        this.getListByKey(this.encodeSearchKey(encodeURIComponent(this.urlKey)))
       },
       // 对查询关键字中的特殊字符进行编码
       encodeSearchKey(key) {
@@ -150,13 +154,17 @@
         return val
       }
     },
+    created() {
+      //解码得到正确内容
+      this.key = decodeURIComponent(this.key)
+      this.urlKey = decodeURIComponent(this.urlKey)
+    },
     async asyncData({ query }) {
-      let decodeKey = decodeURIComponent(decodeURIComponent(query.key))
       const { data: res } = await axios.post(`search?keyword=${query.key}`)
       if (res.code !== 200) {
         return Message.error(`${res.data}`)
       }
-      return { key: decodeKey, urlKey: decodeKey, keyList: res.data.list, showCard: true, total: res.data.length }
+      return { key: decodeURIComponent(query.key), urlKey: decodeURIComponent(query.key), keyList: res.data.list, showCard: true, total: res.data.length }
     },
     head() {
       return {

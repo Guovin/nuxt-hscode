@@ -276,6 +276,9 @@
       }
     },
     created() {
+      //再解码一次得到正确的内容
+      this.title = decodeURIComponent(this.title)
+      this.example = decodeURIComponent(this.example)
       this.codeList()
       this.ciqList()
       this.getElementList(this.goodList)
@@ -288,7 +291,7 @@
       }
       const arr = []
       arr.push(res.data.info)
-      return { goodList: arr, title: decodeURIComponent(decodeURIComponent(query.title)), example: decodeURIComponent(decodeURIComponent(query.example)) }
+      return { goodList: arr, title: decodeURIComponent(query.title), example: decodeURIComponent(query.example) }
     },
     head() {
       return {
