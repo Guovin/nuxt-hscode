@@ -55,17 +55,6 @@ export default {
           'element-ui': 'element-ui'
         }
       }
-    },
-    //配置element ui 按需引入
-    babel: {
-      plugins: [
-        ['component',
-          {
-            libraryName: 'element-ui',
-            styleLibraryName: 'theme-chalk'
-          }
-        ]
-      ]
     }
   }
 }
