@@ -86,44 +86,19 @@
       }
     },
     methods: {
-      // 对查询关键字中的特殊字符进行编码
-      encodeSearchKey(key) {
-        const encodeArr = [{
-          code: '%',
-          encode: '%25'
-        }, {
-          code: '?',
-          encode: '%3F'
-        }, {
-          code: '#',
-          encode: '%23'
-        }, {
-          code: '&',
-          encode: '%26'
-        }, {
-          code: '=',
-          encode: '%3D'
-        }];
-        return key.replace(/[%?#&=]/g, ($, index, str) => {
-          for (const k of encodeArr) {
-            if (k.code === $) {
-              return k.encode;
-            }
-          }
-        });
-      },
       // 根据关键词获取数据列表
       async getKey() {
         if (this.key !== '') {
           //判断搜索关键词合法性
-          const { data: res } = await this.$http.post(`search?keyword=${this.encodeSearchKey(encodeURIComponent(this.key))}`)
+          const { data: res } = await this.$http.post(`search?keyword=${encodeURIComponent(this.key)}`)
           if (res.code !== 200) {
             return this.$message.error(`${res.data}`)
           } else {
             this.$router.push({
               path: 'table',
               query: {
-                key: this.encodeSearchKey(encodeURIComponent(this.key))
+                //链接携带的参数转码传输
+                key: encodeURIComponent(this.key)
               }
             })
           }
@@ -135,7 +110,7 @@
       inputChange() {
         if (this.key !== '') {
           if (this.$route.path === '/table') {
-            return this.$refs['child'].getListByKey(this.encodeSearchKey(encodeURIComponent(this.key)))
+            return this.$refs['child'].getListByKey(encodeURIComponent(this.key))
           } else {
             this.getKey()
           }

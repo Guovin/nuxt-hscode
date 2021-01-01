@@ -71,7 +71,7 @@
       async getListByKey(key) {
         //传入的key是经转码的
         //解码保存
-        let decodeKey = decodeURIComponent(decodeURIComponent(key))
+        let decodeKey = decodeURIComponent(key)
         this.key = decodeKey
         //保存当前查询结果的key，避免用户修改输入框导致分页错误
         this.urlKey = decodeKey
@@ -95,47 +95,22 @@
       handleSizeChange(newPageSize) {
         this.pageSize = newPageSize
         //需要转码后再执行搜索
-        this.getListByKey(this.encodeSearchKey(encodeURIComponent(this.urlKey)))
+        this.getListByKey(encodeURIComponent(this.urlKey))
       },
       // 分页当前页切换触发事件
       handleCurrentChange(newPage) {
         this.currentPage = newPage
-        this.getListByKey(this.encodeSearchKey(encodeURIComponent(this.urlKey)))
-      },
-      // 对查询关键字中的特殊字符进行编码
-      encodeSearchKey(key) {
-        const encodeArr = [{
-          code: '%',
-          encode: '%25'
-        }, {
-          code: '?',
-          encode: '%3F'
-        }, {
-          code: '#',
-          encode: '%23'
-        }, {
-          code: '&',
-          encode: '%26'
-        }, {
-          code: '=',
-          encode: '%3D'
-        }];
-        return key.replace(/[%?#&=]/g, ($, index, str) => {
-          for (const k of encodeArr) {
-            if (k.code === $) {
-              return k.encode;
-            }
-          }
-        });
+        this.getListByKey(encodeURIComponent(this.urlKey))
       },
       // 点击详情跳转
       showDetail(hscode, title, example) {
         this.$router.push({
           path: 'detail',
           query: {
-            hscode: this.encodeSearchKey(encodeURIComponent(hscode)),
-            title: this.encodeSearchKey(encodeURIComponent(title)),
-            example: this.encodeSearchKey(encodeURIComponent(example))
+            //链接携带的参数转码传输
+            hscode: encodeURIComponent(hscode),
+            title: encodeURIComponent(title),
+            example: encodeURIComponent(example)
           }
         })
       },
@@ -154,13 +129,9 @@
         return val
       }
     },
-    created() {
-      //解码得到正确内容
-      this.key = decodeURIComponent(this.key)
-      this.urlKey = decodeURIComponent(this.urlKey)
-    },
     async asyncData({ query }) {
-      const { data: res } = await axios.post(`search?keyword=${query.key}`)
+      //需要再转码一次再发送，以实现能正常查看源码
+      const { data: res } = await axios.post(`search?keyword=${encodeURIComponent(query.key)}`)
       if (res.code !== 200) {
         return Message.error(`${res.data}`)
       }

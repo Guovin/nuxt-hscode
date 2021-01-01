@@ -276,7 +276,7 @@
       }
     },
     created() {
-      //再解码一次得到正确的内容
+      //由于转码了两次，asyncData只解码了一次，为了能正确显示内容，还需再解码一次
       this.title = decodeURIComponent(this.title)
       this.example = decodeURIComponent(this.example)
       this.codeList()
@@ -285,6 +285,9 @@
       this.changeNumber()
     },
     async asyncData({ query }) {
+      //因为链接携带了title和example参数，在查看源码前要转码，hscode是纯数字就无需转码了
+      query.title = encodeURIComponent(query.title)
+      query.example = encodeURIComponent(query.example)
       const { data: res } = await axios.post(`hscode?hscode=${query.hscode}`)
       if (res.code !== 200) {
         return Message.error(`${res.data}`)
