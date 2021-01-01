@@ -109,8 +109,8 @@
           query: {
             //链接携带的参数转码传输
             hscode: hscode,
-            title: encodeURIComponent(title),
-            example: encodeURIComponent(example)
+            title: title,
+            example: example
           }
         })
       },
