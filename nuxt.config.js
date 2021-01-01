@@ -10,12 +10,12 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/hscode.png' },
-      { rel: 'stylesheet', href: 'https://unpkg.com/element-ui/lib/theme-chalk/index.css' },
+      { rel: 'stylesheet', href: 'https://cdn.staticfile.org/element-ui/2.14.1/theme-chalk/index.min.css' },
       { rel: 'stylesheet', href: 'https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.css' }
     ],
     script: [
       { src: 'https://cdn.staticfile.org/vue/2.5.22/vue.min.js' },
-      { src: 'https://unpkg.com/element-ui/lib/index.js' },
+      { src: 'https://cdn.staticfile.org/element-ui/2.14.1/index.min.js' },
       { src: 'https://cdn.staticfile.org/axios/0.18.0/axios.min.js' },
       { src: 'https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.js' }
     ]
