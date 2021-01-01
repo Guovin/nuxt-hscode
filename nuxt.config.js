@@ -6,7 +6,8 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'keywords', name: 'keywords', content: '外贸、跨境、海关编码、查询、hscode查询、hscode编码、搜索' },
-      { hid: 'description', name: 'description', content: '最全面、方便、准确的外贸、跨境、海关编码查询、hscode查询' }
+      { hid: 'description', name: 'description', content: '最全面、方便、准确的外贸、跨境、海关编码查询、hscode查询' },
+      { name: "baidu_union_verify", content: "49581c88e03f7c2873dd68a072042f50" }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/hscode.png' },
