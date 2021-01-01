@@ -61,6 +61,7 @@
         6、您通过HSCode编码网搜索到的HSCode编码网之合作单位所提供的任何内容(包括但不仅限于图示、数据、文字等)，由该合作单位对其合法性、准确性、真实性、适用性、安全性等负责，HSCode编码网对其不承担任何法律责任。
       </div>
     </el-drawer>
+    <meta name="baidu_union_verify" content="49581c88e03f7c2873dd68a072042f50">
   </div>
 </template>
 
