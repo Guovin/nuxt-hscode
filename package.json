@@ -21,5 +21,7 @@
     "nprogress": "^0.2.0",
     "nuxt": "^2.14.12"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "babel-plugin-component": "^1.1.1"
+  }
 }

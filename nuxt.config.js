@@ -10,12 +10,10 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/hscode.png' },
-      { rel: 'stylesheet', href: 'https://unpkg.com/element-ui/lib/theme-chalk/index.css' },
       { rel: 'stylesheet', href: 'https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.css' }
     ],
     script: [
       { src: 'https://cdn.staticfile.org/vue/2.5.22/vue.min.js' },
-      { src: 'https://unpkg.com/element-ui/lib/index.js' },
       { src: 'https://cdn.staticfile.org/axios/0.18.0/axios.min.js' },
       { src: 'https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.js' }
     ]
@@ -29,7 +27,7 @@ export default {
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     { src: '@/plugins/axios', ssr: true },
-    { src: '@/plugins/element', ssr: true }
+    { src: '@/plugins/element-ui', ssr: true }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -51,10 +49,20 @@ export default {
         config.externals = {
           vue: 'Vue',
           axios: 'axios',
-          element: 'element-ui',
           nprogress: 'NProgress'
         }
       }
+    },
+    //配置element ui 按需引入
+    babel: {
+      plugins: [
+        ['component',
+          {
+            libraryName: 'element-ui',
+            styleLibraryName: 'theme-chalk'
+          }
+        ]
+      ]
     }
   }
 }
