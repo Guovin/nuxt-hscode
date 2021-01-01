@@ -20,7 +20,7 @@
         <el-card class="searchCard">
           <!-- 搜索区域 -->
           <el-input placeholder="请输入商品名称或商品编码" v-model="key" @change="inputChange" clearable>
-            <el-button slot="append" icon="el-icon-search" @click="getKey"></el-button>
+            <el-button slot="append" icon="el-icon-search" @click.stop="getKey"></el-button>
           </el-input>
         </el-card>
         <!-- 树形分类区域 -->
