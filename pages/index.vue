@@ -48,7 +48,9 @@
       </el-footer>
     </el-container>
     <!-- 回到顶部 -->
-    <el-backtop target=".home" :visibility-height="150"></el-backtop>
+    <el-backtop :visibility-height="60">
+      <i class="el-icon-caret-top"></i>
+    </el-backtop>
     <!-- 网站声明 -->
     <el-drawer title="免责声明" size="250px" :visible.sync="drawer" :direction="direction" :before-close="handleClose">
       <div>
@@ -168,7 +170,7 @@
           var _hmt = _hmt || [];
           (function () {
             var hm = document.createElement("script");
-            hm.src = "https://hm.baidu.com/hm.js?c9cbea09217d10de34a36252e73e425d";
+            hm.src = "https://hm.baidu.com/hm.js?82bbcd8eef704a90c18af034e7cb5c8b";
             var s = document.getElementsByTagName("script")[0];
             s.parentNode.insertBefore(hm, s);
           })();
