@@ -170,7 +170,7 @@
           var _hmt = _hmt || [];
           (function () {
             var hm = document.createElement("script");
-            hm.src = "https://hm.baidu.com/hm.js?82bbcd8eef704a90c18af034e7cb5c8b";
+            hm.src = "https://hm.baidu.com/hm.js?2f646b2e73936a9ab950f9adfa665211";
             var s = document.getElementsByTagName("script")[0];
             s.parentNode.insertBefore(hm, s);
           })();
