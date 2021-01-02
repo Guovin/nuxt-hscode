@@ -286,7 +286,7 @@
     async asyncData({ query }) {
       const { data: res } = await axios.post(`hscode?hscode=${query.hscode}`)
       if (res.code !== 200) {
-        return Message.error(`${res.data}`)
+        return Message.error({ message: `${res.data}`, center: true })
       }
       const arr = []
       arr.push(res.data.info)

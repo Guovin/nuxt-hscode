@@ -110,7 +110,7 @@
         const { data: res } = await this.$http.post(`search?keyword=${key}`)
         console.log(res)
         if (res.code !== 200) {
-          return this.$message.error(`${res.data}`)
+          return this.$message.error({ message: `${res.data}`, center: true })
         }
         this.showCard = true
         // 根据分页显示要求处理数据
@@ -222,7 +222,7 @@
       //需要再转码一次再发送，以实现能正常查看源码
       const { data: res } = await axios.post(`search?keyword=${encodeURIComponent(query.key)}`)
       if (res.code !== 200) {
-        return Message.error(`${res.data}`)
+        return Message.error({ message: `${res.data}`, center: true })
       }
       return { key: decodeURIComponent(query.key), urlKey: decodeURIComponent(query.key), keyList: res.data.list, showCard: true, total: res.data.length }
     },

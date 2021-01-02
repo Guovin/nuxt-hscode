@@ -92,7 +92,7 @@
           //判断搜索关键词合法性
           const { data: res } = await this.$http.post(`search?keyword=${encodeURIComponent(this.key)}`)
           if (res.code !== 200) {
-            return this.$message.error(`${res.data}`)
+            return this.$message.error({ message: `${res.data}`, center: true })
           } else {
             this.$router.push({
               path: 'table',
@@ -103,7 +103,7 @@
             })
           }
         } else {
-          return this.$message.info("请输入搜索内容！")
+          return this.$message.info({ message: "请输入搜索内容！", center: true })
         }
       },
       //输入框回车事件
@@ -121,7 +121,7 @@
           }
         }
         else {
-          return this.$message.info('请输入搜索内容！')
+          return this.$message.info({ message: '请输入搜索内容！', center: true })
         }
       },
       //网站声明抽屉
@@ -166,7 +166,7 @@
     async asyncData() {
       let { data: res } = await axios.post('/hscode/getAllHscodeClassify')
       if (res.code !== 200) {
-        return Message.error("获取分类信息失败！")
+        return Message.error({ message: "获取分类信息失败！", center: true })
       }
       return { parentData: res.data.class, childrenData: res.data.info }
     }
