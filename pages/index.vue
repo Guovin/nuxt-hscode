@@ -161,7 +161,22 @@
         //根据当前叶子节点的prefix属性来搜索
         this.key = data.prefix
         this.getKey()
+      },
+      //统计功能
+      statistic() {
+        if (process.client) {
+          var _hmt = _hmt || [];
+          (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?c9cbea09217d10de34a36252e73e425d";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+          })();
+        }
       }
+    },
+    created() {
+      this.statistic()
     },
     async asyncData() {
       let { data: res } = await axios.post('/hscode/getAllHscodeClassify')
