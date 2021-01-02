@@ -41,11 +41,11 @@
         <nuxt-child ref="child" />
       </el-main>
       <el-footer class="footer">
-        copyright <a href="https://www.hscode.vip" style="color:#409EFF;text-decoration:none;"
+        copyright <a href="https://www.hscode.vip" style="color:#368BC6;text-decoration:none;"
           target="blank">www.hscode.vip</a> 版权归 HSCode编码网
-        <a href="#" style="color:#409EFF; text-decoration:none;" @click="drawer = true">网站声明</a>
+        <a href="#" style="color:#368BC6; text-decoration:none;" @click="drawer = true">网站声明</a>
         <div class="note">本站所有数据仅供学习与参考，如有疑问，请联系360996299@qq.com！</div>
-        <a href="https://www.miit.gov.cn/" style="color:#409EFF; text-decoration:none;"
+        <a href="https://www.miit.gov.cn/" style="color:#368BC6; text-decoration:none;"
           target="blank">粤ICP备20062496号-1</a>
       </el-footer>
     </el-container>
@@ -261,6 +261,10 @@
 
   .parentFont {
     font-size: 14px;
+  }
+
+  .el-backtop {
+    background-color: #2C3643;
   }
 
   /* 媒体查询:移动端适配：搜索框、树形控件*/

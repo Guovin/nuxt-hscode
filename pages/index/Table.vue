@@ -244,20 +244,22 @@
   }
 </script>
 
-<style scoped>
-  .el-card {
-    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15) !important;
-    width: 80%;
-    margin: auto;
-  }
-
+<style>
   .page {
     text-align: center;
   }
 
   .tableCard {
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15) !important;
+    width: 80%;
+    margin: auto;
+    padding: 10 20px 20px 20px !important;
     background-color: rgba(255, 255, 255, 0.01);
     border: rgba(255, 255, 255, 0.01);
+  }
+
+  .table .el-card__body {
+    padding: 10px 20px 20px 20px !important;
   }
 
   .outTable {
@@ -276,6 +278,7 @@
     font-size: 14px;
     color: gray;
     text-align: center;
+    margin-bottom: 5px;
   }
 
   /* 媒体查询:移动端适配：表格*/
