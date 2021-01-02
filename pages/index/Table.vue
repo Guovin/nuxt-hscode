@@ -3,7 +3,7 @@
     <!-- 卡片视图区域 -->
     <el-card v-if="showCard" class="tableCard">
       <!-- 提醒滑动区域 -->
-      <div v-if="needSlide" class="needSlide">请向左滑动以查看更多内容</div>
+      <div v-if="needSlide" class="needSlide">请向左滑动查看更多内容</div>
       <!-- 表格区域 -->
       <el-table :data="keyList" border stripe class="outTable">
         <el-table-column prop="hscode" label="商品编号" header-align="center" align="center">
@@ -192,6 +192,12 @@
           this.pcPage = true
           this.phonePage = false
         }
+      }
+    },
+    created() {
+      if (process.client) {
+        // 修改head的title
+        document.title = 'HSCode编码-搜索结果'
       }
     },
     mounted() {

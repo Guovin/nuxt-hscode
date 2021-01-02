@@ -4,7 +4,7 @@
       <el-header>
         <!-- 面包屑导航区域 -->
         <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/' }" @click.native="changeTitle">首页</el-breadcrumb-item>
           <el-breadcrumb-item v-if="this.$route.path==='/table' || this.$route.path==='/detail'">搜索结果
           </el-breadcrumb-item>
           <el-breadcrumb-item v-if="this.$route.path==='/detail'">内容详情</el-breadcrumb-item>
@@ -41,10 +41,12 @@
         <nuxt-child ref="child" />
       </el-main>
       <el-footer class="footer">
-        copyright <a href="https://www.hscode.vip" target="blank">www.hscode.vip</a> 版权归 HSCode编码网 <a href="#"
-          @click="drawer = true">网站声明</a>
+        copyright <a href="https://www.hscode.vip" style="color:#409EFF;text-decoration:none;"
+          target="blank">www.hscode.vip</a> 版权归 HSCode编码网
+        <a href="#" style="color:#409EFF; text-decoration:none;" @click="drawer = true">网站声明</a>
         <div class="note">本站所有数据仅供学习与参考，如有疑问，请联系360996299@qq.com！</div>
-        <a href="https://www.miit.gov.cn/" target="blank">粤ICP备20062496号-1</a>
+        <a href="https://www.miit.gov.cn/" style="color:#409EFF; text-decoration:none;"
+          target="blank">粤ICP备20062496号-1</a>
       </el-footer>
     </el-container>
     <!-- 回到顶部 -->
@@ -133,6 +135,7 @@
       //返回首页
       goHome() {
         if (this.$route.path !== '/') {
+          this.changeTitle()
           return this.$router.push('/')
         }
       },
@@ -174,6 +177,13 @@
             var s = document.getElementsByTagName("script")[0];
             s.parentNode.insertBefore(hm, s);
           })();
+        }
+      },
+      //点击首页面包屑或使用浏览器返回上一页，修改head的title
+      changeTitle() {
+        if (process.client) {
+          // 修改head的title
+          document.title = 'HSCode编码查询-首页'
         }
       }
     },
@@ -225,7 +235,6 @@
 
   .searchCard {
     margin: auto;
-    margin-top: 50px;
     margin-bottom: 30px;
     width: 50%;
     background-color: rgba(255, 255, 255, 0.01);
@@ -234,8 +243,8 @@
 
   .treeCard {
     margin: auto;
-    margin-top: 50px;
-    margin-bottom: 30px;
+    margin-top: 30px;
+    margin-bottom: 10px;
     width: 65%;
     background-color: rgba(255, 255, 255, 0.01);
     border: rgba(255, 255, 255, 0.01);
@@ -259,7 +268,6 @@
   @media screen and (max-width: 480px) {
     .searchCard {
       width: 95%;
-      margin-top: 0;
     }
 
     .treeCard {

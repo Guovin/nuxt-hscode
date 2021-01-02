@@ -282,6 +282,10 @@
       this.ciqList()
       this.getElementList(this.goodList)
       this.changeNumber()
+      if (process.client) {
+        // 修改head的title
+        document.title = 'HSCode编码-海关编码详情'
+      }
     },
     async asyncData({ query }) {
       const { data: res } = await axios.post(`hscode?hscode=${query.hscode}`)
