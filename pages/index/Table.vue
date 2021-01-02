@@ -2,6 +2,8 @@
   <div class="table">
     <!-- 卡片视图区域 -->
     <el-card v-if="showCard" class="tableCard">
+      <!-- 提醒滑动区域 -->
+      <div v-if="needSlide" class="needSlide">请向左滑动以查看更多内容</div>
       <!-- 表格区域 -->
       <el-table :data="keyList" border stripe class="outTable">
         <el-table-column prop="hscode" label="商品编号" header-align="center" align="center">
@@ -30,9 +32,18 @@
         </el-table-column>
       </el-table>
       <!-- 分页功能区域 -->
-      <nav class="page">
+      <!-- PC端显示 -->
+      <nav class="page" v-if="pcPage">
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
           :page-sizes="[5, 7, 10]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"
+          background>
+        </el-pagination>
+      </nav>
+
+      <!-- 移动端显示 -->
+      <nav class="page" v-if="phonePage">
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+          :page-sizes="[5, 7, 10]" :page-size="pageSize" :total="total" layout="total, sizes, prev, pager, next"
           background>
         </el-pagination>
       </nav>
@@ -63,7 +74,15 @@
         // 当前页显示数据条数
         pageSize: 10,
         //url
-        urlKey: ''
+        urlKey: '',
+        //浏览器显示宽度
+        screenWidth: '',
+        // PC端分页功能
+        pcPage: true,
+        //移动端分页功能
+        phonePage: false,
+        // 滑动提醒
+        needSlide: false
       }
     },
     methods: {
@@ -71,11 +90,13 @@
       async getListByKey(key) {
         //传入的key是经转码的
         //解码保存
+        console.log(key)
         let decodeKey = decodeURIComponent(key)
         this.key = decodeKey
         //保存当前查询结果的key，避免用户修改输入框导致分页错误
         this.urlKey = decodeKey
         const { data: res } = await this.$http.post(`search?keyword=${key}`)
+        console.log(res)
         if (res.code !== 200) {
           return this.$message.error(`${res.data}`)
         }
@@ -127,6 +148,50 @@
           }
         })
         return val
+      },
+      //根据实时显示宽度调整页面样式
+      changeStyle() {
+        //显示区域过小，提醒滑动表格
+        if (this.screenWidth <= 890) {
+          this.needSlide = true
+          this.pcPage = true
+          if (this.screenWidth <= 615) {
+            this.phonePage = true
+            this.pcPage = false
+          } else {
+            this.pcPage = true
+            this.phonePage = false
+          }
+        }
+        else {
+          this.needSlide = false
+          this.pcPage = true
+          this.phonePage = false
+        }
+      }
+    },
+    mounted() {
+      //由于nuxt服务端渲染，document是不存在的，需要判断process.client来获取
+      if (process.client) {
+        const that = this
+        that.screenWidth = document.body.clientWidth;
+        this.changeStyle()
+        //调用window.onresize()事件，onresize事件会在窗口或框架被调整大小时触发
+        window.onresize = () => {
+          return (() => {
+            window.screenWidth = document.body.clientWidth;
+            that.screenWidth = window.screenWidth;
+          })();
+        }
+      }
+    },
+
+    watch: {
+      // watch侦听器监听的是data中的属性,不能直接监听window
+      screenWidth(val) {
+        this.screenWidth = val;
+        // console.log("this.screenWidth", this.screenWidth)
+        this.changeStyle()
       }
     },
     async asyncData({ query }) {
@@ -175,5 +240,18 @@
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     padding: 10px 0 10px 0;
+  }
+
+  .needSlide {
+    font-size: 14px;
+    color: gray;
+    text-align: center;
+  }
+
+  /* 媒体查询:移动端适配：表格*/
+  @media screen and (max-width: 480px) {
+    .tableCard {
+      width: 100%;
+    }
   }
 </style>

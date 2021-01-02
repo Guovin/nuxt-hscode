@@ -358,17 +358,47 @@
     justify-content: flex-end;
   }
 
-  .infoCard {
-    /* margin-left: 23.5%; */
-  }
-
   .myApp {
     text-align: center;
     font-size: 14px;
-    /* margin-left: 50%; */
   }
 
   .myApp img {
     margin-top: 30px;
+  }
+
+  /* 媒体查询:移动端适配：详情卡片*/
+  @media screen and (max-width: 480px),
+  (max-width: 950px) {
+
+    /* 将所有卡片横向铺满 */
+    .el-col-12 {
+      width: 100%;
+    }
+
+    /* 左边距调整为0 */
+    .el-col-offset-6 {
+      margin-left: 0;
+    }
+
+    /* 小程序卡片铺满 */
+    .el-col-5 {
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    /* 小程序卡片左边距调整为0 */
+    .el-col-offset-1 {
+      margin-left: 0;
+    }
+
+    /* 调整申报要素样例 */
+    .el-col-4 {
+      width: 38%;
+    }
+
+    .el-col-20 {
+      width: 62%;
+    }
   }
 </style>

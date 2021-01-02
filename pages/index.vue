@@ -27,14 +27,14 @@
         <el-card v-if="this.$route.path==='/'" class="treeCard">
           <el-tree :load="loadNode" lazy :props="treeProps">
             <!-- 自定义渲染节点内容 -->
-            <span slot-scope="{ node, data }">
-              <span class="parentFont">{{ node.label }}</span>
+            <span class="span-ellipsis" slot-scope="{ node, data }">
               <span>
                 <!-- 通过判断是否是叶子节点来显示查看按钮 -->
                 <el-button type="text" size="mini" v-if="node.isLeaf == true" @click="() => searchPrefix(data)">
                   查看
                 </el-button>
               </span>
+              <span class="parentFont">{{ node.label }}</span>
             </span>
           </el-tree>
         </el-card>
@@ -194,8 +194,7 @@
     text-align: center;
     font-size: 14px;
     background-color: #1f2939;
-    height: 90px !important;
-    line-height: 28px;
+    height: auto !important;
   }
 
   .note {
@@ -227,7 +226,7 @@
 
   .el-tree {
     border-radius: 0.5%;
-    padding: 15px 0 15px 0;
+    padding: 10px 0 10px 0;
   }
 
   .el-tree-node__children span {
@@ -236,5 +235,29 @@
 
   .parentFont {
     font-size: 14px;
+  }
+
+  /* 媒体查询:移动端适配：搜索框、树形控件*/
+
+  @media screen and (max-width: 480px) {
+    .searchCard {
+      width: 95%;
+      margin-top: 0;
+    }
+
+    .treeCard {
+      margin-top: 0;
+      width: 100%;
+    }
+  }
+
+  /* 处理树形控件:过长内容以...代替显示 */
+  @media screen and (max-width: 1350px) {
+    .span-ellipsis {
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 </style>
