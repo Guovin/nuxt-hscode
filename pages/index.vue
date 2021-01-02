@@ -193,7 +193,7 @@
     width: 100%;
     text-align: center;
     font-size: 14px;
-    background-color: #1f2939;
+    background-color: #27313E;
     height: auto !important;
   }
 
@@ -258,6 +258,55 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+  }
+
+  /* 修改footer的网站声明样式 */
+  @media screen and (max-width:1028px) {
+    .el-drawer__body div {
+      margin-top: -30px;
+    }
+  }
+
+  @media screen and (max-width:919px) {
+    .el-drawer {
+      height: 300px !important;
+    }
+  }
+
+  @media screen and (max-width:634px) {
+    .el-drawer {
+      height: 350px !important;
+    }
+  }
+
+  @media screen and (max-width:525px) {
+    .el-drawer {
+      height: 400px !important;
+    }
+  }
+
+  @media screen and (max-width:468px) {
+    .el-drawer {
+      height: 430px !important;
+    }
+  }
+
+  @media screen and (max-width:378px) {
+    .el-drawer {
+      height: 480px !important;
+    }
+  }
+
+  @media screen and (max-width:341px) {
+    .el-drawer {
+      height: 550px !important;
+    }
+  }
+
+  @media screen and (max-width:306px) {
+    .el-drawer {
+      height: 620px !important;
     }
   }
 </style>

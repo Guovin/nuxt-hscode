@@ -177,7 +177,8 @@
                     </el-col>
                     <el-col :span="20" class="detail_right"><span v-if="example !== ''"
                         style="font-size: 10px;font-weight: bolder;line-height:40px;">{{example}}</span>
-                      <span v-else style="font-size: 18px;font-weight: bolder;color: #909399;">无</span>
+                      <span v-else
+                        style="font-size: 18px;font-weight: bolder;color: #909399;line-height: 40px;">无</span>
                     </el-col>
                   </el-row>
                 </div>
@@ -226,7 +227,8 @@
           var newList = []
           list.forEach(item => {
             if (item !== '') {
-              newList.push(item.slice(2))
+              let Index = item.indexOf(':')
+              newList.push(item.slice(Index + 1))
             }
           })
           return this.elementList = newList
@@ -368,6 +370,7 @@
   }
 
   /* 媒体查询:移动端适配：详情卡片*/
+  /* 可同时设置两个条件 */
   @media screen and (max-width: 480px),
   (max-width: 950px) {
 

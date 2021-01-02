@@ -47,6 +47,16 @@
           background>
         </el-pagination>
       </nav>
+      <nav class="page" v-if="smallPhonePage">
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+          :page-sizes="[5, 7, 10]" :page-size="pageSize" :total="total" layout="sizes, prev, pager, next" background>
+        </el-pagination>
+      </nav>
+      <nav class="page" v-if="miniPhonePage">
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+          :page-size="pageSize" :total="total" layout="prev, pager, next" background>
+        </el-pagination>
+      </nav>
     </el-card>
   </div>
 </template>
@@ -81,6 +91,8 @@
         pcPage: true,
         //移动端分页功能
         phonePage: false,
+        smallPhonePage: false,
+        miniPhonePage: false,
         // 滑动提醒
         needSlide: false
       }
@@ -155,9 +167,21 @@
         if (this.screenWidth <= 890) {
           this.needSlide = true
           this.pcPage = true
-          if (this.screenWidth <= 615) {
+          if (this.screenWidth <= 670) {
             this.phonePage = true
             this.pcPage = false
+            this.smallPhonePage = false
+            if (this.screenWidth <= 440) {
+              this.phonePage = false
+              this.smallPhonePage = true
+              if (this.screenWidth <= 360) {
+                this.smallPhonePage = false
+                this.miniPhonePage = true
+              } else {
+                this.miniPhonePage = false
+                this.smallPhonePage = true
+              }
+            }
           } else {
             this.pcPage = true
             this.phonePage = false
@@ -249,7 +273,7 @@
   }
 
   /* 媒体查询:移动端适配：表格*/
-  @media screen and (max-width: 480px) {
+  @media screen and (max-width: 550px) {
     .tableCard {
       width: 100%;
     }

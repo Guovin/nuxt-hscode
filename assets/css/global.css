@@ -45,3 +45,10 @@ body,
 .el-drawer{
 	background-color: rgba(255,255,255,0.8);
 }
+
+/* 修改message提示框样式 */
+@media screen and (max-width: 480px) {
+	.el-message {
+		min-width: 70% !important;
+	}
+}
