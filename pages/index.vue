@@ -12,7 +12,7 @@
         <!-- logo区域 -->
         <div class="logo_container">
           <span class="logo" @click="goHome">
-            <span class="hs">HS</span>Code
+            <span class="logo_hs">HS</span><span>Code<span class="logo_vip">.VIP</span></span>
           </span>
         </div>
       </el-header>
@@ -214,6 +214,43 @@
 
   .el-breadcrumb {
     margin-top: 10px;
+  }
+
+  .logo_container {
+    text-align: center;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+  }
+
+  .logo {
+    font-size: 55px;
+    color: #44BA81;
+    letter-spacing: 0;
+    text-shadow: 0px 1px 0px #999, 0px 2px 0px #888, 0px 3px 0px #777, 0px 4px 0px #666, 0px 5px 0px #555, 0px 6px 0px #444, 0px 7px 0px #333, 0px 8px 7px #001135;
+  }
+
+  .logo_hs {
+    color: #0081CD;
+    font-size: 55px;
+  }
+
+  .logo_vip {
+    font-size: 21px;
+    color: goldenrod;
+    margin-left: 3px;
+  }
+
+  .el-drawer__header {
+    text-align: center;
+  }
+
+  .el-drawer {
+    background-color: rgba(255, 255, 255, 0.8);
   }
 
   .footer {
