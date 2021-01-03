@@ -30,8 +30,8 @@
             <span class="span-ellipsis" slot-scope="{ node, data }">
               <span>
                 <!-- 通过判断是否是叶子节点来显示查看按钮 -->
-                <el-button type="text" size="mini" v-if="node.isLeaf == true" @click="() => searchPrefix(data)">
-                  查看
+                <el-button type="text" size="mini" v-show="node.isLeaf == true" @click="() => searchPrefix(data)">
+                  HSCode查询
                 </el-button>
               </span>
               <span class="parentFont">{{ node.label }}</span>
@@ -41,11 +41,11 @@
         <nuxt-child ref="child" />
       </el-main>
       <el-footer class="footer">
-        copyright <a href="https://www.hscode.vip" style="color:#368BC6;text-decoration:none;"
+        copyright <a href="https://www.hscode.vip" style="color:#317EB2;text-decoration:none;"
           target="blank">www.hscode.vip</a> 版权归 HSCode编码网
-        <a href="#" style="color:#368BC6; text-decoration:none;" @click="drawer = true">网站声明</a>
+        <a href="#" style="color:#317EB2; text-decoration:none;" @click="drawer = true">网站声明</a>
         <div class="note">本站所有数据仅供学习与参考，如有疑问，请联系360996299@qq.com！</div>
-        <a href="https://www.miit.gov.cn/" style="color:#368BC6; text-decoration:none;"
+        <a href="https://www.miit.gov.cn/" style="color:#317EB2; text-decoration:none;"
           target="blank">粤ICP备20062496号-1</a>
       </el-footer>
     </el-container>
@@ -220,7 +220,7 @@
     width: 100%;
     text-align: center;
     font-size: 14px;
-    background-color: #27313E;
+    background-color: #273446;
     height: auto !important;
   }
 
