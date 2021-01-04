@@ -240,9 +240,9 @@
   }
 
   .logo_vip {
-    font-size: 21px;
+    font-size: 50px;
     color: goldenrod;
-    margin-left: 3px;
+    margin-left: 2px;
   }
 
   .el-drawer__header {
