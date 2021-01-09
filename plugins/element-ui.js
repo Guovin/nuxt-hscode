@@ -3,7 +3,7 @@ import {
   Container, Header, Main, Input, Message, Table,
   TableColumn, Card, Button, Pagination, Dialog,
   Breadcrumb, BreadcrumbItem, Backtop, Icon,
-  Row, Col, Footer, Drawer, Tree
+  Row, Col, Footer, Drawer, Tree, Tooltip
 } from 'element-ui'
 
 Vue.use(Container)
@@ -25,5 +25,6 @@ Vue.use(Col)
 Vue.use(Footer)
 Vue.use(Drawer)
 Vue.use(Tree)
+Vue.use(Tooltip)
 
 Vue.prototype.$message = Message

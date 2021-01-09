@@ -25,18 +25,34 @@
         </el-card>
         <!-- 树形分类区域 -->
         <el-card v-if="this.$route.path==='/'" class="treeCard">
-          <el-tree :load="loadNode" lazy :props="treeProps">
-            <!-- 自定义渲染节点内容 -->
-            <span class="span-ellipsis" slot-scope="{ node, data }">
-              <span>
-                <!-- 通过判断是否是叶子节点来显示查看按钮 -->
-                <el-button type="text" size="mini" v-show="node.isLeaf == true" @click="() => searchPrefix(data)">
-                  HSCode查询
-                </el-button>
+          <el-card class="tree_card">
+            <div class="cate_title">HSCode商品编码分类</div>
+            <el-tree :load="loadNode" lazy :props="treeProps">
+              <!-- 自定义渲染节点内容 -->
+              <span class="span-ellipsis" slot-scope="{ node, data }">
+                <span>
+                  <!-- 通过判断是否是叶子节点来显示查看按钮 -->
+                  <el-button type="text" size="mini" v-show="node.isLeaf == true" @click="() => searchPrefix(data)">
+                    HSCode查询
+                  </el-button>
+                </span>
+                <span class="parentFont">{{ node.label }}</span>
               </span>
-              <span class="parentFont">{{ node.label }}</span>
-            </span>
-          </el-tree>
+            </el-tree>
+          </el-card>
+        </el-card>
+        <!-- 热门搜索区域 -->
+        <el-card v-if="this.$route.path==='/'" class="treeCard">
+          <el-card class="hot_card">
+            <div class="hot_title">热门HSCode商品编码</div>
+            <el-row :gutter="8">
+              <el-col v-for="(item,index) in hotData" :key="index" :span="4">
+                <el-card @click.native="hotSearch(item)" class="hot_smallCard">
+                  <div>{{item}}</div>
+                </el-card>
+              </el-col>
+            </el-row>
+          </el-card>
         </el-card>
         <nuxt-child ref="child" />
       </el-main>
@@ -86,7 +102,9 @@
         treeProps: {
           label: 'class', //配置节点属性名称
           isLeaf: 'leaf' //配置叶子节点属性名称
-        }
+        },
+        //首页热门搜索
+        hotData: ['女式连衣裙', '女式T恤衫', '女式裤子', '女式衬衫', '鞋子', '袜子', '耳环', '发饰', '女式套装', '女式背心', '女式内衣', '女式外套', '女式卫衣', '女式睡衣套装', '项链', '女式裙子', '女式毛衣', '收纳盒', '女式连体衣', '厨房用品', '女式睡裙', '手机壳', '腰带', '仿首饰', '戒指', '手提包', '帽子', '手链', '女童套装', '女童连衣裙', '墙贴', '女式泳衣', '斜挎包', '摆件', '男式卫衣', '灯具', '墨镜', '女式内裤', '口红', '女式夹克', '枕头', '贴纸', '收纳袋', '烘焙模具', '指甲贴片', '化妆刷', '女童卫衣', '男童套装', '女式睡袍', '围巾', '浴室用品', '男式背心', '清洁刷', '气球', '眼影', '女童裤子', '男式裤子', '收纳架', '手表', '眼线', '粉底', '化妆包', '胸针', '文具套装', '塑料植物', '女式西装', '男式T恤衫', '钱包', '女童连体衣', '手机支架', '衣架', '粉扑', '挂钩', '钥匙扣', '手套', '梳子', '窗帘', '保护套', '女童外套', '毛巾', '沙发套', '收腹带', '男式睡衣套装', '男童卫衣', '男式套装', '双肩包', '男式衬衫', '按摩器', '床单', '假睫毛', '水杯', '男式夹克', '地毯', '眉笔', '乳贴', '指甲工具', '枕套', '假发', '口罩', '收纳筐', '面膜', '塑料瓶', '睫毛膏', '腮红', '女童衬衫', '餐垫', '腰包', '勺子', '男式毛衣', '夹子', '女童毛衣', '男童睡衣套装', '浴球', '笔记本', '女童裙子', '胶带', '男童裤子', '餐具', '刮刀', '遮瑕膏', '桌布', '拉力绳', '男童夹克', '宠物服装', '搅拌器', '指甲贴纸', '美容工具', '手机贴膜', '修正带', '修眉器', '封口机', '相框', '餐盘', '女童泳衣', '男式内裤', '表带', '女式裤袜', '胶垫', '包装袋', '便签贴', '男童毛衣', '美容仪', '睫毛夹', '文具袋', '鞋垫', '卷发器', '数据线', '宠物配饰', '文件夹', '手机配件', '耳机线', '留言卡', '粘毛器', '围裙', '女童睡衣套装', '浴帽', '叉子', '男童外套', '包包挂件', '穿耳器', '暖水袋', '刻度尺', '洗面奶', '男童衬衫', '触屏笔', '时钟', '指甲锉', '粉刺针', '化妆镜', '笔筒', '纸杯', '开口器', '抹布', '化妆棉', '眼罩', '男童背心', '毛毯', '毯子', '烛台', '宠物绳', '宠物美容用品', '鼠标垫', '迷你加湿器', '橡皮擦', '护手霜', '包装盒', '防尘袋', '男童连体衣', '挂绳', '吸管', '发夹', '印章', '宠物餐具', '握力器', '信封', '面粉筛', '耳罩', '洁面刷', '牙刷', '烤盘', '文胸排扣', '袖套', '卡套', '水彩笔', '装饰绳', '塑料袋', '吸油纸', '剪刀', '锁扣', '防水鞋套', '宠物垫', '固线器', '护具', '笔刨', '宠物项圈', '女童睡裙', '肩带', '被套', 'LED灯', '女童夹克', '装饰纸', '针线套装', '男式泳衣', '镊子', '书签', '精华液', '台历', '指甲钳套装', '画板', '女童内裤', '杯垫', '浴巾', '收纳桶', '刮舌器', '肥皂盒', '雨衣', '刮毛器', '矫正器', '男 式外套', '男式西装', 'U盘', '文件袋', '男式睡袍', '美发器', '护臀霜', '手机镜头', '纸巾', '眉夹', '鼠标', '牙签', '跳绳', '美发工具', '修剪器', '裁剪器', '喷雾', '身体乳', '磨砂膏', '雨伞', '洁面仪', '宠物床', '宠物用品', '脚膜', '沙滩毯', '游戏机', '洁牙器', '麦克风', '雕刻笔', '宠物清洁用具', '打气筒', '棉签棒', '耳塞', '计时器', '围脖', '打孔器', '止鼾器', '充电头', '首饰盘', '键盘', '腿环', '调色盘', '男童内裤', '铅笔', '明信片', '宠物包', '收纳环', '维修工具', '唇彩', ' 拉手', '女童背心', '装饰棒', '棉线', '手膜', '握笔器', '过滤纸', '修脚器', '染色套装', '修皮器', '迷你投影仪', '小风扇', '瑜伽夹', '健腹器', '护颈霜', '吊牌', '卡包', '除味器', '纸巾盒', '音乐盒', '电动牙刷', '塑料碗', '耳机', '拔罐器', '图钉', '脱毛仪', '放大镜', '掏耳器', '开瓶器', '宠物雨衣', '胶带器', '瓶塞', '瑜伽砖', '写字板', '男式连体衣', '过滤网', '遥控器', '布贴', '牙线', '门挡', '转接头', '内衣配件', '卡托', '钳子', '电动理发器', '按摩仪', '瑜伽球', '刨丝器', '过滤器', '女童睡袍', '肥皂', '塑料菜板', '漏斗', '车载吸尘器', '裱花工具', '清洗器', '塑料铲', '牙刷架', '起钉器', '排插', '眉卡', '洁牙器喷嘴', '遮挡板', '削皮器', '挂烫机', '榨汁机', '磨刀器', '牙刷替换头', '迷你吸尘器', '健身球', '领带', '清洁海绵', '钉书钉', '抓痒器', '笔盖', '被子', '发带', '纸袋', '椅垫', '拖把架'],
       }
     },
     methods: {
@@ -164,8 +182,13 @@
       //查询hscode前缀
       searchPrefix(data) {
         //根据当前叶子节点的prefix属性来搜索
-        this.key = data.prefix
-        this.getKey()
+        this.$router.push({
+          path: 'table',
+          query: {
+            //链接携带的参数转码传输
+            key: encodeURIComponent(data.prefix)
+          }
+        })
       },
       //统计功能
       statistic() {
@@ -185,6 +208,16 @@
           // 修改head的title
           document.title = 'HSCode编码查询-首页'
         }
+      },
+      //根据热门搜索编码跳转查询
+      hotSearch(item) {
+        this.$router.push({
+          path: 'table',
+          query: {
+            //链接携带的参数转码传输
+            key: encodeURIComponent(item)
+          }
+        })
       }
     },
     created() {
@@ -289,7 +322,6 @@
 
   .el-tree {
     border-radius: 0.5%;
-    padding: 10px 0 10px 0;
   }
 
   .el-tree-node__children span {
@@ -302,6 +334,52 @@
 
   .el-backtop {
     background-color: #2C3643;
+  }
+
+  .hot_title {
+    font-size: 16px;
+    color: #D30808;
+    font-weight: bold;
+    margin: 0 auto 10px auto;
+    text-align: center;
+  }
+
+  .hot_smallCard {
+    font-size: 14px;
+    min-width: 100%;
+    height: 100%;
+    /* transition: all .5s; */
+    text-align: center;
+  }
+
+  .hot_smallCard:hover {
+    color: #409EFF;
+    cursor: pointer;
+  }
+
+  .hot_card .el-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .hot_card .el-col {
+    margin-top: 5px;
+  }
+
+  .hot_card .el-card__body {
+    padding: 10px 20px 20px 20px !important
+  }
+
+  .cate_title {
+    font-size: 16px;
+    color: #0081CD;
+    font-weight: bold;
+    margin: 0 auto 10px auto;
+    text-align: center;
+  }
+
+  .tree_card .el-card__body {
+    padding: 10px 20px 20px 20px !important
   }
 
   /* 媒体查询:移动端适配：搜索框、树形控件*/
@@ -375,4 +453,10 @@
       height: 620px !important;
     }
   }
+
+  /* @media screen and (max-width:1200px){
+    .hot_card .el-col-4{
+      width: ;
+    }
+  } */
 </style>
