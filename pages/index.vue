@@ -48,7 +48,7 @@
             <el-row :gutter="8">
               <el-col v-for="(item,index) in hotData" :key="index" :span="4">
                 <el-card @click.native="hotSearch(item)" class="hot_smallCard">
-                  <div>{{item}}</div>
+                  {{item}}
                 </el-card>
               </el-col>
             </el-row>
@@ -338,18 +338,19 @@
 
   .hot_title {
     font-size: 16px;
-    color: #D30808;
+    color: #F56C6C;
     font-weight: bold;
     margin: 0 auto 10px auto;
     text-align: center;
   }
 
   .hot_smallCard {
-    font-size: 14px;
-    min-width: 100%;
     height: 100%;
-    /* transition: all .5s; */
     text-align: center;
+  }
+
+  .hot_smallCard .el-card__body {
+    padding: 20px 0 20px 0 !important;
   }
 
   .hot_smallCard:hover {
@@ -367,12 +368,12 @@
   }
 
   .hot_card .el-card__body {
-    padding: 10px 20px 20px 20px !important
+    padding: 10px 20px 20px 20px;
   }
 
   .cate_title {
     font-size: 16px;
-    color: #0081CD;
+    color: #409EFF;
     font-weight: bold;
     margin: 0 auto 10px auto;
     text-align: center;
@@ -453,10 +454,4 @@
       height: 620px !important;
     }
   }
-
-  /* @media screen and (max-width:1200px){
-    .hot_card .el-col-4{
-      width: ;
-    }
-  } */
 </style>
