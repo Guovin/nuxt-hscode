@@ -59,9 +59,13 @@
       <el-footer class="footer">
         copyright <a href="https://www.hscode.vip" style="color:#317EB2;text-decoration:none;"
           target="blank">www.hscode.vip</a> 版权归 HSCode编码网
-        <a href="#" style="color:#317EB2; text-decoration:none;" @click="drawer = true">网站声明</a>
-        <div class="note">本站所有数据仅供学习与参考，如有疑问，请联系360996299@qq.com！</div>
-        <a href="https://www.miit.gov.cn/" style="color:#317EB2; text-decoration:none;"
+        <span style="color:#317EB2;" @click="drawer = true" class="statement">网站声明</span>
+        <div class="note">本站所有数据仅供学习与参考，如有疑问，请<span class="feedback" style="color:#317EB2;"
+            @click="dialogFormVisible = true">
+            反馈
+          </span>
+        </div>
+        <a href=" https://www.miit.gov.cn/" style="color:#317EB2; text-decoration:none;"
           target="blank">粤ICP备20062496号-1</a>
       </el-footer>
     </el-container>
@@ -81,6 +85,24 @@
         6、您通过HSCode编码网搜索到的HSCode编码网之合作单位所提供的任何内容(包括但不仅限于图示、数据、文字等)，由该合作单位对其合法性、准确性、真实性、适用性、安全性等负责，HSCode编码网对其不承担任何法律责任。
       </div>
     </el-drawer>
+
+    <!-- 反馈对话框区域 -->
+    <el-dialog title="反馈建议" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
+      <el-form :model="form" :rules="rules" ref="formRef" label-position="top">
+        <el-form-item label="邮箱地址" prop="name">
+          <el-col :span="11">
+            <el-input v-model="form.name"></el-input>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="反馈内容" prop="massage">
+          <el-input type="textarea" v-model="form.massage"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="closeFeedBack">取 消</el-button>
+        <el-button type="primary" @click="FeedBack">发送</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -89,29 +111,56 @@
   import { Message } from 'element-ui'
   export default {
     data() {
+      // 验证邮箱的规则
+      var checkEmail = (rule, value, cb) => {
+        // 验证邮箱的正则表达式
+        const regEmail = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/
+        if (regEmail.test(value)) {
+          // 合法邮箱
+          return cb()
+        }
+        cb(new Error('请输入正确的邮箱地址'))
+      }
       return {
         // 关键词
         key: '',
         drawer: false,
         direction: 'btt',
-        //树形分类父节点数据
+        // 树形分类父节点数据
         parentData: [],
         // 树形分类子节点数据
         childrenData: [],
-        //树形分类选项配置
+        // 树形分类选项配置
         treeProps: {
-          label: 'class', //配置节点属性名称
-          isLeaf: 'leaf' //配置叶子节点属性名称
+          label: 'class', // 配置节点属性名称
+          isLeaf: 'leaf' // 配置叶子节点属性名称
         },
-        //首页热门搜索
+        // 首页热门搜索
         hotData: ['女式连衣裙', '女式T恤衫', '女式裤子', '女式衬衫', '鞋子', '袜子', '耳环', '发饰', '女式套装', '女式背心', '女式内衣', '女式外套', '女式卫衣', '女式睡衣套装', '项链', '女式裙子', '女式毛衣', '收纳盒', '女式连体衣', '厨房用品', '女式睡裙', '手机壳', '腰带', '仿首饰', '戒指', '手提包', '帽子', '手链', '女童套装', '女童连衣裙', '墙贴', '女式泳衣', '斜挎包', '摆件', '男式卫衣', '灯具', '墨镜', '女式内裤', '口红', '女式夹克', '枕头', '贴纸', '收纳袋', '烘焙模具', '指甲贴片', '化妆刷', '女童卫衣', '男童套装', '女式睡袍', '围巾', '浴室用品', '男式背心', '清洁刷', '气球', '眼影', '女童裤子', '男式裤子', '收纳架', '手表', '眼线', '粉底', '化妆包', '胸针', '文具套装', '塑料植物', '女式西装', '男式T恤衫', '钱包', '女童连体衣', '手机支架', '衣架', '粉扑', '挂钩', '钥匙扣', '手套', '梳子', '窗帘', '保护套', '女童外套', '毛巾', '沙发套', '收腹带', '男式睡衣套装', '男童卫衣', '男式套装', '双肩包', '男式衬衫', '按摩器', '床单', '假睫毛', '水杯', '男式夹克', '地毯', '眉笔', '乳贴', '指甲工具', '枕套', '假发', '口罩', '收纳筐', '面膜', '塑料瓶', '睫毛膏', '腮红', '女童衬衫', '餐垫', '腰包', '勺子', '男式毛衣', '夹子', '女童毛衣', '男童睡衣套装', '浴球', '笔记本', '女童裙子', '胶带', '男童裤子', '餐具', '刮刀', '遮瑕膏', '桌布', '拉力绳', '男童夹克', '宠物服装', '搅拌器', '指甲贴纸', '美容工具', '手机贴膜', '修正带', '修眉器', '封口机', '相框', '餐盘', '女童泳衣', '男式内裤', '表带', '女式裤袜', '胶垫', '包装袋', '便签贴', '男童毛衣', '美容仪', '睫毛夹', '文具袋', '鞋垫', '卷发器', '数据线', '宠物配饰', '文件夹', '手机配件', '耳机线', '留言卡', '粘毛器', '围裙', '女童睡衣套装', '浴帽', '叉子', '男童外套', '包包挂件', '穿耳器', '暖水袋', '刻度尺', '洗面奶', '男童衬衫', '触屏笔', '时钟', '指甲锉', '粉刺针', '化妆镜', '笔筒', '纸杯', '开口器', '抹布', '化妆棉', '眼罩', '男童背心', '毛毯', '毯子', '烛台', '宠物绳', '宠物美容用品', '鼠标垫', '迷你加湿器', '橡皮擦', '护手霜', '包装盒', '防尘袋', '男童连体衣', '挂绳', '吸管', '发夹', '印章', '宠物餐具', '握力器', '信封', '面粉筛', '耳罩', '洁面刷', '牙刷', '烤盘', '文胸排扣', '袖套', '卡套', '水彩笔', '装饰绳', '塑料袋', '吸油纸', '剪刀', '锁扣', '防水鞋套', '宠物垫', '固线器', '护具', '笔刨', '宠物项圈', '女童睡裙', '肩带', '被套', 'LED灯', '女童夹克', '装饰纸', '针线套装', '男式泳衣', '镊子', '书签', '精华液', '台历', '指甲钳套装', '画板', '女童内裤', '杯垫', '浴巾', '收纳桶', '刮舌器', '肥皂盒', '雨衣', '刮毛器', '矫正器', '男 式外套', '男式西装', 'U盘', '文件袋', '男式睡袍', '美发器', '护臀霜', '手机镜头', '纸巾', '眉夹', '鼠标', '牙签', '跳绳', '美发工具', '修剪器', '裁剪器', '喷雾', '身体乳', '磨砂膏', '雨伞', '洁面仪', '宠物床', '宠物用品', '脚膜', '沙滩毯', '游戏机', '洁牙器', '麦克风', '雕刻笔', '宠物清洁用具', '打气筒', '棉签棒', '耳塞', '计时器', '围脖', '打孔器', '止鼾器', '充电头', '首饰盘', '键盘', '腿环', '调色盘', '男童内裤', '铅笔', '明信片', '宠物包', '收纳环', '维修工具', '唇彩', ' 拉手', '女童背心', '装饰棒', '棉线', '手膜', '握笔器', '过滤纸', '修脚器', '染色套装', '修皮器', '迷你投影仪', '小风扇', '瑜伽夹', '健腹器', '护颈霜', '吊牌', '卡包', '除味器', '纸巾盒', '音乐盒', '电动牙刷', '塑料碗', '耳机', '拔罐器', '图钉', '脱毛仪', '放大镜', '掏耳器', '开瓶器', '宠物雨衣', '胶带器', '瓶塞', '瑜伽砖', '写字板', '男式连体衣', '过滤网', '遥控器', '布贴', '牙线', '门挡', '转接头', '内衣配件', '卡托', '钳子', '电动理发器', '按摩仪', '瑜伽球', '刨丝器', '过滤器', '女童睡袍', '肥皂', '塑料菜板', '漏斗', '车载吸尘器', '裱花工具', '清洗器', '塑料铲', '牙刷架', '起钉器', '排插', '眉卡', '洁牙器喷嘴', '遮挡板', '削皮器', '挂烫机', '榨汁机', '磨刀器', '牙刷替换头', '迷你吸尘器', '健身球', '领带', '清洁海绵', '钉书钉', '抓痒器', '笔盖', '被子', '发带', '纸袋', '椅垫', '拖把架'],
+        // 反馈对话框是否显示
+        dialogFormVisible: false,
+        // 反馈表单
+        form: {
+          name: '',
+          massage: ''
+        },
+        // 反馈表单验证规则
+        rules: {
+          name: [
+            { required: true, message: '请输入您的邮箱地址', trigger: 'blur' },
+            { validator: checkEmail, trigger: 'blur' }
+          ],
+          massage: [
+            { required: true, message: '请输入反馈的内容', trigger: 'blur' }
+          ]
+        }
       }
     },
     methods: {
       // 根据关键词获取数据列表
       async getKey() {
         if (this.key !== '') {
-          //判断搜索关键词合法性
+          // 判断搜索关键词合法性
           const { data: res } = await this.$http.post(`search?keyword=${encodeURIComponent(this.key)}`)
           if (res.code !== 200) {
             return this.$message.error({ message: `${res.data}`, center: true })
@@ -119,7 +168,7 @@
             this.$router.push({
               path: 'table',
               query: {
-                //链接携带的参数转码传输
+                // 链接携带的参数转码传输
                 key: encodeURIComponent(this.key)
               }
             })
@@ -128,11 +177,11 @@
           return this.$message.info({ message: "请输入搜索内容！", center: true })
         }
       },
-      //输入框回车事件
+      // 输入框回车事件
       inputKeyUpEnter() {
         if (this.key !== '') {
           if (this.$route.path === '/table') {
-            //url的query参数根据搜索而变化，实现源码也能动态刷新
+            // url的query参数根据搜索而变化，实现源码也能动态刷新
             var { merge } = require('webpack-merge')
             this.$router.push({
               query: merge(this.$route.query, { 'key': encodeURIComponent(this.key) })
@@ -146,21 +195,21 @@
           return this.$message.info({ message: '请输入搜索内容！', center: true })
         }
       },
-      //网站声明抽屉
+      // 网站声明抽屉
       handleClose(done) {
         done()
       },
-      //返回首页
+      // 返回首页
       goHome() {
         if (this.$route.path !== '/') {
           this.changeTitle()
           return this.$router.push('/')
         }
       },
-      //树形控件数据加载
+      // 树形控件数据加载
       loadNode(node, resolve) {
         if (node.level === 0) {
-          //初始化树状图最开始就展示的数据
+          // 初始化树状图最开始就展示的数据
           let res = []
           this.parentData.forEach((value) => {
             res.push({ class: value })
@@ -168,29 +217,29 @@
           return resolve(res);
         }
         if (node.level > 1) return resolve([]);
-        //根据父节点的名称寻找子节点数据
+        // 根据父节点的名称寻找子节点数据
         let parentClass = node.data.class
         let data = this.childrenData[parentClass]
         let children = []
-        //遍历加载叶子节点
+        // 遍历加载叶子节点
         data.forEach((value) => {
-          //class用于显示名称，leaf显示为叶子节点，prefix用于查看跳转
+          // class用于显示名称，leaf显示为叶子节点，prefix用于查看跳转
           children.push({ class: value.sub_class, leaf: true, prefix: value.hscode_prefix })
         })
         resolve(children);
       },
-      //查询hscode前缀
+      // 查询hscode前缀
       searchPrefix(data) {
-        //根据当前叶子节点的prefix属性来搜索
+        // 根据当前叶子节点的prefix属性来搜索
         this.$router.push({
           path: 'table',
           query: {
-            //链接携带的参数转码传输
+            // 链接携带的参数转码传输
             key: encodeURIComponent(data.prefix)
           }
         })
       },
-      //统计功能
+      // 统计功能
       statistic() {
         if (process.client) {
           var _hmt = _hmt || [];
@@ -202,22 +251,42 @@
           })();
         }
       },
-      //点击首页面包屑或使用浏览器返回上一页，修改head的title
+      // 点击首页面包屑或使用浏览器返回上一页，修改head的title
       changeTitle() {
         if (process.client) {
           // 修改head的title
           document.title = 'HSCode编码查询-首页'
         }
       },
-      //根据热门搜索编码跳转查询
+      // 根据热门搜索编码跳转查询
       hotSearch(item) {
         this.$router.push({
           path: 'table',
           query: {
-            //链接携带的参数转码传输
+            // 链接携带的参数转码传输
             key: encodeURIComponent(item)
           }
         })
+      },
+      // 反馈
+      FeedBack() {
+        this.$refs.formRef.validate(async valid => {
+          if (!valid) return false
+          // 验证通过
+          let { data: res } = await this.$http.post('/feedBack/massage', this.form)
+          console.log(res)
+          if (res.code !== 200) {
+            return this.$message.error({ message: "发送反馈失败！", center: true })
+          }
+          this.$message.success({ message: "发送成功，请耐心等待回复！", center: true })
+          this.dialogFormVisible = false
+          this.$refs.formRef.resetFields()
+        })
+      },
+      //关闭反馈对话框
+      closeFeedBack() {
+        this.dialogFormVisible = false
+        this.$refs.formRef.resetFields()
       }
     },
     created() {
@@ -383,7 +452,15 @@
     padding: 10px 20px 20px 20px !important
   }
 
-  /* 媒体查询:移动端适配：搜索框、树形控件*/
+  .statement {
+    cursor: pointer;
+  }
+
+  .feedback {
+    cursor: pointer;
+  }
+
+  /* 媒体查询:移动端适配：搜索框、树形控件、反馈框*/
 
   @media screen and (max-width: 480px) {
     .searchCard {
@@ -393,6 +470,19 @@
     .treeCard {
       margin-top: 0;
       width: 100%;
+    }
+
+    .el-dialog__wrapper .el-dialog {
+      width: 95% !important;
+    }
+
+    .el-dialog__wrapper .el-dialog .el-dialog__body {
+      padding: 10px 20px 10px 20px;
+      overflow: auto;
+    }
+
+    .el-dialog__body .el-col-11 {
+      width: 60%;
     }
   }
 
