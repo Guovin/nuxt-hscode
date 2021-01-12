@@ -57,9 +57,9 @@
                 </el-card>
               </el-col>
             </el-row>
-            <el-row>
+            <el-row class="showMoreRow">
               <!--收起和展开按钮-->
-              <el-col :span="5" :offset="10">
+              <el-col :span="5">
                 <div class="shrink" v-if="hotData.length > 60" @click='toggle(2)'>
                   {{closeMore ? '收起': '查看更多'}}
                   <i class="iconfont icon-return" :class="closeMore ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
@@ -530,6 +530,12 @@
     color: #409EFF;
   }
 
+  .showMoreRow {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
   /* 媒体查询:移动端适配：搜索框、树形控件、反馈框、消息头像、回到顶部、查看更多*/
 
   @media screen and (max-width: 480px) {
@@ -577,7 +583,7 @@
     }
 
     .hot_card .el-col-5 {
-      width: 29.16667%;
+      width: 45%;
     }
   }
 
