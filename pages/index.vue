@@ -495,7 +495,7 @@
 
   .message_container {
     position: fixed;
-    right: 35px;
+    right: 30px;
     bottom: 100px;
   }
 
@@ -516,7 +516,7 @@
     border-radius: 50%;
     position: absolute;
     bottom: 0;
-    right: 0;
+    right: 2px;
   }
 
   .shrink {
@@ -563,7 +563,7 @@
 
     .message_container {
       right: 3px;
-      top: 15px;
+      top: 25px;
     }
 
     .message_avatar {
@@ -575,6 +575,7 @@
       width: 8px;
       height: 8px;
       top: 25px;
+      right: 0px;
     }
 
     .el-backtop {
