@@ -51,8 +51,7 @@
                   {{item}}
                 </el-card>
               </el-col>
-              <el-col v-for="(item,index) in hotData" :key="index" :span="4" v-if="index >= 60"
-                v-show="showMissionList2">
+              <el-col v-for="(item,index) in hotData" :key="index" :span="4" v-if="index >= 60" v-show="closeMore">
                 <el-card @click.native="hotSearch(item)" class="hot_smallCard">
                   {{item}}
                 </el-card>
@@ -62,9 +61,8 @@
               <!--收起和展开按钮-->
               <el-col :span="5" :offset="10">
                 <div class="shrink" v-if="hotData.length > 60" @click='toggle(2)'>
-                  {{showMissionList2 ? '收起': '查看更多'}}
-                  <i class="iconfont icon-return"
-                    :class="showMissionList2 ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
+                  {{closeMore ? '收起': '查看更多'}}
+                  <i class="iconfont icon-return" :class="closeMore ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
                 </div>
               </el-col>
             </el-row>
@@ -176,8 +174,8 @@
             { required: true, message: '请输入反馈的内容', trigger: 'blur' }
           ]
         },
-        showMissionList1: false,//新手任务列表展开收起开关
-        showMissionList2: false,//日常任务列表展开收起开关
+        showMore: false,//显示-显示更多
+        closeMore: false,//显示-收起
       }
     },
     methods: {
@@ -318,9 +316,9 @@
  */
       toggle(id) {
         if (id === 1) {
-          this.showMissionList1 = !this.showMissionList1
+          this.showMore = !this.showMore
         } else {
-          this.showMissionList2 = !this.showMissionList2
+          this.closeMore = !this.closeMore
         }
       }
     },
