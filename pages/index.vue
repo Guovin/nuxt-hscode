@@ -492,7 +492,7 @@
     right: 0;
   }
 
-  /* 媒体查询:移动端适配：搜索框、树形控件、反馈框、消息头像*/
+  /* 媒体查询:移动端适配：搜索框、树形控件、反馈框、消息头像、回到顶部*/
 
   @media screen and (max-width: 480px) {
     .searchCard {
@@ -531,6 +531,11 @@
       width: 8px;
       height: 8px;
       top: 25px;
+    }
+
+    .el-backtop {
+      right: 10px !important;
+      bottom: 80px !important;
     }
   }
 
