@@ -55,6 +55,12 @@
           </el-card>
         </el-card>
         <nuxt-child ref="child" />
+        <!-- 消息头像标识 -->
+        <div class="message_container" @click="dialogFormVisible = true">
+          <div class="message_avatar">
+          </div>
+          <div class="status_spot"></div>
+        </div>
       </el-main>
       <el-footer class="footer">
         copyright <a href="https://www.hscode.vip" style="color:#317EB2;text-decoration:none;"
@@ -89,7 +95,7 @@
     <!-- 反馈对话框区域 -->
     <el-dialog title="反馈建议" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
       <el-form :model="form" :rules="rules" ref="formRef" label-position="top">
-        <el-form-item label="邮箱地址" prop="name">
+        <el-form-item label="您的邮箱地址" prop="name">
           <el-col :span="11">
             <el-input v-model="form.name"></el-input>
           </el-col>
@@ -460,7 +466,33 @@
     cursor: pointer;
   }
 
-  /* 媒体查询:移动端适配：搜索框、树形控件、反馈框*/
+  .message_container {
+    position: fixed;
+    right: 35px;
+    bottom: 100px;
+  }
+
+  .message_avatar {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    background: url("../static/hscode.png") no-repeat;
+    background-size: 100% 100%;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .status_spot {
+    height: 14px;
+    width: 14px;
+    background-color: #3BD821;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+
+  /* 媒体查询:移动端适配：搜索框、树形控件、反馈框、消息头像*/
 
   @media screen and (max-width: 480px) {
     .searchCard {
@@ -483,6 +515,22 @@
 
     .el-dialog__body .el-col-11 {
       width: 60%;
+    }
+
+    .message_container {
+      right: 3px;
+      top: 15px;
+    }
+
+    .message_avatar {
+      width: 35px;
+      height: 35px;
+    }
+
+    .status_spot {
+      width: 8px;
+      height: 8px;
+      top: 25px;
     }
   }
 
