@@ -46,10 +46,26 @@
           <el-card class="hot_card">
             <div class="hot_title">热门HSCode商品编码</div>
             <el-row :gutter="8">
-              <el-col v-for="(item,index) in hotData" :key="index" :span="4">
+              <el-col v-for="(item,index) in hotData" :key="index" :span="4" v-if="index < 60">
                 <el-card @click.native="hotSearch(item)" class="hot_smallCard">
                   {{item}}
                 </el-card>
+              </el-col>
+              <el-col v-for="(item,index) in hotData" :key="index" :span="4" v-if="index >= 60"
+                v-show="showMissionList2">
+                <el-card @click.native="hotSearch(item)" class="hot_smallCard">
+                  {{item}}
+                </el-card>
+              </el-col>
+            </el-row>
+            <el-row>
+              <!--收起和展开按钮-->
+              <el-col :span="5" :offset="10">
+                <div class="shrink" v-if="hotData.length > 60" @click='toggle(2)'>
+                  {{showMissionList2 ? '收起': '查看更多'}}
+                  <i class="iconfont icon-return"
+                    :class="showMissionList2 ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
+                </div>
               </el-col>
             </el-row>
           </el-card>
@@ -159,7 +175,9 @@
           massage: [
             { required: true, message: '请输入反馈的内容', trigger: 'blur' }
           ]
-        }
+        },
+        showMissionList1: false,//新手任务列表展开收起开关
+        showMissionList2: false,//日常任务列表展开收起开关
       }
     },
     methods: {
@@ -293,6 +311,17 @@
       closeFeedBack() {
         this.dialogFormVisible = false
         this.$refs.formRef.resetFields()
+      },
+      /*
+ * 展开和收起任务列表
+ * 传一个参数id便于区分我的两个任务列表点击事件
+ */
+      toggle(id) {
+        if (id === 1) {
+          this.showMissionList1 = !this.showMissionList1
+        } else {
+          this.showMissionList2 = !this.showMissionList2
+        }
       }
     },
     created() {
@@ -492,7 +521,18 @@
     right: 0;
   }
 
-  /* 媒体查询:移动端适配：搜索框、树形控件、反馈框、消息头像、回到顶部*/
+  .shrink {
+    font-size: 14px;
+    cursor: pointer;
+    color: grey;
+    text-align: center;
+  }
+
+  .shrink:hover {
+    color: #409EFF;
+  }
+
+  /* 媒体查询:移动端适配：搜索框、树形控件、反馈框、消息头像、回到顶部、查看更多*/
 
   @media screen and (max-width: 480px) {
     .searchCard {
@@ -536,6 +576,10 @@
     .el-backtop {
       right: 10px !important;
       bottom: 80px !important;
+    }
+
+    .hot_card .el-col-5 {
+      width: 29.16667%;
     }
   }
 
