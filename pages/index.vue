@@ -111,11 +111,11 @@
       <el-form :model="form" :rules="rules" ref="formRef" label-position="top">
         <el-form-item label="您的邮箱地址" prop="name">
           <el-col :span="11">
-            <el-input v-model="form.name"></el-input>
+            <el-input v-model="form.name" placeholder="请输入您的邮箱地址" prefix-icon="el-icon-message"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="反馈内容" prop="massage">
-          <el-input type="textarea" v-model="form.massage"></el-input>
+          <el-input type="textarea" v-model="form.massage" placeholder="请输入内容"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer">
@@ -534,6 +534,10 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+  }
+
+  .el-dialog {
+    border-radius: 1%;
   }
 
   /* 媒体查询:移动端适配：搜索框、树形控件、反馈框、消息头像、回到顶部、查看更多*/
