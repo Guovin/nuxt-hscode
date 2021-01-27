@@ -493,6 +493,24 @@
     cursor: pointer;
   }
 
+  @keyframes revolve {
+    from {
+      transform: rotate(0);
+      -ms-transform: rotate(0);
+      /* IE 9 */
+      -webkit-transform: rotate(0);
+      /* Safari and Chrome */
+    }
+
+    to {
+      transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
+      /* IE 9 */
+      -webkit-transform: rotate(360deg);
+      /* Safari and Chrome */
+    }
+  }
+
   .message_container {
     position: fixed;
     right: 30px;
@@ -507,6 +525,13 @@
     background-size: 100% 100%;
     overflow: hidden;
     cursor: pointer;
+    animation: revolve 8s infinite linear;
+    -webkit-animation: revolve 8s infinite linear;
+  }
+
+  .message_avatar:hover {
+    animation: paused;
+    -webkit-animation: paused;
   }
 
   .status_spot {
@@ -568,6 +593,7 @@
     .message_container {
       right: 3px;
       top: 25px;
+      height: 35px;
     }
 
     .message_avatar {
