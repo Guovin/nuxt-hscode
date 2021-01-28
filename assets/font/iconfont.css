@@ -1,0 +1,25 @@
+@font-face {font-family: "iconfont";
+  src: url('iconfont.eot?t=1611833834318'); /* IE9 */
+  src: url('iconfont.eot?t=1611833834318#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAO4AAsAAAAACEwAAANpAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDBgqELINSATYCJAMMCwgABCAFhG0HPhsgBxHVm5fIfh7YbtFYF/UenY6aJ6PQlPSeg4eq83s9PZlveyGdkqWU1J5hnxkAmVqf79dv68RL2pCwyHToZx1535Bl9i8nf9yrmnmeC8h8lmzgqKy9/VMugOEABWisTUkHFrgFqUgBqMvhzKvw6NoPAVjiSzSiuLS6GXNUyDABiBFDB/fFPGVErakUmCPQSuaqiKXoMFfmKVeBJf7Piy8kCnNQ0EnI2PpBJQPIf2/7frfU/9fT7aIQjWcHxEUggWhABdGr1NmODJPRSCx1pVpfqKEiUMaK/P/vCw21ttJ/PAWEBlFaAz5coZyUyKZDwPvdAlBx/otAAyyAk8ADwDsHzRH25E/i5BA/2PL0bV+x5U6a1albPmy82bnzojvrLoVY7TF6ifWXQ7U6fgZ+Suv8866thw1xbRcWZLQc0kc3rzzbOT+8ea8+omXfgqi2A4bI1v29jQ8CPQ1uVvfutejd9avckv4gwxoXfo27d5tPpt5v3R+5eqXz0QD9Stf7/IOGB3Ede0w3n9oabZ7dNN285mP0vfptxNZiK6NV8VaTrxhZaDf5XKukPLMx2TwjWposhdj8b2Sp+mYr5No2vYe4jvk+Z/artlcOm12b3+zZv9p+tfvXx+WiZ+Kc2UEpQYgtMTlx9uyklKQvEcj1wIVJA1w1rV6bpuzYoEx0sNf1S/SPbC1QGwPq43pvpI8YPe3AgIjazja34oK10YF9nDJtZJN/R8yInQzOCBz6GzoB8J/8Lof66eUoafmHf4dFZXum9LbLztxKBeBp+pXPEPhPpb0Z8/t3CfifopY1qiEhJqlqQltoZSQzMX9bBiwNFX+xGsCR5/3VLq0JINQuMSiY4QMSc4LRKj4adFiRDBrm5IElUZQttsKJcUiEagFEMguBwJ4joGCLEST2XEOr+Gegw5VvoGEvJFjSKpzWtCJU0P5WJGgUPbV/8h3Phln0FlTeYdexkaTEJ70h0UcoT7JspsYMGWNC/NhC1ZARnqhCh2EcmRbhgE4Tp7qUaWrKnpR0PG1uFAkaRU/tn3zHs3Eb6y33/XfYdWykBlHnfUOib53yJGuBrpVzK8S1PBI/tlA1ZIQnqpAdI00yLeW9AjpNXI/4Uqa4nmmrTOZXT8+3CbCEXCeFIqRQsR6EeYSPjtc/juMwYd5sAAAAAA==') format('woff2'),
+  url('iconfont.woff?t=1611833834318') format('woff'),
+  url('iconfont.ttf?t=1611833834318') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1611833834318#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 20px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.iconfenleishouye:before {
+  content: "\e60e";
+}
+
+.iconremen:before {
+  content: "\e6a6";
+}
+

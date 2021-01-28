@@ -32,7 +32,7 @@
           <transition name="emerge" appear>
             <keep-alive>
               <el-card class="tree_card">
-                <div class="cate_title">HSCode商品编码分类</div>
+                <div class="cate_title"><i class="iconfont iconfenleishouye"></i>HSCode商品编码分类</div>
                 <el-tree :load="loadNode" lazy :props="treeProps">
                   <!-- 自定义渲染节点内容 -->
                   <span class="span-ellipsis" slot-scope="{ node, data }">
@@ -54,7 +54,7 @@
           <transition name="emerge" appear>
             <keep-alive>
               <el-card class="hot_card">
-                <div class="hot_title">热门HSCode商品编码</div>
+                <div class="hot_title"><i class="iconfont iconremen"></i>热门HSCode商品编码</div>
                 <el-row :gutter="8">
                   <el-col v-for="(item,index) in hotData" :key="index" :span="4" v-if="index < 60">
                     <div @click="hotSearch(item)" class="hot_smallCard">
@@ -78,8 +78,7 @@
                   <el-col :span="5">
                     <div class="shrink" v-if="hotData.length > 60" @click='toggle(2)'>
                       {{closeMore ? '收起': '查看更多'}}
-                      <i class="iconfont icon-return"
-                        :class="closeMore ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
+                      <i :class="closeMore ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
                     </div>
                   </el-col>
                 </el-row>
@@ -126,7 +125,17 @@
     </el-drawer>
 
     <!-- 反馈对话框区域 -->
-    <el-dialog title="反馈建议" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
+    <el-dialog class="feedBack_dialog" title="反馈建议" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
+      <div class="history_message">
+        <div v-if="nothingTip" class="nothing_tip"><span class="tip_content">还没有反馈记录哦，马上发送一条吧！</span></div>
+        <div class="sent_message" v-for="(message,index) in myCookie" :key="index">
+          <div v-html="showEmailAddress(message)" class="sent_address"></div>
+          <div class="content_time">
+            <p v-html="showMessage(message)" class="sent_content"></p>
+            <div v-html="showTime(message)" class="sent_time"></div>
+          </div>
+        </div>
+      </div>
       <el-form :model="form" :rules="rules" ref="formRef" label-position="top">
         <el-form-item label="您的邮箱地址" prop="name">
           <el-col :span="11">
@@ -196,6 +205,8 @@
         showMore: false,//显示-显示更多
         closeMore: false,//显示-收起
         transitionName: '', // 过渡名称
+        myCookie: [], //cookie
+        nothingTip: true //无反馈记录提示
       }
     },
     methods: {
@@ -316,34 +327,76 @@
           if (!valid) return false
           // 验证通过
           let { data: res } = await this.$http.post('/feedBack/massage', this.form)
-          console.log(res)
           if (res.code !== 200) {
-            return this.$message.error({ message: "发送反馈失败！", center: true })
+            return this.$message.error({ message: "发送失败！", center: true })
           }
-          this.$message.success({ message: "发送成功，请耐心等待回复！", center: true })
-          this.dialogFormVisible = false
-          this.$refs.formRef.resetFields()
+          else {
+            //保存消息记录
+            let newDate = new Date()
+            let name = `${this.form.name},${newDate.toLocaleString()}`
+            let message = this.form.massage
+            if (process.client) {
+              // 创建cookie
+              document.cookie = `${name}=` + message
+            }
+            this.getCookie()
+            // this.$message.success({ message: "发送成功，请耐心等待回复！", center: true })
+            this.form.massage = ''
+            this.$refs.formRef.clearValidate()
+          }
         })
       },
       //关闭反馈对话框
       closeFeedBack() {
         this.dialogFormVisible = false
-        this.$refs.formRef.resetFields()
       },
+      //显示消息发送的邮箱地址
+      showEmailAddress(message) {
+        return message.split(',')[0]
+      },
+      //显示消息发送的时间
+      showTime(message) {
+        return message.split(',')[1].split('=')[0]
+      },
+
+      //显示发送的消息
+      showMessage(message) {
+        return message.split('=')[1]
+      },
+
       /*
- * 展开和收起任务列表
- * 传一个参数id便于区分我的两个任务列表点击事件
- */
+        展开和收起任务列表
+        传一个参数id便于区分我的两个任务列表点击事件
+      */
       toggle(id) {
         if (id === 1) {
           this.showMore = !this.showMore
         } else {
           this.closeMore = !this.closeMore
         }
+      },
+
+      //获取cookie
+      getCookie() {
+        if (process.client) {
+          let allCookie = document.cookie.split(';')
+          allCookie.forEach(item => {
+            // 筛选聊天记录与避免重复获取已经存在的记录
+            if (item.indexOf('@') != -1 && this.myCookie.indexOf(item) == -1) {
+              return this.myCookie.push(item)
+            }
+          })
+          // 判断是否存在cookie记录
+          if (this.myCookie.length != 0) {
+            this.nothingTip = false
+            this.form.name = this.myCookie[this.myCookie.length - 1].split(',')[0].trim()
+          }
+        }
       }
     },
     created() {
       this.statistic()
+      this.getCookie()
     },
     async asyncData() {
       let { data: res } = await axios.post('/hscode/getAllHscodeClassify')
@@ -539,18 +592,13 @@
     transform: translateX(100%);
   }
 
-  /* 热门编码展开与收起过渡 */
-  .hotEmerge-enter-active,
-  .hotEmerge-leave-active {
+  /* 热门编码展开过渡 */
+  .hotEmerge-enter-active {
     transition: all .5s linear;
   }
 
   .hotEmerge-enter {
     transform: translateY(100%);
-  }
-
-  .hotEmerge-leave-to {
-    transform: translateY(-100%);
   }
 
   .message_container {
@@ -605,6 +653,64 @@
 
   .el-dialog {
     border-radius: 1%;
+  }
+
+  .feedBack_dialog .el-dialog__body {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .feedBack_dialog .el-form-item__label {
+    padding-bottom: 0;
+  }
+
+  .feedBack_dialog .el-form-item {
+    margin-bottom: 10px;
+  }
+
+  .history_message {
+    border-top: 1px solid rgba(95, 92, 92, 0.1);
+    border-bottom: 1px solid rgba(95, 92, 92, 0.1);
+  }
+
+  .nothing_tip {
+    text-align: center;
+    color: #a1a6af;
+    font-size: 10px;
+    padding: 20px 0;
+  }
+
+  .sent_message {
+    padding-bottom: 15px;
+    text-align: right;
+  }
+
+  .sent_message:nth-child(1) {
+    padding-top: 15px;
+  }
+
+  .sent_address {
+    font-size: 10px;
+    color: #878b92;
+  }
+
+  .content_time {
+    background-color: #D0E9FF;
+    border-radius: 6px;
+    text-align: center;
+    display: inline-block;
+    padding: 5px 10px 3px 10px;
+  }
+
+  .sent_content {
+    color: #252525;
+  }
+
+  .sent_time {
+    font-size: 10px;
+    color: #a1a6af;
+    text-align: right;
+    margin-top: 3px;
   }
 
   /* 媒体查询:移动端适配：搜索框、树形控件、反馈框、消息头像、回到顶部、查看更多*/

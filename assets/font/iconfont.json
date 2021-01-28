@@ -1,0 +1,23 @@
+{
+  "id": "2164502",
+  "name": "hscode",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "10026241",
+      "name": "分类",
+      "font_class": "fenleishouye",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "3401731",
+      "name": "热门",
+      "font_class": "remen",
+      "unicode": "e6a6",
+      "unicode_decimal": 59046
+    }
+  ]
+}
