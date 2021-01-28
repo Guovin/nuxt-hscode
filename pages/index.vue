@@ -19,54 +19,73 @@
       <el-main>
         <el-card class="searchCard">
           <!-- 搜索区域 -->
-          <el-input placeholder="请输入商品名称或商品编码" v-model="key" @keyup.enter.native="inputKeyUpEnter" clearable>
-            <el-button slot="append" icon="el-icon-search" @click="inputKeyUpEnter"></el-button>
-          </el-input>
+          <transition name="emerge" appear>
+            <keep-alive>
+              <el-input placeholder="请输入商品名称或商品编码" v-model="key" @keyup.enter.native="inputKeyUpEnter" clearable>
+                <el-button slot="append" icon="el-icon-search" @click="inputKeyUpEnter"></el-button>
+              </el-input>
+            </keep-alive>
+          </transition>
         </el-card>
         <!-- 树形分类区域 -->
         <el-card v-if="this.$route.path==='/'" class="treeCard">
-          <el-card class="tree_card">
-            <div class="cate_title">HSCode商品编码分类</div>
-            <el-tree :load="loadNode" lazy :props="treeProps">
-              <!-- 自定义渲染节点内容 -->
-              <span class="span-ellipsis" slot-scope="{ node, data }">
-                <span>
-                  <!-- 通过判断是否是叶子节点来显示查看按钮 -->
-                  <el-button type="text" size="mini" v-show="node.isLeaf == true" @click="() => searchPrefix(data)">
-                    HSCode查询
-                  </el-button>
-                </span>
-                <span class="parentFont">{{ node.label }}</span>
-              </span>
-            </el-tree>
-          </el-card>
+          <transition name="emerge" appear>
+            <keep-alive>
+              <el-card class="tree_card">
+                <div class="cate_title">HSCode商品编码分类</div>
+                <el-tree :load="loadNode" lazy :props="treeProps">
+                  <!-- 自定义渲染节点内容 -->
+                  <span class="span-ellipsis" slot-scope="{ node, data }">
+                    <span>
+                      <!-- 通过判断是否是叶子节点来显示查看按钮 -->
+                      <el-button type="text" size="mini" v-show="node.isLeaf == true" @click="() => searchPrefix(data)">
+                        HSCode查询
+                      </el-button>
+                    </span>
+                    <span class="parentFont">{{ node.label }}</span>
+                  </span>
+                </el-tree>
+              </el-card>
+            </keep-alive>
+          </transition>
         </el-card>
         <!-- 热门搜索区域 -->
         <el-card v-if="this.$route.path==='/'" class="treeCard">
-          <el-card class="hot_card">
-            <div class="hot_title">热门HSCode商品编码</div>
-            <el-row :gutter="8">
-              <el-col v-for="(item,index) in hotData" :key="index" :span="4" v-if="index < 60">
-                <el-card @click.native="hotSearch(item)" class="hot_smallCard">
-                  {{item}}
-                </el-card>
-              </el-col>
-              <el-col v-for="(item,index) in hotData" :key="index" :span="4" v-if="index >= 60" v-show="closeMore">
-                <el-card @click.native="hotSearch(item)" class="hot_smallCard">
-                  {{item}}
-                </el-card>
-              </el-col>
-            </el-row>
-            <el-row class="showMoreRow">
-              <!--收起和展开按钮-->
-              <el-col :span="5">
-                <div class="shrink" v-if="hotData.length > 60" @click='toggle(2)'>
-                  {{closeMore ? '收起': '查看更多'}}
-                  <i class="iconfont icon-return" :class="closeMore ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
-                </div>
-              </el-col>
-            </el-row>
-          </el-card>
+          <transition name="emerge" appear>
+            <keep-alive>
+              <el-card class="hot_card">
+                <div class="hot_title">热门HSCode商品编码</div>
+                <el-row :gutter="8">
+                  <el-col v-for="(item,index) in hotData" :key="index" :span="4" v-if="index < 60">
+                    <el-card @click.native="hotSearch(item)" class="hot_smallCard">
+                      {{item}}
+                    </el-card>
+                  </el-col>
+                </el-row>
+                <transition name="hotEmerge">
+                  <keep-alive>
+                    <el-row :gutter="8" v-show="closeMore">
+                      <el-col v-for="(item,index) in hotData" :key="index" :span="4" v-if="index >= 60">
+                        <el-card @click.native="hotSearch(item)" class="hot_smallCard">
+                          {{item}}
+                        </el-card>
+                      </el-col>
+                    </el-row>
+                  </keep-alive>
+                </transition>
+                <el-row class="showMoreRow">
+                  <!--收起和展开按钮-->
+                  <el-col :span="5">
+                    <div class="shrink" v-if="hotData.length > 60" @click='toggle(2)'>
+                      {{closeMore ? '收起': '查看更多'}}
+                      <i class="iconfont icon-return"
+                        :class="closeMore ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-card>
+            </keep-alive>
+          </transition>
         </el-card>
         <nuxt-child ref="child" />
         <!-- 消息头像标识 -->
@@ -176,6 +195,7 @@
         },
         showMore: false,//显示-显示更多
         closeMore: false,//显示-收起
+        transitionName: '', // 过渡名称
       }
     },
     methods: {
@@ -493,22 +513,38 @@
     cursor: pointer;
   }
 
+  /* 360°旋转动画 */
   @keyframes revolve {
-    from {
-      transform: rotate(0);
-      -ms-transform: rotate(0);
-      /* IE 9 */
-      -webkit-transform: rotate(0);
-      /* Safari and Chrome */
-    }
-
-    to {
+    100% {
       transform: rotate(360deg);
       -ms-transform: rotate(360deg);
       /* IE 9 */
       -webkit-transform: rotate(360deg);
       /* Safari and Chrome */
     }
+  }
+
+  /* 卡片内容过渡 */
+  .emerge-enter-active {
+    transition: all .5s linear;
+  }
+
+  .emerge-enter {
+    transform: translateX(100%);
+  }
+
+  /* 热门编码展开与收起过渡 */
+  .hotEmerge-enter-active,
+  .hotEmerge-leave-active {
+    transition: all .3s linear;
+  }
+
+  .hotEmerge-enter {
+    transform: translateY(100%);
+  }
+
+  .hotEmerge-leave-to {
+    transform: translateY(-100%);
   }
 
   .message_container {

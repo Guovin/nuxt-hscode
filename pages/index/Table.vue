@@ -5,57 +5,78 @@
       <!-- 提醒滑动区域 -->
       <div v-if="needSlide" class="needSlide">请向左滑动查看更多内容</div>
       <!-- 表格区域 -->
-      <el-table :data="keyList" border stripe class="outTable">
-        <el-table-column prop="hscode" label="商品编号" header-align="center" align="center">
-        </el-table-column>
-        <el-table-column label="商品名称" header-align="center" align="center">
-          <template slot-scope="scope">
-            <span v-html="showDate(scope.row.product_name)"></span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="hscode_name" label="商品分类" header-align="center" align="center">
-        </el-table-column>
-        <el-table-column prop="unit" label="计量单位" header-align="center" align="center">
-        </el-table-column>
-        <el-table-column prop="export_retax" label="出口退税率(%)" header-align="center" align="center">
-        </el-table-column>
-        <el-table-column prop="supervision_code" label="监管条件" header-align="center" align="center">
-        </el-table-column>
-        <el-table-column prop="ciq_code" label="检验检疫" header-align="center" align="center">
-        </el-table-column>
-        <el-table-column label="更多信息" header-align="center" align="center">
-          <template slot-scope="scope">
-            <el-button type="primary"
-              @click="showDetail(scope.row.hscode,scope.row.product_name,scope.row.element_example)" size="mini">详情
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+      <transition name="emerge" appear>
+        <keep-alive>
+          <el-table :data="keyList" border stripe class="outTable">
+            <el-table-column prop="hscode" label="商品编号" header-align="center" align="center">
+            </el-table-column>
+            <el-table-column label="商品名称" header-align="center" align="center">
+              <template slot-scope="scope">
+                <span v-html="showDate(scope.row.product_name)"></span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="hscode_name" label="商品分类" header-align="center" align="center">
+            </el-table-column>
+            <el-table-column prop="unit" label="计量单位" header-align="center" align="center">
+            </el-table-column>
+            <el-table-column prop="export_retax" label="出口退税率(%)" header-align="center" align="center">
+            </el-table-column>
+            <el-table-column prop="supervision_code" label="监管条件" header-align="center" align="center">
+            </el-table-column>
+            <el-table-column prop="ciq_code" label="检验检疫" header-align="center" align="center">
+            </el-table-column>
+            <el-table-column label="更多信息" header-align="center" align="center">
+              <template slot-scope="scope">
+                <el-button type="primary"
+                  @click="showDetail(scope.row.hscode,scope.row.product_name,scope.row.element_example)" size="mini">详情
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </keep-alive>
+      </transition>
       <!-- 分页功能区域 -->
       <!-- PC端显示 -->
       <nav class="page" v-if="pcPage">
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
-          :page-sizes="[5, 7, 10]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"
-          background>
-        </el-pagination>
+        <transition name="emerge" appear>
+          <keep-alive>
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+              :current-page="currentPage" :page-sizes="[5, 7, 10]" :page-size="pageSize"
+              layout="total, sizes, prev, pager, next, jumper" :total="total" background>
+            </el-pagination>
+          </keep-alive>
+        </transition>
       </nav>
 
       <!-- 移动端显示 -->
       <nav class="page" v-if="phonePage">
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
-          :page-sizes="[5, 7, 10]" :page-size="pageSize" :total="total" layout="total, sizes, prev, pager, next"
-          background>
-        </el-pagination>
+        <transition name="emerge" appear>
+          <keep-alive>
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+              :current-page="currentPage" :page-sizes="[5, 7, 10]" :page-size="pageSize" :total="total"
+              layout="total, sizes, prev, pager, next" background>
+            </el-pagination>
+          </keep-alive>
+        </transition>
       </nav>
       <nav class="page" v-if="smallPhonePage">
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
-          :page-sizes="[5, 7, 10]" :page-size="pageSize" :total="total" layout="sizes, prev, pager, next" background>
-        </el-pagination>
+        <transition name="emerge" appear>
+          <keep-alive>
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+              :current-page="currentPage" :page-sizes="[5, 7, 10]" :page-size="pageSize" :total="total"
+              layout="sizes, prev, pager, next" background>
+            </el-pagination>
+          </keep-alive>
+        </transition>
       </nav>
       <nav class="page" v-if="miniPhonePage">
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
-          :page-size="pageSize" :total="total" layout="prev, pager, next" background>
-        </el-pagination>
+        <transition name="emerge" appear>
+          <keep-alive>
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+              :current-page="currentPage" :page-size="pageSize" :total="total" layout="prev, pager, next" background>
+            </el-pagination>
+          </keep-alive>
+        </transition>
       </nav>
     </el-card>
   </div>
