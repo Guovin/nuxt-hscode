@@ -57,18 +57,18 @@
                 <div class="hot_title">热门HSCode商品编码</div>
                 <el-row :gutter="8">
                   <el-col v-for="(item,index) in hotData" :key="index" :span="4" v-if="index < 60">
-                    <el-card @click.native="hotSearch(item)" class="hot_smallCard">
-                      {{item}}
-                    </el-card>
+                    <div @click="hotSearch(item)" class="hot_smallCard">
+                      <p>{{item}}</p>
+                    </div>
                   </el-col>
                 </el-row>
                 <transition name="hotEmerge">
                   <keep-alive>
                     <el-row :gutter="8" v-show="closeMore">
                       <el-col v-for="(item,index) in hotData" :key="index" :span="4" v-if="index >= 60">
-                        <el-card @click.native="hotSearch(item)" class="hot_smallCard">
-                          {{item}}
-                        </el-card>
+                        <div @click="hotSearch(item)" class="hot_smallCard">
+                          <p>{{item}}</p>
+                        </div>
                       </el-col>
                     </el-row>
                   </keep-alive>
@@ -379,7 +379,10 @@
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+  }
 
+  .logo:hover {
+    cursor: pointer;
   }
 
   .logo {
@@ -447,11 +450,11 @@
   }
 
   .el-tree-node__children span {
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .parentFont {
-    font-size: 14px;
+    font-size: 15px;
   }
 
   .el-backtop {
@@ -469,15 +472,18 @@
   .hot_smallCard {
     height: 100%;
     text-align: center;
-  }
-
-  .hot_smallCard .el-card__body {
-    padding: 20px 0 20px 0 !important;
+    box-sizing: border-box;
+    border: 1px solid rgba(95, 92, 92, 0.1);
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    padding: 20px 0;
+    color: #606266;
   }
 
   .hot_smallCard:hover {
     color: #409EFF;
     cursor: pointer;
+    background-color: rgba(97, 93, 93, 0.06);
   }
 
   .hot_card .el-row {
@@ -536,7 +542,7 @@
   /* 热门编码展开与收起过渡 */
   .hotEmerge-enter-active,
   .hotEmerge-leave-active {
-    transition: all .3s linear;
+    transition: all .5s linear;
   }
 
   .hotEmerge-enter {
