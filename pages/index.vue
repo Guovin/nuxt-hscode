@@ -329,24 +329,24 @@
         this.$refs.formRef.validate(async valid => {
           if (!valid) return false
           // 验证通过
-          let { data: res } = await this.$http.post('/feedBack/massage', this.form)
-          if (res.code !== 200) {
-            return this.$message.error({ message: "发送失败！", center: true })
+          // let { data: res } = await this.$http.post('/feedBack/massage', this.form)
+          // if (res.code !== 200) {
+          //   return this.$message.error({ message: "发送失败！", center: true })
+          // }
+          // else {
+          //保存消息记录
+          let newDate = new Date()
+          let name = `${this.form.name},${newDate.toLocaleString()}`
+          let message = this.form.massage
+          if (process.client) {
+            // 创建cookie
+            document.cookie = `${name}=` + message
           }
-          else {
-            //保存消息记录
-            let newDate = new Date()
-            let name = `${this.form.name},${newDate.toLocaleString()}`
-            let message = this.form.massage
-            if (process.client) {
-              // 创建cookie
-              document.cookie = `${name}=` + message
-            }
-            this.getCookie()
-            // this.$message.success({ message: "发送成功，请耐心等待回复！", center: true })
-            this.form.massage = ''
-            this.$refs.formRef.clearValidate()
-          }
+          this.getCookie()
+          // this.$message.success({ message: "发送成功，请耐心等待回复！", center: true })
+          this.form.massage = ''
+          this.$refs.formRef.clearValidate()
+          // }
         })
       },
       //关闭反馈对话框
@@ -675,6 +675,8 @@
   .history_message {
     border-top: 1px solid rgba(95, 92, 92, 0.1);
     border-bottom: 1px solid rgba(95, 92, 92, 0.1);
+    max-height: 323px;
+    overflow-y: auto;
   }
 
   .nothing_tip {
@@ -687,6 +689,7 @@
   .sent_message {
     padding-bottom: 15px;
     text-align: right;
+    margin-right: 15px;
   }
 
   .sent_message:nth-child(1) {
