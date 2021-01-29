@@ -11,7 +11,7 @@
                 <!-- 商品基本信息 -->
                 <!-- 商品名称 -->
                 <el-card class="infoCard">
-                  <div class="info">基本信息</div>
+                  <div class="info"><i class="iconfont iconjibenxinxi"></i>基本信息</div>
                   <div class="hoverColor">
                     <div class="span_right">
                       <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:40px;">商品名称</span>
@@ -36,7 +36,7 @@
               </el-col>
               <el-col :span="5" :offset="1">
                 <el-card class="myApp">
-                  <div>HSCode搜索微信小程序-扫码使用</div>
+                  <div><i class="iconfont iconsaoma"></i>HSCode搜索微信小程序-扫码使用</div>
                   <img src="../../assets/code.jpg" alt="小程序码" style="width: 160px;height: 160px;">
                 </el-card>
               </el-col>
@@ -49,7 +49,7 @@
               <el-col :span="12">
                 <!-- 计量单位 -->
                 <el-card>
-                  <div class="info">计量单位</div>
+                  <div class="info"><i class="iconfont iconjiliang-xian"></i>计量单位</div>
                   <div class="hoverColor">
                     <div class="span_right">
                       <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">法定计量单位名称</span>
@@ -91,7 +91,7 @@
               <el-col :span="12">
                 <!-- 税率信息 -->
                 <el-card>
-                  <div class="info">税率信息</div>
+                  <div class="info"><i class="iconfont iconexchangerate"></i>税率信息</div>
                   <div class="hoverColor">
                     <div class="span_right">
                       <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">普通税率</span>
@@ -139,7 +139,8 @@
               <el-col :span="12">
                 <!-- 监管条件 -->
                 <el-card>
-                  <div class="info"><span>监管条件</span><span class="subTitle">{{list.regulatory_code}}</span></div>
+                  <div class="info"><i class="iconfont iconjiandu"></i><span>监管条件</span><span
+                      class="subTitle">{{list.regulatory_code}}</span></div>
                   <div class="hoverColor">
                     <span style="font-size: 18px;color: #909399;" v-if="list.regulatory_code === '' ">暂无</span>
                     <div v-else v-for="(code,c) in codeName" :key="c" class="span_right">
@@ -160,7 +161,8 @@
               <el-col :span="12">
                 <!-- 检验检疫类别 -->
                 <el-card>
-                  <div class="info"><span>检验检疫类别</span><span class="subTitle">{{list.ciq_code}}</span></div>
+                  <div class="info"><i class="iconfont iconjianyanjianyi"></i><span>检验检疫类别</span><span
+                      class="subTitle">{{list.ciq_code}}</span></div>
                   <div class="hoverColor">
                     <span style="font-size: 18px;color: #909399;" v-if="list.ciq_code === '' ">暂无</span>
                     <div v-else v-for="(ciq,q) in ciqName" :key="q" class="span_right">
@@ -179,7 +181,7 @@
               <el-col :span="12">
                 <!-- 申报条件 -->
                 <el-card>
-                  <div class="info">申报要素</div>
+                  <div class="info"><i class="iconfont iconxinshenqing"></i>申报要素</div>
                   <div class="hoverColor">
                     <span style="font-size: 18px;color: #909399;" v-if="list.element_require === '' ">暂无</span>
                     <div v-else v-for="(item,i) in elementList" :key="i">
@@ -338,8 +340,13 @@
     font-size: 14px;
     color: gray;
     margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
+  }
+
+  .iconfont {
+    position: relative;
+    top: 2px;
+    margin-right: 3px;
+    font-size: 20px;
   }
 
   .el-row {

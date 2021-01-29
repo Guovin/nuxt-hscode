@@ -4,10 +4,13 @@
       <el-header>
         <!-- 面包屑导航区域 -->
         <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/' }" @click.native="changeTitle">首页</el-breadcrumb-item>
-          <el-breadcrumb-item v-if="this.$route.path==='/table' || this.$route.path==='/detail'">搜索结果
+          <el-breadcrumb-item :to="{ path: '/' }" @click.native="changeTitle"><i class="iconfont iconshouye"></i>首页
           </el-breadcrumb-item>
-          <el-breadcrumb-item v-if="this.$route.path==='/detail'">内容详情</el-breadcrumb-item>
+          <el-breadcrumb-item v-if="this.$route.path==='/table' || this.$route.path==='/detail'"><i
+              class="iconfont iconsousuo"></i>搜索结果
+          </el-breadcrumb-item>
+          <el-breadcrumb-item v-if="this.$route.path==='/detail'"><i class="iconfont iconpicixiangqing"></i>内容详情
+          </el-breadcrumb-item>
         </el-breadcrumb>
         <!-- logo区域 -->
         <div class="logo_container">
@@ -127,7 +130,7 @@
     <!-- 反馈对话框区域 -->
     <el-dialog class="feedBack_dialog" title="反馈建议" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
       <div class="history_message">
-        <div v-if="nothingTip" class="nothing_tip"><span class="tip_content">还没有反馈记录哦，马上发送一条吧！</span></div>
+        <div v-if="nothingTip" class="nothing_tip"><span class="tip_content">无反馈记录</span></div>
         <div class="sent_message" v-for="(message,index) in myCookie" :key="index">
           <div v-html="showEmailAddress(message)" class="sent_address"></div>
           <div class="content_time">
@@ -349,6 +352,7 @@
       //关闭反馈对话框
       closeFeedBack() {
         this.dialogFormVisible = false
+        this.$refs.formRef.clearValidate()
       },
       //显示消息发送的邮箱地址
       showEmailAddress(message) {
@@ -711,6 +715,41 @@
     color: #a1a6af;
     text-align: right;
     margin-top: 3px;
+  }
+
+  .tip_content::before {
+    content: "";
+    width: 70px;
+    height: 1px;
+    background-color: #a1a6af;
+    display: inline-block;
+    position: relative;
+    top: -5px;
+    left: -8px;
+  }
+
+  .tip_content::after {
+    content: "";
+    width: 70px;
+    height: 1px;
+    background-color: #a1a6af;
+    display: inline-block;
+    position: relative;
+    top: -5px;
+    left: 8px;
+  }
+
+  .el-dialog__title::before {
+    font-family: "iconfont";
+    content: "\e64e";
+  }
+
+  .cate_title .iconfont {
+    font-size: 20px;
+  }
+
+  .hot_title .iconfont {
+    font-size: 20px;
   }
 
   /* 媒体查询:移动端适配：搜索框、树形控件、反馈框、消息头像、回到顶部、查看更多*/

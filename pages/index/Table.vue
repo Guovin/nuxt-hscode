@@ -19,7 +19,7 @@
             </el-table-column>
             <el-table-column prop="unit" label="计量单位" header-align="center" align="center">
             </el-table-column>
-            <el-table-column prop="export_retax" label="出口退税率(%)" header-align="center" align="center">
+            <el-table-column prop="export_retax" label="出口退税率" header-align="center" align="center">
             </el-table-column>
             <el-table-column prop="supervision_code" label="监管条件" header-align="center" align="center">
             </el-table-column>
@@ -300,6 +300,50 @@
     color: gray;
     text-align: center;
     margin-bottom: 5px;
+  }
+
+  .el-table__header th::before {
+    font-family: "iconfont";
+    display: inline-block;
+    font-size: 18px;
+    position: relative;
+    top: 4px;
+  }
+
+  .el-table__header th:nth-child(1)::before {
+    content: "\e656";
+  }
+
+  .el-table__header th:nth-child(2)::before {
+    content: "\e617";
+  }
+
+  .el-table__header th:nth-child(3)::before {
+    content: "\e60e";
+  }
+
+  .el-table__header th:nth-child(4)::before {
+    content: "\e631";
+  }
+
+  .el-table__header th:nth-child(5)::before {
+    content: "\e679";
+  }
+
+  .el-table__header th:nth-child(6)::before {
+    content: "\e721";
+  }
+
+  .el-table__header th:nth-child(7)::before {
+    content: "\e618";
+  }
+
+  .el-table__header th:nth-child(8)::before {
+    content: "\e69a";
+  }
+
+  .el-table__header .cell {
+    width: auto !important;
   }
 
   /* 媒体查询:移动端适配：表格*/
