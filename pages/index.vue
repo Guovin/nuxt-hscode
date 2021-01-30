@@ -34,7 +34,7 @@
         <el-card v-if="this.$route.path==='/'" class="treeCard">
           <transition name="emerge" appear>
             <keep-alive>
-              <el-card class="tree_card">
+              <div class="tree_card">
                 <div class="cate_title"><i class="iconfont iconfenleishouye"></i>HSCode商品编码分类</div>
                 <el-tree :load="loadNode" lazy :props="treeProps">
                   <!-- 自定义渲染节点内容 -->
@@ -48,7 +48,7 @@
                     <span class="parentFont">{{ node.label }}</span>
                   </span>
                 </el-tree>
-              </el-card>
+              </div>
             </keep-alive>
           </transition>
         </el-card>
@@ -56,7 +56,7 @@
         <el-card v-if="this.$route.path==='/'" class="treeCard">
           <transition name="emerge" appear>
             <keep-alive>
-              <el-card class="hot_card">
+              <div class="hot_card">
                 <div class="hot_title"><i class="iconfont iconremen"></i>热门HSCode商品编码</div>
                 <el-row :gutter="8">
                   <el-col v-for="(item,index) in hotData" :key="index" :span="4" v-if="index < 60">
@@ -85,7 +85,7 @@
                     </div>
                   </el-col>
                 </el-row>
-              </el-card>
+              </div>
             </keep-alive>
           </transition>
         </el-card>
@@ -128,11 +128,13 @@
     </el-drawer>
 
     <!-- 反馈对话框区域 -->
-    <el-dialog class="feedBack_dialog" title="反馈建议" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
-      <div class="history_message">
+    <el-dialog class="feedBack_dialog" title="反馈建议" :visible.sync="dialogFormVisible" :close-on-click-modal="false"
+      @opened="openDialog">
+      <div class="history_message" ref='history_div'>
         <div v-if="nothingTip" class="nothing_tip"><span class="tip_content">无反馈记录</span></div>
         <div class="sent_message" v-for="(message,index) in myCookie" :key="index">
           <div v-html="showEmailAddress(message)" class="sent_address"></div>
+          <i class="iconfont iconchenggong"></i>
           <div class="content_time">
             <p v-html="showMessage(message)" class="sent_content"></p>
             <div v-html="showTime(message)" class="sent_time"></div>
@@ -329,24 +331,24 @@
         this.$refs.formRef.validate(async valid => {
           if (!valid) return false
           // 验证通过
-          // let { data: res } = await this.$http.post('/feedBack/massage', this.form)
-          // if (res.code !== 200) {
-          //   return this.$message.error({ message: "发送失败！", center: true })
-          // }
-          // else {
-          //保存消息记录
-          let newDate = new Date()
-          let name = `${this.form.name},${newDate.toLocaleString()}`
-          let message = this.form.massage
-          if (process.client) {
-            // 创建cookie
-            document.cookie = `${name}=` + message
+          let { data: res } = await this.$http.post('/feedBack/massage', this.form)
+          if (res.code !== 200) {
+            return this.$message.error({ message: "发送失败！", center: true })
           }
-          this.getCookie()
-          // this.$message.success({ message: "发送成功，请耐心等待回复！", center: true })
-          this.form.massage = ''
-          this.$refs.formRef.clearValidate()
-          // }
+          else {
+            //保存消息记录
+            let newDate = new Date()
+            let name = `${this.form.name},${newDate.toLocaleString()}`
+            let message = this.form.massage
+            if (process.client) {
+              // 创建cookie
+              document.cookie = `${name}=` + message
+            }
+            this.getCookie()
+            // this.$message.success({ message: "发送成功，请耐心等待回复！", center: true })
+            this.form.massage = ''
+            this.$refs.formRef.clearValidate()
+          }
         })
       },
       //关闭反馈对话框
@@ -395,6 +397,17 @@
             this.nothingTip = false
             this.form.name = this.myCookie[this.myCookie.length - 1].split(',')[0].trim()
           }
+        }
+      },
+      //打开对话框
+      openDialog() {
+        this.updateScroll()
+      },
+      //对话框滚动条默认滑到底部
+      updateScroll() {
+        if (process.client) {
+          let element = this.$refs.history_div
+          element.scrollTop = element.scrollHeight
         }
       }
     },
@@ -560,12 +573,32 @@
     font-size: 16px;
     color: #409EFF;
     font-weight: bold;
-    margin: 0 auto 10px auto;
+    margin: 0 auto 5px auto;
     text-align: center;
   }
 
-  .tree_card .el-card__body {
-    padding: 10px 20px 20px 20px !important
+  .tree_card {
+    border: 1px solid #ebeef5;
+    background-color: #fff;
+    color: #303133;
+    -webkit-transition: .3s;
+    transition: .3s;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15) !important;
+    padding: 10px 20px 20px 20px;
+  }
+
+  .hot_card {
+    border: 1px solid #ebeef5;
+    background-color: #fff;
+    color: #303133;
+    -webkit-transition: .3s;
+    transition: .3s;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15) !important;
+    padding: 10px 20px 20px 20px;
   }
 
   .statement {
@@ -643,6 +676,7 @@
     cursor: pointer;
     color: grey;
     text-align: center;
+    margin-top: 10px;
   }
 
   .shrink:hover {
@@ -701,16 +735,26 @@
     color: #878b92;
   }
 
+  .iconchenggong {
+    color: #6BC839;
+    font-size: 14px;
+    vertical-align: bottom;
+  }
+
   .content_time {
     background-color: #D0E9FF;
     border-radius: 6px;
     text-align: center;
     display: inline-block;
     padding: 5px 10px 3px 10px;
+    max-width: 90%;
   }
 
   .sent_content {
     color: #252525;
+    text-align: justify;
+    display: inline-block;
+    margin: auto;
   }
 
   .sent_time {
@@ -755,16 +799,38 @@
     font-size: 20px;
   }
 
+  .iconfenleishouye,
+  .iconremen {
+    position: relative;
+    right: 3px;
+  }
+
   /* 媒体查询:移动端适配：搜索框、树形控件、反馈框、消息头像、回到顶部、查看更多*/
 
   @media screen and (max-width: 480px) {
+    .el-main {
+      padding: 20px 5px 20px 5px;
+    }
+
     .searchCard {
-      width: 95%;
+      width: 85%;
     }
 
     .treeCard {
       margin-top: 0;
       width: 100%;
+    }
+
+    .treeCard .el-card__body {
+      padding: 20px 10px 20px 10px;
+    }
+
+    .tree_card {
+      padding: 10px;
+    }
+
+    .hot_card {
+      padding: 10px;
     }
 
     .el-dialog__wrapper .el-dialog {
@@ -778,6 +844,10 @@
 
     .el-dialog__body .el-col-11 {
       width: 60%;
+    }
+
+    .history_message {
+      max-height: 246px;
     }
 
     .message_container {

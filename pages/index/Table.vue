@@ -351,5 +351,9 @@
     .tableCard {
       width: 100%;
     }
+
+    .tableCard .el-card__body {
+      padding: 5px 10px 20px 10px !important;
+    }
   }
 </style>
