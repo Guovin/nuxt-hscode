@@ -15,7 +15,7 @@
                   <div class="hoverColor">
                     <div class="span_right">
                       <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:40px;">商品名称</span>
-                      <span style="font-size: 30px;font-weight: bolder;color: #fa3534;">{{title}}</span>
+                      <span class="detail_goodsName">{{title}}</span>
                     </div>
                   </div>
                   <!-- 商品编码 -->
@@ -29,7 +29,7 @@
                   <div class="hoverColor">
                     <div class="span_right">
                       <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:40px;">商品分类</span>
-                      <span style="font-size: 20px;font-weight: bolder;line-height:40px;">{{list.hscode_name}}</span>
+                      <span class="detail_goodsCate">{{list.hscode_name}}</span>
                     </div>
                   </div>
                 </el-card>
@@ -139,7 +139,7 @@
               <el-col :span="12">
                 <!-- 监管条件 -->
                 <el-card>
-                  <div class="info"><i class="iconfont iconjiandu"></i><span>监管条件</span><span
+                  <div class="info span_right"><span><i class="iconfont iconjiandu"></i>监管条件</span><span
                       class="subTitle">{{list.regulatory_code}}</span></div>
                   <div class="hoverColor">
                     <span style="font-size: 18px;color: #909399;" v-if="list.regulatory_code === '' ">暂无</span>
@@ -161,7 +161,7 @@
               <el-col :span="12">
                 <!-- 检验检疫类别 -->
                 <el-card>
-                  <div class="info"><i class="iconfont iconjianyanjianyi"></i><span>检验检疫类别</span><span
+                  <div class="info span_right"><span><i class="iconfont iconjianyanjianyi"></i>检验检疫类别</span><span
                       class="subTitle">{{list.ciq_code}}</span></div>
                   <div class="hoverColor">
                     <span style="font-size: 18px;color: #909399;" v-if="list.ciq_code === '' ">暂无</span>
@@ -185,24 +185,22 @@
                   <div class="hoverColor">
                     <span style="font-size: 18px;color: #909399;" v-if="list.element_require === '' ">暂无</span>
                     <div v-else v-for="(item,i) in elementList" :key="i">
-                      <el-row>
+                      <el-row class="info_row">
                         <el-col :span="2"><span style="font-size: 18px;color: #909399;">{{i+1}}</span>
                         </el-col>
-                        <el-col :span="22" class="detail_right"><span
-                            style="font-size: 18px;font-weight: bold;color: #606266;">{{item}}</span>
+                        <el-col :span="22" class="detail_right"><span>{{item}}</span>
                         </el-col>
                       </el-row>
                     </div>
                     <!-- 申报要素样例 -->
-                    <div class="hoverColor">
+                    <div class="hoverColor example_div">
                       <el-row type="flex" justify="space-between" class="div_detail">
                         <el-col :span="4" class="detail_left"><span
-                            style="font-size: 15px;font-weight: bold;color: #606266;line-height:40px;">申报要素样例</span>
+                            style="font-size: 15px;font-weight: bold;">申报要素样例:</span>
                         </el-col>
                         <el-col :span="20" class="detail_right"><span v-if="example !== ''"
-                            style="font-size: 10px;font-weight: bolder;line-height:40px;">{{example}}</span>
-                          <span v-else
-                            style="font-size: 18px;font-weight: bolder;color: #909399;line-height: 40px;">无</span>
+                            style="font-size: 10px;font-weight: bolder;">{{example}}</span>
+                          <span v-else style="font-size: 18px;font-weight: bolder;color: #909399;">无</span>
                         </el-col>
                       </el-row>
                     </div>
@@ -335,33 +333,33 @@
   }
 </script>
 
-<style scoped>
-  .info {
+<style>
+  .detail .info {
     font-size: 14px;
     color: gray;
     margin-bottom: 15px;
   }
 
-  .iconfont {
+  .detail .iconfont {
     position: relative;
     top: 2px;
     margin-right: 3px;
     font-size: 20px;
   }
 
-  .el-row {
+  .detail .el-row {
     margin-bottom: 20px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
   }
 
-  .el-row .el-card {
+  .detail .el-row .el-card {
     height: 100%;
     transition: all 0.5s;
   }
 
-  .container {
+  .detail .container {
     width: 100%;
     margin: auto;
   }
@@ -383,6 +381,7 @@
 
   .div_detail {
     border-radius: 4px;
+    margin-bottom: 0;
   }
 
   .detail_left {
@@ -390,6 +389,9 @@
   }
 
   .detail_right {
+    font-size: 18px;
+    font-weight: bold;
+    color: #606266;
     border-radius: 4px;
     display: flex;
     justify-content: flex-end;
@@ -404,39 +406,74 @@
     margin-top: 30px;
   }
 
+  .detail_goodsCate {
+    font-size: 20px;
+    font-weight: bolder;
+    line-height: 40px;
+  }
+
+  .detail_goodsName {
+    font-size: 30px;
+    font-weight: bolder;
+    color: #fa3534;
+    line-height: 40px;
+  }
+
+  .detail .info_row {
+    margin-bottom: 5px;
+  }
+
+  .example_div {
+    margin-top: 15px;
+  }
+
+  .detail .el-card__body {
+    padding: 10px;
+  }
+
   /* 媒体查询:移动端适配：详情卡片*/
   /* 可同时设置两个条件 */
   @media screen and (max-width: 480px),
   (max-width: 950px) {
 
     /* 将所有卡片横向铺满 */
-    .el-col-12 {
+    .detail .el-col-12 {
       width: 95%;
     }
 
     /* 左边距调整为0 */
-    .el-col-offset-6 {
+    .detail .el-col-offset-6 {
       margin-left: 0;
     }
 
     /* 小程序卡片铺满 */
-    .el-col-5 {
+    .detail .el-col-5 {
       width: 95%;
       margin-top: 20px;
     }
 
     /* 小程序卡片左边距调整为0 */
-    .el-col-offset-1 {
+    .detail .el-col-offset-1 {
       margin-left: 0;
     }
 
     /* 调整申报要素样例 */
-    .el-col-4 {
+    .detail .el-col-4 {
       width: 38%;
     }
 
-    .el-col-20 {
+    .detail .el-col-20 {
       width: 62%;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .detail_goodsCate {
+      font-size: 14px;
+    }
+
+    .detail_goodsName {
+      font-size: 20px;
     }
   }
 </style>

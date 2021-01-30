@@ -603,6 +603,7 @@
 
   .statement {
     cursor: pointer;
+    white-space: nowrap;
   }
 
   .feedback {
@@ -642,6 +643,7 @@
     position: fixed;
     right: 30px;
     bottom: 100px;
+    z-index: 1;
   }
 
   .message_avatar {
@@ -851,8 +853,8 @@
     }
 
     .message_container {
-      right: 3px;
-      top: 25px;
+      right: 12px;
+      top: 92%;
       height: 35px;
     }
 
@@ -864,7 +866,6 @@
     .status_spot {
       width: 8px;
       height: 8px;
-      top: 25px;
       right: 0px;
     }
 

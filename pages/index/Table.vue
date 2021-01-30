@@ -8,24 +8,24 @@
       <transition name="emerge" appear>
         <keep-alive>
           <el-table :data="keyList" border stripe class="outTable">
-            <el-table-column prop="hscode" label="商品编号" header-align="center" align="center">
+            <el-table-column prop="hscode" label="商品编号" header-align="center" align="center" min-width="100">
             </el-table-column>
-            <el-table-column label="商品名称" header-align="center" align="center">
+            <el-table-column label="商品名称" header-align="center" align="center" min-width="100">
               <template slot-scope="scope">
                 <span v-html="showDate(scope.row.product_name)"></span>
               </template>
             </el-table-column>
-            <el-table-column prop="hscode_name" label="商品分类" header-align="center" align="center">
+            <el-table-column prop="hscode_name" label="商品分类" header-align="center" align="center" min-width="100">
             </el-table-column>
-            <el-table-column prop="unit" label="计量单位" header-align="center" align="center">
+            <el-table-column prop="unit" label="计量单位" header-align="center" align="center" min-width="100">
             </el-table-column>
-            <el-table-column prop="export_retax" label="出口退税率" header-align="center" align="center">
+            <el-table-column prop="export_retax" label="出口退税率" header-align="center" align="center" min-width="110">
             </el-table-column>
-            <el-table-column prop="supervision_code" label="监管条件" header-align="center" align="center">
+            <el-table-column prop="supervision_code" label="监管条件" header-align="center" align="center" min-width="100">
             </el-table-column>
-            <el-table-column prop="ciq_code" label="检验检疫" header-align="center" align="center">
+            <el-table-column prop="ciq_code" label="检验检疫" header-align="center" align="center" min-width="100">
             </el-table-column>
-            <el-table-column label="更多信息" header-align="center" align="center">
+            <el-table-column label="更多信息" header-align="center" align="center" min-width="100">
               <template slot-scope="scope">
                 <el-button type="primary"
                   @click="showDetail(scope.row.hscode,scope.row.product_name,scope.row.element_example)" size="mini">详情
@@ -344,6 +344,7 @@
 
   .el-table__header .cell {
     width: auto !important;
+    padding: 0 3px !important;
   }
 
   /* 媒体查询:移动端适配：表格*/
