@@ -14,9 +14,10 @@
         </el-breadcrumb>
         <!-- logo区域 -->
         <div class="logo_container">
-          <span class="logo" @click="goHome">
+          <!-- <span class="logo" @click="goHome">
             <span class="logo_hs">HS</span><span>Code<span class="logo_vip">.VIP</span></span>
-          </span>
+          </span> -->
+          <img class="logo_img" src="../assets/logo.png" alt="HSCode.VIP" @click="goHome"><img>
         </div>
       </el-header>
       <el-main>
@@ -805,6 +806,10 @@
   .iconremen {
     position: relative;
     right: 3px;
+  }
+
+  .logo_img:hover {
+    cursor: pointer;
   }
 
   /* 媒体查询:移动端适配：搜索框、树形控件、反馈框、消息头像、回到顶部、查看更多*/
