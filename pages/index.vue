@@ -338,6 +338,7 @@
           }
           else {
             //保存消息记录
+            // 获取当前日期与时间
             let newDate = new Date()
             let name = `${this.form.name},${newDate.toLocaleString()}`
             let message = this.form.massage
