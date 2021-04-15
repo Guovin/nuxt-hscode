@@ -18,6 +18,7 @@
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
     "element-ui": "^2.14.1",
+    "jsbarcode": "^3.11.3",
     "nprogress": "^0.2.0",
     "nuxt": "^2.14.12",
     "webpack-merge": "^5.7.3"

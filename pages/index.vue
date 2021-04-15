@@ -11,6 +11,8 @@
           </el-breadcrumb-item>
           <el-breadcrumb-item v-if="this.$route.path==='/detail'"><i class="iconfont iconpicixiangqing"></i>内容详情
           </el-breadcrumb-item>
+          <el-breadcrumb-item v-if="this.$route.path==='/barcode'"><i class="iconfont iconpicixiangqing"></i>条形码
+          </el-breadcrumb-item>
         </el-breadcrumb>
         <!-- logo区域 -->
         <div class="logo_container">
@@ -21,7 +23,7 @@
         </div>
       </el-header>
       <el-main>
-        <el-card class="searchCard">
+        <el-card v-if="this.$route.path!=='/barcode'" class="searchCard">
           <!-- 搜索区域 -->
           <transition name="emerge" appear>
             <keep-alive>

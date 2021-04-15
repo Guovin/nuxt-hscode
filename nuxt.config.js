@@ -17,7 +17,8 @@ export default {
       { src: 'https://cdn.staticfile.org/vue/2.5.22/vue.min.js' },
       { src: 'https://cdn.staticfile.org/element-ui/2.14.1/index.min.js' },
       { src: 'https://cdn.staticfile.org/axios/0.18.0/axios.min.js' },
-      { src: 'https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.js' }
+      { src: 'https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.js' },
+      { src: 'https://cdn.staticfile.org/jsbarcode/3.11.0/JsBarcode.all.min.js' }
     ]
   },
 
@@ -52,7 +53,8 @@ export default {
         config.externals = {
           vue: 'Vue',
           axios: 'axios',
-          nprogress: 'NProgress'
+          nprogress: 'NProgress',
+          jsbarcode: 'JsBarcode'
         }
       }
     }
