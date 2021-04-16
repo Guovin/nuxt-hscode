@@ -16,7 +16,8 @@
             </el-breadcrumb-item>
           </el-breadcrumb>
           <!-- logo区域 -->
-          <el-link href="/barcode" type="warning" v-if="this.$route.path !=='/barcode'">条形码生成器</el-link>
+          <el-link class="barcodeLink" href="/barcode" type="warning" v-if="this.$route.path !=='/barcode'">条形码生成器
+          </el-link>
         </div>
         <div class="logo_container">
           <!-- <span class="logo" @click="goHome">
@@ -821,6 +822,11 @@
   .flexRow {
     display: flex;
     justify-content: space-between;
+  }
+
+  .barcodeLink::before {
+    font-family: "iconfont";
+    content: "\e642";
   }
 
   /* 媒体查询:移动端适配：搜索框、树形控件、反馈框、消息头像、回到顶部、查看更多*/

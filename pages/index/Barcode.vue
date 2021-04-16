@@ -5,8 +5,7 @@
       <!-- 条码格式级联选择器 -->
       <div class="format">
         <span class="title">格式:</span>
-        <el-cascader v-model="value" :show-all-levels="false" :options="options" :props="{ expandTrigger: 'hover' }"
-          @change="handleChange">
+        <el-cascader v-model="value" :show-all-levels="false" :options="options" :props="{ expandTrigger: 'hover' }">
         </el-cascader>
       </div>
       <!-- 条码宽度 -->
@@ -131,10 +130,6 @@
       }
     },
     methods: {
-      //条码格式级联选择器触发事件
-      handleChange(value) {
-        console.log(value)
-      },
       // 条码绘制方法
       barCode(id, text) {
         JsBarcode(id, text, {
@@ -271,6 +266,11 @@
     margin-bottom: 10px;
   }
 
+  #title::before {
+    font-family: "iconfont";
+    content: "\e642";
+  }
+
   .barcode {
     width: 80%;
     margin: 0 auto;
@@ -343,6 +343,14 @@
   .canvas {
     margin: 20px auto;
     text-align: center;
+  }
+
+  .el-cascader-menu {
+    height: 270px;
+  }
+
+  .el-cascader-menu__wrap {
+    height: 100%;
   }
 
   @media screen and (max-width:480px) {
