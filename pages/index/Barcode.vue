@@ -35,7 +35,7 @@
     </div>
     <!-- 条码原始数据 -->
     <div class="text">
-      <el-input type="textarea" :autosize="{ minRows: 4}" placeholder="请输入条形码数据,若有多条,请用“,”分隔" v-model="text">
+      <el-input type="textarea" :autosize="{ minRows: 4,maxRows:12}" placeholder="请输入条形码数据,若有多条,请换行输入" v-model="text">
       </el-input>
     </div>
     <!-- 输出按钮 -->
@@ -171,12 +171,12 @@
               canvas.className = "code"
               canvasTag.appendChild(canvas)
             }
-            let textList
-            if (text.indexOf('，') != -1) {
-              textList = text.split('，')
-            } else {
-              textList = text.split(',')
-            }
+            let textList = text.split('\n')
+            // if (text.indexOf('，') != -1) {
+            //   textList = text.split('，')
+            // } else {
+            //   textList = text.split(',')
+            // }
             // 遍历绘制全部条形码
             try {
               textList.forEach((item, index) => {
