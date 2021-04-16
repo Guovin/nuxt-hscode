@@ -343,10 +343,15 @@
   }
 
   .width,
-  .height,
+  .height {
+    width: 13%;
+    display: flex;
+    justify-content: space-around;
+  }
+
   .fontSize,
   .textMargin {
-    width: 13%;
+    width: 16%;
     display: flex;
     justify-content: space-around;
   }
@@ -412,23 +417,23 @@
     }
 
     .format {
-      width: 50%;
+      width: 48%;
       margin-bottom: 6px;
     }
 
     .width {
-      width: 40%;
+      width: 48%;
       margin-bottom: 6px;
     }
 
     .color {
-      width: 40%;
+      width: 48%;
       margin-bottom: 6px;
     }
 
     .fontSize,
     .textMargin {
-      width: 40%;
+      width: 48%;
       margin-bottom: 6px;
     }
 
