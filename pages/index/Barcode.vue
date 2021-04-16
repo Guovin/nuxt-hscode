@@ -35,15 +35,17 @@
     </div>
     <!-- 条码原始数据 -->
     <div class="text">
-      <el-input type="textarea" :autosize="{ minRows: 4}" placeholder="请输入条行码数据,若有多条,请用“,”分隔" v-model="text">
+      <el-input type="textarea" :autosize="{ minRows: 4}" placeholder="请输入条形码数据,若有多条,请用“,”分隔" v-model="text">
       </el-input>
     </div>
     <!-- 输出按钮 -->
     <div class="button">
       <el-button type="primary" @click="createBarCode" class="buttonYes" icon="el-icon-circle-check">确定</el-button>
+      <el-tooltip v-if="saveStatus || status" class="item" effect="dark" :content="saveTip" placement="top">
+        <el-button type="success" @click="saveBarCode" class="buttonYes" icon="el-icon-download">保存
+        </el-button>
+      </el-tooltip>
       <el-button type="warning" @click="printBarCode" class="buttonYes" v-if="status" icon="el-icon-printer">打印
-      </el-button>
-      <el-button type="success" @click="saveBarCode" class="buttonYes" v-if="saveStatus" icon="el-icon-download">保存
       </el-button>
     </div>
     <!-- 条码画布 -->
@@ -85,6 +87,8 @@
         base64: [],
         // imgSrc
         imgSrc: [],
+        // 保存提示
+        saveTip: '默认保存第一张条形码，若需要全部导出请使用打印功能',
         // 条码格式
         options: [
           {
@@ -197,8 +201,14 @@
                 // PC端
                 // 显示打印按钮
                 this.status = true
-                // 提前生成打印标签
+                // 提前生成打印内容标签
                 this.createPrint()
+                let html = document.getElementsByClassName("code")
+                html.forEach(item => {
+                  // 获取canvas的Base64用于转换图片
+                  // this.base64.push(item.toDataURL())
+                  this.imgSrc.push(item.src)
+                })
               } else {
                 // 移动端
                 // 显示保存按钮
@@ -219,7 +229,7 @@
               return Message.error({ message: "请输入符合格式的数据！", center: true })
             }
           } else {
-            return Message.error({ message: "请输入条行码数据！", center: true })
+            return Message.error({ message: "请输入条形码数据！", center: true })
           }
         }
       },
@@ -307,7 +317,12 @@
       // 移动端保存图片
       saveBarCode() {
         // this.saveFile(this.base64[0], 'hscode.vip-barCode')
-        this.saveFile(this.imgSrc[0], 'hscode.vip-barCode')
+        if (this.isPC()) {
+          this.saveFile(this.imgSrc[0], 'hscodeVip-barCode')
+        } else {
+          // 手机端无法通过a标签下载图片
+          this.saveTip = "请长按图片进行保存"
+        }
       }
     },
     created() {
