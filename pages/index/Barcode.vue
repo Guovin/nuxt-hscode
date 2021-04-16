@@ -40,9 +40,11 @@
     </div>
     <!-- 输出按钮 -->
     <div class="button">
-      <el-button type="primary" @click="createBarCode" class="buttonYes">确定</el-button>
-      <el-button type="warning" @click="printBarCode" class="buttonYes" v-if="status">打印</el-button>
-      <el-button type="success" @click="saveBarCode" class="buttonYes" v-if="saveStatus">保存</el-button>
+      <el-button type="primary" @click="createBarCode" class="buttonYes" icon="el-icon-circle-check">确定</el-button>
+      <el-button type="warning" @click="printBarCode" class="buttonYes" v-if="status" icon="el-icon-printer">打印
+      </el-button>
+      <el-button type="success" @click="saveBarCode" class="buttonYes" v-if="saveStatus" icon="el-icon-download">保存
+      </el-button>
     </div>
     <!-- 条码画布 -->
     <div class="canvas" v-show="status || saveStatus">
