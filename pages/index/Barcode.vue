@@ -35,16 +35,17 @@
     </div>
     <!-- 条码原始数据 -->
     <div class="text">
-      <el-input type="textarea" :autosize="{ minRows: 4}" placeholder="请输入条码数据,若有多条,请用“,”分隔" v-model="text">
+      <el-input type="textarea" :autosize="{ minRows: 4}" placeholder="请输入条行码数据,若有多条,请用“,”分隔" v-model="text">
       </el-input>
     </div>
     <!-- 输出按钮 -->
     <div class="button">
       <el-button type="primary" @click="createBarCode" class="buttonYes">确定</el-button>
       <el-button type="warning" @click="printBarCode" class="buttonYes" v-if="status">打印</el-button>
+      <el-button type="success" @click="saveBarCode" class="buttonYes" v-if="saveStatus">保存</el-button>
     </div>
     <!-- 条码画布 -->
-    <div class="canvas" v-show="status">
+    <div class="canvas" v-show="status || saveStatus">
       <canvas id="code"></canvas>
     </div>
     <!-- 打印区域 -->
@@ -75,6 +76,10 @@
         value: ["CODE128", "CODE128"],
         // 条码生成状态
         status: false,
+        // 保存条形码
+        saveStatus: false,
+        // base64
+        base64: [],
         // 条码格式
         options: [
           {
@@ -149,7 +154,7 @@
           if (text != '') {
             // 多次生成先初始化再生成
             let canvasTag = document.getElementsByClassName("canvas")[0]
-            if (this.status == true) {
+            if (this.status == true || this.saveStatus == true) {
               canvasTag.innerHTML = ""
               let canvas = document.createElement("canvas")
               canvas.id = "code"
@@ -178,9 +183,25 @@
                 }
                 this.barCode(id, item)
               })
-              this.status = true
-              // 提前生成打印标签
-              this.createPrint()
+              // 判断是否是PC端
+              if (this.isPC()) {
+                // PC端
+                // 显示打印按钮
+                this.status = true
+                // 提前生成打印标签
+                this.createPrint()
+              } else {
+                // 移动端
+                // 显示保存按钮
+                this.saveStatus = true
+                // 获取所有canvas标签
+                let html = document.getElementsByTagName("canvas")
+                // 遍历生成含img标签的div
+                html.forEach(item => {
+                  // 获取canvas的Base64用于转换图片
+                  this.base64.push(item.toDataURL())
+                })
+              }
               return Message.success({ message: "生成条形码成功！", center: true })
             }
             catch (error) {
@@ -243,6 +264,33 @@
           this.color = '#000000'
         }
       },
+      // 判断PC端
+      isPC() {
+        if (process.client) {
+          var userAgentInfo = navigator.userAgent;
+          var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
+          var flag = true;
+          for (var v = 0; v < Agents.length; v++) {
+            if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }
+          }
+          return flag;
+        }
+      },
+      // 保存图片
+      saveFile(data, filename) {
+        const save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+        save_link.href = data;
+        save_link.download = filename;
+
+        const event = document.createEvent('MouseEvents');
+        event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        save_link.dispatchEvent(event);
+      },
+
+      // 移动端保存图片
+      saveBarCode() {
+        this.saveFile(this.base64[0], 'barCode')
+      }
     },
     created() {
     },
@@ -333,11 +381,7 @@
     text-align: center;
     margin-top: 20px;
     display: flex;
-    justify-content: center;
-  }
-
-  .buttonYes {
-    margin: 0 50px;
+    justify-content: flex-end;
   }
 
   .canvas {
@@ -357,6 +401,14 @@
     .barcode {
       width: 100%;
       padding: 5px 5px 20px 5px;
+    }
+
+    .button {
+      justify-content: center;
+    }
+
+    .buttonYes {
+      margin: 0 50px;
     }
 
     .format {
