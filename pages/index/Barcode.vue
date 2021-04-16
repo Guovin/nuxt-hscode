@@ -48,7 +48,8 @@
     </div>
     <!-- 条码画布 -->
     <div class="canvas" v-show="status || saveStatus">
-      <canvas id="code"></canvas>
+      <!-- <canvas id="code"></canvas> -->
+      <img id="code" class="code"></img>
     </div>
     <!-- 打印区域 -->
     <iframe id="iframe" name="iframeName" style="display: none;">
@@ -82,6 +83,8 @@
         saveStatus: false,
         // base64
         base64: [],
+        // imgSrc
+        imgSrc: [],
         // 条码格式
         options: [
           {
@@ -158,8 +161,10 @@
             let canvasTag = document.getElementsByClassName("canvas")[0]
             if (this.status == true || this.saveStatus == true) {
               canvasTag.innerHTML = ""
-              let canvas = document.createElement("canvas")
+              // let canvas = document.createElement("canvas")
+              let canvas = document.createElement("img")
               canvas.id = "code"
+              canvas.className = "code"
               canvasTag.appendChild(canvas)
             }
             let textList
@@ -179,8 +184,10 @@
                   id = "#code"
                 } else {
                   id = "#code" + index
-                  let canvas = document.createElement("canvas")
+                  // let canvas = document.createElement("canvas")
+                  let canvas = document.createElement("img")
                   canvas.id = "code" + index
+                  canvas.className = "code"
                   canvasTag.appendChild(canvas)
                 }
                 this.barCode(id, item)
@@ -197,11 +204,12 @@
                 // 显示保存按钮
                 this.saveStatus = true
                 // 获取所有canvas标签
-                let html = document.getElementsByTagName("canvas")
-                // 遍历生成含img标签的div
+                // let html = document.getElementsByTagName("canvas")
+                let html = document.getElementsByClassName("code")
                 html.forEach(item => {
                   // 获取canvas的Base64用于转换图片
-                  this.base64.push(item.toDataURL())
+                  // this.base64.push(item.toDataURL())
+                  this.imgSrc.push(item.src)
                 })
               }
               return Message.success({ message: "生成条形码成功！", center: true })
@@ -219,16 +227,18 @@
       createPrint() {
         // 获取打印内容
         // 获取所有canvas标签
-        let html = document.getElementsByTagName("canvas")
+        // let html = document.getElementsByTagName("canvas")
+        let imgTag = document.getElementsByClassName("code")
         // 获取iframe
         let iframe = document.getElementById("iframe")
         let newDiv = document.createElement("div")
         // 遍历生成含img标签的div
-        html.forEach(item => {
+        imgTag.forEach(item => {
           // 获取canvas的Base64用于转换图片
-          let htmlBase64 = item.toDataURL()
+          // let htmlBase64 = item.toDataURL()
           let newHtml = document.createElement("img")
-          newHtml.src = htmlBase64
+          // newHtml.src = htmlBase64
+          newHtml.src = item.src
           newHtml.style.margin = "0px 50px 20px 0px"
           newDiv.appendChild(newHtml)
         })
@@ -280,18 +290,24 @@
       },
       // 保存图片
       saveFile(data, filename) {
-        const save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
-        save_link.href = data;
-        save_link.download = filename;
+        try {
+          const save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+          save_link.href = data;
+          save_link.download = filename;
 
-        const event = document.createEvent('MouseEvents');
-        event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-        save_link.dispatchEvent(event);
+          const event = document.createEvent('MouseEvents');
+          event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+          save_link.dispatchEvent(event);
+        }
+        catch (e) {
+          console.log(e)
+        }
       },
 
       // 移动端保存图片
       saveBarCode() {
-        this.saveFile(this.base64[0], 'barCode')
+        // this.saveFile(this.base64[0], 'hscode.vip-barCode')
+        this.saveFile(this.imgSrc[0], 'hscode.vip-barCode')
       }
     },
     created() {
