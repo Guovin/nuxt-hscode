@@ -1,26 +1,27 @@
 <template>
   <div class="barcode">
+    <div id="title">条形码生成器</div>
     <div class="row">
       <!-- 条码格式级联选择器 -->
       <div class="format">
-        <span class="title">条码格式:</span>
+        <span class="title">格式:</span>
         <el-cascader v-model="value" :show-all-levels="false" :options="options" :props="{ expandTrigger: 'hover' }"
           @change="handleChange">
         </el-cascader>
       </div>
       <!-- 条码宽度 -->
       <div class="width">
-        <span class="title">条码宽度:</span>
+        <span class="title">宽度:</span>
         <el-input v-model="width" @blur="widthChange"></el-input>
       </div>
       <!-- 条码高度 -->
       <div class="width">
-        <span class="title">条码高度:</span>
+        <span class="title">高度:</span>
         <el-input v-model="height" @blur="heightChange"></el-input>
       </div>
       <!-- 条码颜色 -->
       <div class="color">
-        <span class="title">条码颜色:</span>
+        <span class="title">颜色:</span>
         <el-color-picker v-model="color" @change="colorChange"></el-color-picker>
       </div>
       <!-- 条码字体 -->
@@ -35,7 +36,7 @@
     </div>
     <!-- 条码原始数据 -->
     <div class="text">
-      <el-input type="textarea" :rows="2" placeholder="请输入条码数据,若有多条,请用“,”分隔" v-model="text">
+      <el-input type="textarea" :autosize="{ minRows: 4}" placeholder="请输入条码数据,若有多条,请用“,”分隔" v-model="text">
       </el-input>
     </div>
     <!-- 输出按钮 -->
@@ -44,9 +45,12 @@
       <el-button type="warning" @click="printBarCode" class="buttonYes" v-if="status">打印</el-button>
     </div>
     <!-- 条码画布 -->
-    <div class="canvas">
+    <div class="canvas" v-show="status">
       <canvas id="code"></canvas>
     </div>
+    <!-- 打印区域 -->
+    <iframe id="iframe" name="iframeName" style="display: none;">
+    </iframe>
   </div>
 </template>
 
@@ -166,6 +170,9 @@
             try {
               textList.forEach((item, index) => {
                 let id
+                if (item == "") {
+                  return
+                }
                 if (index == 0) {
                   id = "#code"
                 } else {
@@ -177,6 +184,8 @@
                 this.barCode(id, item)
               })
               this.status = true
+              // 提前生成打印标签
+              this.createPrint()
               return Message.success({ message: "生成条形码成功！", center: true })
             }
             catch (error) {
@@ -188,9 +197,30 @@
           }
         }
       },
+      // 生成打印内容
+      createPrint() {
+        // 获取打印内容
+        // 获取所有canvas标签
+        let html = document.getElementsByTagName("canvas")
+        // 获取iframe
+        let iframe = document.getElementById("iframe")
+        let newDiv = document.createElement("div")
+        // 遍历生成含img标签的div
+        html.forEach(item => {
+          // 获取canvas的Base64用于转换图片
+          let htmlBase64 = item.toDataURL()
+          let newHtml = document.createElement("img")
+          newHtml.src = htmlBase64
+          newHtml.style.margin = "0px 50px 20px 0px"
+          newDiv.appendChild(newHtml)
+        })
+        // 将图片div添加至iframe打印区域
+        iframe.contentDocument.body.innerHTML = newDiv.innerHTML
+      },
       // 条码打印
       printBarCode() {
-
+        // 输出打印
+        window.frames['iframeName'].print()
       },
       // 失去焦点事件触发
       widthChange() {
@@ -223,7 +253,7 @@
     },
     head() {
       return {
-        title: 'HSCode编码-条形码生成',
+        title: 'HSCode编码-条形码生成器',
         meta: [
           { hid: 'keywords', name: 'keywords', content: '外贸、跨境、海关编码、查询、hscode查询、hscode编码、搜索' },
           { hid: 'description', name: 'description', content: '最全面、方便、准确的外贸、跨境、海关编码查询、hscode查询' }
@@ -233,6 +263,14 @@
   }
 </script>
 <style>
+  #title {
+    width: 100px;
+    font-size: 14px;
+    margin: 0 auto;
+    color: cadetblue;
+    margin-bottom: 10px;
+  }
+
   .barcode {
     width: 80%;
     margin: 0 auto;
@@ -242,7 +280,7 @@
     border-radius: 4px;
     overflow: hidden;
     box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15) !important;
-    padding: 10px 20px 20px 20px;
+    padding: 5px 20px 20px 20px;
   }
 
   .title {
@@ -256,10 +294,8 @@
     white-space: nowrap;
   }
 
-  .format,
   .width,
   .height,
-  .color,
   .fontSize,
   .textMargin {
     width: 13%;
@@ -267,8 +303,13 @@
     justify-content: space-around;
   }
 
+  .color {
+    display: flex;
+    width: 8%;
+  }
+
   .format {
-    width: 25%;
+    width: 20%;
     display: flex;
     justify-content: space-around;
   }
@@ -284,6 +325,7 @@
   .row {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
   }
 
   .button {
@@ -291,16 +333,47 @@
     text-align: center;
     margin-top: 20px;
     display: flex;
-    width: 20%;
-    justify-content: space-between;
+    justify-content: center;
   }
 
   .buttonYes {
-    margin: 0 auto;
+    margin: 0 50px;
   }
 
   .canvas {
     margin: 20px auto;
     text-align: center;
+  }
+
+  @media screen and (max-width:480px) {
+    .barcode {
+      width: 100%;
+      padding: 5px 5px 20px 5px;
+    }
+
+    .format {
+      width: 50%;
+      margin-bottom: 6px;
+    }
+
+    .width {
+      width: 40%;
+      margin-bottom: 6px;
+    }
+
+    .color {
+      width: 40%;
+      margin-bottom: 6px;
+    }
+
+    .fontSize,
+    .textMargin {
+      width: 40%;
+      margin-bottom: 6px;
+    }
+
+    .message_container {
+      top: 85% !important;
+    }
   }
 </style>

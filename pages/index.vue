@@ -2,19 +2,22 @@
   <div class="home">
     <el-container>
       <el-header>
-        <!-- 面包屑导航区域 -->
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/' }" @click.native="changeTitle"><i class="iconfont iconshouye"></i>首页
-          </el-breadcrumb-item>
-          <el-breadcrumb-item v-if="this.$route.path==='/table' || this.$route.path==='/detail'"><i
-              class="iconfont iconsousuo"></i>搜索结果
-          </el-breadcrumb-item>
-          <el-breadcrumb-item v-if="this.$route.path==='/detail'"><i class="iconfont iconpicixiangqing"></i>内容详情
-          </el-breadcrumb-item>
-          <el-breadcrumb-item v-if="this.$route.path==='/barcode'"><i class="iconfont iconpicixiangqing"></i>条形码
-          </el-breadcrumb-item>
-        </el-breadcrumb>
-        <!-- logo区域 -->
+        <div class="flexRow">
+          <!-- 面包屑导航区域 -->
+          <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/' }" @click.native="changeTitle"><i class="iconfont iconshouye"></i>首页
+            </el-breadcrumb-item>
+            <el-breadcrumb-item v-if="this.$route.path==='/table' || this.$route.path==='/detail'"><i
+                class="iconfont iconsousuo"></i>搜索结果
+            </el-breadcrumb-item>
+            <el-breadcrumb-item v-if="this.$route.path==='/detail'"><i class="iconfont iconpicixiangqing"></i>内容详情
+            </el-breadcrumb-item>
+            <el-breadcrumb-item v-if="this.$route.path==='/barcode'"><i class="iconfont iconpicixiangqing"></i>条形码生成器
+            </el-breadcrumb-item>
+          </el-breadcrumb>
+          <!-- logo区域 -->
+          <el-link href="/barcode" type="warning" v-if="this.$route.path !=='/barcode'">条形码生成器</el-link>
+        </div>
         <div class="logo_container">
           <!-- <span class="logo" @click="goHome">
             <span class="logo_hs">HS</span><span>Code<span class="logo_vip">.VIP</span></span>
@@ -813,6 +816,11 @@
 
   .logo_img:hover {
     cursor: pointer;
+  }
+
+  .flexRow {
+    display: flex;
+    justify-content: space-between;
   }
 
   /* 媒体查询:移动端适配：搜索框、树形控件、反馈框、消息头像、回到顶部、查看更多*/
