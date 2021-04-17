@@ -1,7 +1,7 @@
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: '海关HSCode编码查询',
+    title: 'HSCode编码查询-首页',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -10,26 +10,28 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/hscode.png' },
-      { rel: 'stylesheet', href: 'https://unpkg.com/element-ui/lib/theme-chalk/index.css' },
+      { rel: 'stylesheet', href: 'https://cdn.staticfile.org/element-ui/2.14.1/theme-chalk/index.min.css' },
       { rel: 'stylesheet', href: 'https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.css' }
     ],
     script: [
       { src: 'https://cdn.staticfile.org/vue/2.5.22/vue.min.js' },
-      { src: 'https://unpkg.com/element-ui/lib/index.js' },
+      { src: 'https://cdn.staticfile.org/element-ui/2.14.1/index.min.js' },
       { src: 'https://cdn.staticfile.org/axios/0.18.0/axios.min.js' },
-      { src: 'https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.js' }
+      { src: 'https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.js' },
+      { src: 'https://cdn.staticfile.org/jsbarcode/3.11.0/JsBarcode.all.min.js' }
     ]
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
-    '@/assets/css/global.css'
+    '@/assets/css/global.css',
+    '@/assets/font/iconfont.css'
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     { src: '@/plugins/axios', ssr: true },
-    { src: '@/plugins/element', ssr: true }
+    { src: '@/plugins/element-ui', ssr: true }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -51,8 +53,8 @@ export default {
         config.externals = {
           vue: 'Vue',
           axios: 'axios',
-          element: 'element-ui',
-          nprogress: 'NProgress'
+          nprogress: 'NProgress',
+          jsbarcode: 'JsBarcode'
         }
       }
     }

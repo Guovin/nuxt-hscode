@@ -1,0 +1,135 @@
+{
+  "id": "2164502",
+  "name": "hscode",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "14373233",
+      "name": "条形码",
+      "font_class": "tiaoxingma1",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "15311732",
+      "name": "成功",
+      "font_class": "chenggong",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "1215571",
+      "name": "新申请",
+      "font_class": "xinshenqing",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "2380662",
+      "name": "搜索",
+      "font_class": "sousuo",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "6488977",
+      "name": "批次详情",
+      "font_class": "picixiangqing",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "11016134",
+      "name": "首页",
+      "font_class": "shouye",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "14163754",
+      "name": "扫码",
+      "font_class": "saoma",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
+      "icon_id": "2771944",
+      "name": "更多",
+      "font_class": "gengduo",
+      "unicode": "e69a",
+      "unicode_decimal": 59034
+    },
+    {
+      "icon_id": "4251781",
+      "name": "HS编码",
+      "font_class": "HSbianma",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    },
+    {
+      "icon_id": "4305501",
+      "name": "基本信息",
+      "font_class": "jibenxinxi",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "5799990",
+      "name": "商品",
+      "font_class": "yunliankeji-",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "8027260",
+      "name": "检验检疫",
+      "font_class": "jianyanjianyi",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "17562612",
+      "name": "监督",
+      "font_class": "jiandu",
+      "unicode": "e721",
+      "unicode_decimal": 59169
+    },
+    {
+      "icon_id": "18056327",
+      "name": "汇率",
+      "font_class": "exchangerate",
+      "unicode": "e679",
+      "unicode_decimal": 59001
+    },
+    {
+      "icon_id": "19525506",
+      "name": "计量-线",
+      "font_class": "jiliang-xian",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "6360235",
+      "name": "邮件",
+      "font_class": "youjian",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    },
+    {
+      "icon_id": "10026241",
+      "name": "分类",
+      "font_class": "fenleishouye",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "3401731",
+      "name": "热门",
+      "font_class": "remen",
+      "unicode": "e6a6",
+      "unicode_decimal": 59046
+    }
+  ]
+}

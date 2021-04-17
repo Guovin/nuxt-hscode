@@ -4,187 +4,212 @@
     <!-- 卡片视图区 -->
     <div v-for="(list,index) in goodList" :key="index">
       <div class="container">
-        <el-row>
-          <el-col :span="12" :offset="6">
-            <!-- 商品基本信息 -->
-            <!-- 商品名称 -->
-            <el-card class="infoCard">
-              <div class="info">基本信息</div>
-              <div class="hoverColor">
-                <div class="span_right">
-                  <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:40px;">商品名称</span>
-                  <span style="font-size: 30px;font-weight: bolder;color: #fa3534;">{{title}}</span>
-                </div>
-              </div>
-              <!-- 商品编码 -->
-              <div class="hoverColor">
-                <div class="span_right">
-                  <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:40px;">商品编码</span>
-                  <span style="font-size: 30px;font-weight: bolder;">{{list.hscode}}</span>
-                </div>
-              </div>
-              <!-- 商品分类 -->
-              <div class="hoverColor">
-                <div class="span_right">
-                  <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:40px;">商品分类</span>
-                  <span style="font-size: 20px;font-weight: bolder;line-height:40px;">{{list.hscode_name}}</span>
-                </div>
-              </div>
-            </el-card>
-          </el-col>
-          <el-col :span="5" :offset="1">
-            <el-card class="myApp">
-              <div>HSCode搜索微信小程序-扫码使用</div>
-              <img src="../../assets/code.jpg" alt="小程序码" style="width: 160px;height: 160px;">
-            </el-card>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <!-- 计量单位 -->
-            <el-card>
-              <div class="info">计量单位</div>
-              <div class="hoverColor">
-                <div class="span_right">
-                  <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">法定计量单位名称</span>
-                  <span style="font-size: 18px;font-weight: bolder;color: #19be6b;">{{list.unit_1_name}}</span>
-                </div>
-              </div>
-              <div class="hoverColor">
-                <div class="span_right">
-                  <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">法定计量单位</span>
-                  <span style="font-size: 18px;font-weight: bolder;color: #19be6b;">{{list.unit_1}}</span>
-                </div>
-              </div>
-              <div class="hoverColor">
-                <div class="span_right">
-                  <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">法定第二计量单位名称</span>
-                  <span style="font-size: 18px;font-weight: bolder;color: #19be6b;"
-                    v-if="list.unit_2_name !== '' ">{{list.unit_2_name}}</span>
-                  <span style="font-size: 18px;font-weight: bolder;color: #909399;" v-else>无</span>
-                </div>
-              </div>
-              <div class="hoverColor">
-                <div class="span_right">
-                  <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">法定第二计量单位</span>
-                  <span style="font-size: 18px;font-weight: bolder;color: #19be6b;"
-                    v-if="list.unit_2 !== '' ">{{list.unit_2}}</span>
-                  <span style="font-size: 18px;font-weight: bolder;color: #909399;" v-else>无</span>
-                </div>
-              </div>
-            </el-card>
-          </el-col>
-        </el-row>
+        <transition name="emerge" appear>
+          <keep-alive>
+            <el-row>
+              <el-col :span="12" :offset="6">
+                <!-- 商品基本信息 -->
+                <!-- 商品名称 -->
+                <el-card class="infoCard">
+                  <div class="info"><i class="iconfont iconjibenxinxi"></i>基本信息</div>
+                  <div class="hoverColor">
+                    <div class="span_right">
+                      <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:40px;">商品名称</span>
+                      <span class="detail_goodsName">{{title}}</span>
+                    </div>
+                  </div>
+                  <!-- 商品编码 -->
+                  <div class="hoverColor">
+                    <div class="span_right">
+                      <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:40px;">商品编码</span>
+                      <span style="font-size: 30px;font-weight: bolder;">{{list.hscode}}</span>
+                    </div>
+                  </div>
+                  <!-- 商品分类 -->
+                  <div class="hoverColor">
+                    <div class="span_right">
+                      <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:40px;">商品分类</span>
+                      <span class="detail_goodsCate">{{list.hscode_name}}</span>
+                    </div>
+                  </div>
+                </el-card>
+              </el-col>
+              <el-col :span="5" :offset="1">
+                <el-card class="myApp">
+                  <div><i class="iconfont iconsaoma"></i>HSCode搜索微信小程序-扫码使用</div>
+                  <img src="../../assets/code.jpg" alt="小程序码" style="width: 160px;height: 160px;">
+                </el-card>
+              </el-col>
+            </el-row>
+          </keep-alive>
+        </transition>
+        <transition name="emerge" appear>
+          <keep-alive>
+            <el-row>
+              <el-col :span="12">
+                <!-- 计量单位 -->
+                <el-card>
+                  <div class="info"><i class="iconfont iconjiliang-xian"></i>计量单位</div>
+                  <div class="hoverColor">
+                    <div class="span_right">
+                      <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">法定计量单位名称</span>
+                      <span style="font-size: 18px;font-weight: bolder;color: #19be6b;">{{list.unit_1_name}}</span>
+                    </div>
+                  </div>
+                  <div class="hoverColor">
+                    <div class="span_right">
+                      <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">法定计量单位</span>
+                      <span style="font-size: 18px;font-weight: bolder;color: #19be6b;">{{list.unit_1}}</span>
+                    </div>
+                  </div>
+                  <div class="hoverColor">
+                    <div class="span_right">
+                      <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">法定第二计量单位名称</span>
+                      <span style="font-size: 18px;font-weight: bolder;color: #19be6b;"
+                        v-if="list.unit_2_name !== '' ">{{list.unit_2_name}}</span>
+                      <span style="font-size: 18px;font-weight: bolder;color: #909399;" v-else>无</span>
+                    </div>
+                  </div>
+                  <div class="hoverColor">
+                    <div class="span_right">
+                      <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">法定第二计量单位</span>
+                      <span style="font-size: 18px;font-weight: bolder;color: #19be6b;"
+                        v-if="list.unit_2 !== '' ">{{list.unit_2}}</span>
+                      <span style="font-size: 18px;font-weight: bolder;color: #909399;" v-else>无</span>
+                    </div>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
+          </keep-alive>
+        </transition>
       </div>
       <div class="container">
-        <el-row>
-          <el-col :span="12">
-            <!-- 税率信息 -->
-            <el-card>
-              <div class="info">税率信息</div>
-              <div class="hoverColor">
-                <div class="span_right">
-                  <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">普通税率</span>
-                  <span style="font-size: 18px;font-weight: bolder;color: #19be6b;">{{list.ordinary}}</span>
-                </div>
-              </div>
-              <div class="hoverColor">
-                <div class="span_right">
-                  <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">优惠税率</span>
-                  <span style="font-size: 18px;font-weight: bolder;color: #19be6b;">{{list.most_discount}}</span>
-                </div>
-              </div>
-              <div class="hoverColor">
-                <div class="span_right">
-                  <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">出口税率</span>
-                  <span style="font-size: 18px;font-weight: bolder;color: #19be6b;">{{list.export_rate}}</span>
-                </div>
-              </div>
-              <div class="hoverColor">
-                <div class="span_right">
-                  <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">出口退税率</span>
-                  <span style="font-size: 18px;font-weight: bolder;color: #19be6b;">{{list.export_retax}}</span>
-                </div>
-              </div>
-              <div class="hoverColor">
-                <div class="span_right">
-                  <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">消费税率</span>
-                  <span style="font-size: 18px;font-weight: bolder;color: #19be6b;">{{list.customs_rate}}</span>
-                </div>
-              </div>
-              <div class="hoverColor">
-                <div class="span_right">
-                  <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">增值税率</span>
-                  <span style="font-size: 18px;font-weight: bolder;color: #19be6b;">{{list.add_tax_rate}}</span>
-                </div>
-              </div>
-            </el-card>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <!-- 监管条件 -->
-            <el-card>
-              <div class="info"><span>监管条件</span><span class="subTitle">{{list.regulatory_code}}</span></div>
-              <div class="hoverColor">
-                <span style="font-size: 18px;color: #909399;" v-if="list.regulatory_code === '' ">暂无</span>
-                <div v-else v-for="(code,c) in codeName" :key="c" class="span_right">
-                  <span style="font-size: 18px;font-weight: bolder;">{{code}}</span>
-                  <span style="font-size: 18px;font-weight: bold;color: #606266;">{{codeDetail[c]}}</span>
-                </div>
-              </div>
-            </el-card>
-          </el-col>
-        </el-row>
+        <transition name="emerge" appear>
+          <keep-alive>
+            <el-row>
+              <el-col :span="12">
+                <!-- 税率信息 -->
+                <el-card>
+                  <div class="info"><i class="iconfont iconexchangerate"></i>税率信息</div>
+                  <div class="hoverColor">
+                    <div class="span_right">
+                      <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">普通税率</span>
+                      <span style="font-size: 18px;font-weight: bolder;color: #19be6b;">{{list.ordinary}}</span>
+                    </div>
+                  </div>
+                  <div class="hoverColor">
+                    <div class="span_right">
+                      <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">优惠税率</span>
+                      <span style="font-size: 18px;font-weight: bolder;color: #19be6b;">{{list.most_discount}}</span>
+                    </div>
+                  </div>
+                  <div class="hoverColor">
+                    <div class="span_right">
+                      <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">出口税率</span>
+                      <span style="font-size: 18px;font-weight: bolder;color: #19be6b;">{{list.export_rate}}</span>
+                    </div>
+                  </div>
+                  <div class="hoverColor">
+                    <div class="span_right">
+                      <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">出口退税率</span>
+                      <span style="font-size: 18px;font-weight: bolder;color: #19be6b;">{{list.export_retax}}</span>
+                    </div>
+                  </div>
+                  <div class="hoverColor">
+                    <div class="span_right">
+                      <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">消费税率</span>
+                      <span style="font-size: 18px;font-weight: bolder;color: #19be6b;">{{list.customs_rate}}</span>
+                    </div>
+                  </div>
+                  <div class="hoverColor">
+                    <div class="span_right">
+                      <span style="font-size: 15px;font-weight: bold;color: #606266;line-height:24px;">增值税率</span>
+                      <span style="font-size: 18px;font-weight: bolder;color: #19be6b;">{{list.add_tax_rate}}</span>
+                    </div>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
+          </keep-alive>
+        </transition>
+        <transition name="emerge" appear>
+          <keep-alive>
+            <el-row>
+              <el-col :span="12">
+                <!-- 监管条件 -->
+                <el-card>
+                  <div class="info span_right"><span><i class="iconfont iconjiandu"></i>监管条件</span><span
+                      class="subTitle">{{list.regulatory_code}}</span></div>
+                  <div class="hoverColor">
+                    <span style="font-size: 18px;color: #909399;" v-if="list.regulatory_code === '' ">暂无</span>
+                    <div v-else v-for="(code,c) in codeName" :key="c" class="span_right">
+                      <span style="font-size: 18px;font-weight: bolder;">{{code}}</span>
+                      <span style="font-size: 18px;font-weight: bold;color: #606266;">{{codeDetail[c]}}</span>
+                    </div>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
+          </keep-alive>
+        </transition>
       </div>
       <div class="container">
-        <el-row>
-          <el-col :span="12">
-            <!-- 检验检疫类别 -->
-            <el-card>
-              <div class="info"><span>检验检疫类别</span><span class="subTitle">{{list.ciq_code}}</span></div>
-              <div class="hoverColor">
-                <span style="font-size: 18px;color: #909399;" v-if="list.ciq_code === '' ">暂无</span>
-                <div v-else v-for="(ciq,q) in ciqName" :key="q" class="span_right">
-                  <span style="font-size: 18px;font-weight: bolder;">{{ciq}}</span>
-                  <span style="font-size: 18px;font-weight: bold;color: #606266;">{{ciqDetail[q]}}</span>
-                </div>
-              </div>
-            </el-card>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <!-- 申报条件 -->
-            <el-card>
-              <div class="info">申报要素</div>
-              <div class="hoverColor">
-                <span style="font-size: 18px;color: #909399;" v-if="list.element_require === '' ">暂无</span>
-                <div v-else v-for="(item,i) in elementList" :key="i">
-                  <el-row>
-                    <el-col :span="2"><span style="font-size: 18px;color: #909399;">{{i+1}}</span>
-                    </el-col>
-                    <el-col :span="22" class="detail_right"><span
-                        style="font-size: 18px;font-weight: bold;color: #606266;">{{item}}</span>
-                    </el-col>
-                  </el-row>
-                </div>
-                <!-- 申报要素样例 -->
-                <div class="hoverColor">
-                  <el-row type="flex" justify="space-between" class="div_detail">
-                    <el-col :span="4" class="detail_left"><span
-                        style="font-size: 15px;font-weight: bold;color: #606266;line-height:40px;">申报要素样例</span>
-                    </el-col>
-                    <el-col :span="20" class="detail_right"><span v-if="example !== ''"
-                        style="font-size: 10px;font-weight: bolder;line-height:40px;">{{example}}</span>
-                      <span v-else style="font-size: 18px;font-weight: bolder;color: #909399;">无</span>
-                    </el-col>
-                  </el-row>
-                </div>
-              </div>
-            </el-card>
-          </el-col>
-        </el-row>
+        <transition name="emerge" appear>
+          <keep-alive>
+            <el-row>
+              <el-col :span="12">
+                <!-- 检验检疫类别 -->
+                <el-card>
+                  <div class="info span_right"><span><i class="iconfont iconjianyanjianyi"></i>检验检疫类别</span><span
+                      class="subTitle">{{list.ciq_code}}</span></div>
+                  <div class="hoverColor">
+                    <span style="font-size: 18px;color: #909399;" v-if="list.ciq_code === '' ">暂无</span>
+                    <div v-else v-for="(ciq,q) in ciqName" :key="q" class="span_right">
+                      <span style="font-size: 18px;font-weight: bolder;">{{ciq}}</span>
+                      <span style="font-size: 18px;font-weight: bold;color: #606266;">{{ciqDetail[q]}}</span>
+                    </div>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
+          </keep-alive>
+        </transition>
+        <transition name="emerge" appear>
+          <keep-alive>
+            <el-row>
+              <el-col :span="12">
+                <!-- 申报条件 -->
+                <el-card>
+                  <div class="info"><i class="iconfont iconxinshenqing"></i>申报要素</div>
+                  <div class="hoverColor">
+                    <span style="font-size: 18px;color: #909399;" v-if="list.element_require === '' ">暂无</span>
+                    <div v-else v-for="(item,i) in elementList" :key="i">
+                      <el-row class="info_row">
+                        <el-col :span="2"><span style="font-size: 18px;color: #909399;">{{i+1}}</span>
+                        </el-col>
+                        <el-col :span="22" class="detail_right"><span>{{item}}</span>
+                        </el-col>
+                      </el-row>
+                    </div>
+                    <!-- 申报要素样例 -->
+                    <div class="hoverColor example_div">
+                      <el-row type="flex" justify="space-between" class="div_detail">
+                        <el-col :span="4" class="detail_left"><span
+                            style="font-size: 15px;font-weight: bold;">申报要素样例:</span>
+                        </el-col>
+                        <el-col :span="20" class="detail_right"><span v-if="example !== ''"
+                            style="font-size: 10px;font-weight: bolder;">{{example}}</span>
+                          <span v-else style="font-size: 18px;font-weight: bolder;color: #909399;">无</span>
+                        </el-col>
+                      </el-row>
+                    </div>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
+          </keep-alive>
+        </transition>
       </div>
     </div>
   </div>
@@ -192,7 +217,7 @@
 
 <script>
   import axios from 'axios'
-  import Message from 'element-ui'
+  import { Message } from 'element-ui'
   export default {
     data() {
       return {
@@ -226,7 +251,8 @@
           var newList = []
           list.forEach(item => {
             if (item !== '') {
-              newList.push(item.slice(2))
+              let Index = item.indexOf(':')
+              newList.push(item.slice(Index + 1))
             }
           })
           return this.elementList = newList
@@ -280,15 +306,20 @@
       this.ciqList()
       this.getElementList(this.goodList)
       this.changeNumber()
+      if (process.client) {
+        // 修改head的title
+        document.title = 'HSCode编码-海关编码详情'
+      }
     },
     async asyncData({ query }) {
-      const { data: res } = await axios.post(`hscode?hscode=${encodeURI(query.hscode)}`)
+      const { data: res } = await axios.post(`hscode?hscode=${query.hscode}`)
       if (res.code !== 200) {
-        return Message.error(`${res.data}`)
+        return Message.error({ message: `${res.data}`, center: true })
       }
       const arr = []
       arr.push(res.data.info)
-      return { goodList: arr, title: decodeURI(query.title), example: decodeURI(query.example) }
+      //执行两次解码即可恢复原字符
+      return { goodList: arr, title: query.title, example: query.example }
     },
     head() {
       return {
@@ -302,28 +333,33 @@
   }
 </script>
 
-<style scoped>
-  .info {
+<style>
+  .detail .info {
     font-size: 14px;
     color: gray;
     margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
   }
 
-  .el-row {
+  .detail .iconfont {
+    position: relative;
+    top: 2px;
+    margin-right: 3px;
+    font-size: 20px;
+  }
+
+  .detail .el-row {
     margin-bottom: 20px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
   }
 
-  .el-row .el-card {
+  .detail .el-row .el-card {
     height: 100%;
-    transition: all .5s;
+    transition: all 0.5s;
   }
 
-  .container {
+  .detail .container {
     width: 100%;
     margin: auto;
   }
@@ -343,33 +379,101 @@
     background-color: gainsboro;
   }
 
-
   .div_detail {
     border-radius: 4px;
+    margin-bottom: 0;
   }
-
 
   .detail_left {
     border-radius: 4px;
   }
 
   .detail_right {
+    font-size: 18px;
+    font-weight: bold;
+    color: #606266;
     border-radius: 4px;
     display: flex;
     justify-content: flex-end;
   }
 
-  .infoCard {
-    /* margin-left: 23.5%; */
-  }
-
   .myApp {
     text-align: center;
     font-size: 14px;
-    /* margin-left: 50%; */
   }
 
   .myApp img {
     margin-top: 30px;
+  }
+
+  .detail_goodsCate {
+    font-size: 20px;
+    font-weight: bolder;
+    line-height: 40px;
+  }
+
+  .detail_goodsName {
+    font-size: 30px;
+    font-weight: bolder;
+    color: #fa3534;
+    line-height: 40px;
+  }
+
+  .detail .info_row {
+    margin-bottom: 5px;
+  }
+
+  .example_div {
+    margin-top: 15px;
+  }
+
+  .detail .el-card__body {
+    padding: 10px;
+  }
+
+  /* 媒体查询:移动端适配：详情卡片*/
+  /* 可同时设置两个条件 */
+  @media screen and (max-width: 480px),
+  (max-width: 950px) {
+
+    /* 将所有卡片横向铺满 */
+    .detail .el-col-12 {
+      width: 95%;
+    }
+
+    /* 左边距调整为0 */
+    .detail .el-col-offset-6 {
+      margin-left: 0;
+    }
+
+    /* 小程序卡片铺满 */
+    .detail .el-col-5 {
+      width: 95%;
+      margin-top: 20px;
+    }
+
+    /* 小程序卡片左边距调整为0 */
+    .detail .el-col-offset-1 {
+      margin-left: 0;
+    }
+
+    /* 调整申报要素样例 */
+    .detail .el-col-4 {
+      width: 38%;
+    }
+
+    .detail .el-col-20 {
+      width: 62%;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .detail_goodsCate {
+      font-size: 14px;
+    }
+
+    .detail_goodsName {
+      font-size: 20px;
+    }
   }
 </style>

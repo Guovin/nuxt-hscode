@@ -11,37 +11,9 @@ body,
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15) !important;
 }
 
-.el-table {
-  margin-top: 15px;
-}
-
-.logo_container{
-	text-align: center;
-	-moz-user-select: none;
-	-o-user-select: none;
-	-khtml-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-
-}
-
-.logo{
-	font-size: 55px;
-	color: #44BA81;
-	letter-spacing: 0;
-	text-shadow: 0px 1px 0px #999, 0px 2px 0px #888, 0px 3px 0px #777, 0px 4px 0px #666, 0px 5px 0px #555, 0px 6px 0px #444, 0px 7px 0px #333, 0px 8px 7px #001135;
-}
-
-.hs{
-	color: #0081CD;
-	font-size: 55px;
-}
-
-.el-drawer__header {
-	text-align: center;
-}
-
-.el-drawer{
-	background-color: rgba(255,255,255,0.8);
+/* 修改message提示框样式 */
+@media screen and (max-width: 480px) {
+	.el-message {
+		min-width: 70% !important;
+	}
 }
