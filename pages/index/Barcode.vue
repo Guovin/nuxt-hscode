@@ -32,6 +32,11 @@
         <span class="title">字体间距:</span>
         <el-input v-model="textMargin" @blur="textChange"></el-input>
       </div>
+      <!-- 打印条形码上下间距 -->
+      <div class="printMargin" v-show="pcStatus === true">
+        <span class="title">打印间距:</span>
+        <el-input v-model="barcodeBottom" @blur="bottomChange"></el-input>
+      </div>
     </div>
     <!-- 条码原始数据 -->
     <div class="text">
@@ -51,7 +56,7 @@
     <!-- 条码画布 -->
     <div class="canvas" v-show="status || saveStatus">
       <!-- <canvas id="code"></canvas> -->
-      <img id="code" class="code"></img>
+      <img id="code" class="code">
     </div>
     <!-- 打印区域 -->
     <iframe id="iframe" name="iframeName" style="display: none;">
@@ -89,6 +94,13 @@
         imgSrc: [],
         // 保存提示
         saveTip: '默认保存第一张条形码，若需要全部导出请使用打印功能',
+        // 是否为PC端
+        pcStatus:true,
+
+        // 打印格式
+        // 条形码上下间距
+        barcodeBottom: 50,
+        nowBottom: 50,
         // 条码格式
         options: [
           {
@@ -235,6 +247,7 @@
       },
       // 生成打印内容
       createPrint() {
+        let that = this
         // 获取打印内容
         // 获取所有canvas标签
         // let html = document.getElementsByTagName("canvas")
@@ -242,21 +255,46 @@
         // 获取iframe
         let iframe = document.getElementById("iframe")
         let newDiv = document.createElement("div")
+        // 控制图片容器打印时的位置
+        newDiv.style.position = "absolute"
+        newDiv.style.left = "50%"
+        newDiv.style.transform = "translate(-50%)"
+        let nextDiv = document.createElement("div")
         // 遍历生成含img标签的div
         imgTag.forEach(item => {
           // 获取canvas的Base64用于转换图片
           // let htmlBase64 = item.toDataURL()
           let newHtml = document.createElement("img")
+          let imgDiv = document.createElement("div")
           // newHtml.src = htmlBase64
           newHtml.src = item.src
-          newHtml.style.margin = "0px 50px 20px 0px"
-          newDiv.appendChild(newHtml)
+          // 单个条形码图片容器
+          imgDiv.appendChild(newHtml)
+          // 控制图片容器的位置
+          imgDiv.style.position = "relative"
+          imgDiv.style.left = "50%"
+          imgDiv.style.transform = "translate(-50%)"
+          // 控制条形码上下间距
+          imgDiv.style.marginBottom = that.barcodeBottom + 'px'
+          // 控制图片在容器中的位置
+          newHtml.style.position = "relative"
+          newHtml.style.left = "50%"
+          newHtml.style.transform = "translate(-50%)"
+          newDiv.appendChild(imgDiv)
         })
+        nextDiv.appendChild(newDiv)
         // 将图片div添加至iframe打印区域
-        iframe.contentDocument.body.innerHTML = newDiv.innerHTML
+        iframe.contentDocument.body.innerHTML = nextDiv.innerHTML
+        // 保存打印设置
+        that.nowBottom = that.barcodeBottom
       },
       // 条码打印
       printBarCode() {
+        //判断用户是否在生成打印内容后又修改了打印间距
+        if (this.nowBottom != this.barcodeBottom){
+          // 重新生成打印内容
+          this.createPrint()
+        }
         // 输出打印
         window.frames['iframeName'].print()
       },
@@ -284,6 +322,11 @@
       colorChange() {
         if (this.color == null) {
           this.color = '#000000'
+        }
+      },
+      bottomChange() {
+        if (this.barcodeBottom == '') {
+          this.barcodeBottom = 50
         }
       },
       // 判断PC端
@@ -326,6 +369,12 @@
       }
     },
     created() {
+      if(this.isPC() === true){
+        this.pcStatus = true
+      }
+      if(this.isPC() === false){
+        this.pcStatus = false
+      }
     },
     head() {
       return {
@@ -377,14 +426,20 @@
 
   .width,
   .height {
-    width: 13%;
+    width: 10%;
     display: flex;
     justify-content: space-around;
   }
 
   .fontSize,
   .textMargin {
-    width: 16%;
+    width: 13%;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .printMargin{
+    width: 18%;
     display: flex;
     justify-content: space-around;
   }
@@ -472,6 +527,10 @@
 
     .message_container {
       top: 85% !important;
+    }
+
+    .printMargin{
+      width: 48%;
     }
   }
 </style>
