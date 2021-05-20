@@ -113,8 +113,8 @@
             反馈
           </span>
         </div>
-        <a href=" https://www.miit.gov.cn/" style="color:#317EB2; text-decoration:none;"
-          target="blank">粤ICP备20062496号-1</a>
+        <a href="https://beian.miit.gov.cn/" style="color:#317EB2; text-decoration:none;"
+          target="blank">粤ICP备20062496号</a>
       </el-footer>
     </el-container>
     <!-- 回到顶部 -->

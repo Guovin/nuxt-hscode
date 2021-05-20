@@ -33,7 +33,7 @@
         <el-input v-model="textMargin" @blur="textChange"></el-input>
       </div>
       <!-- 打印条形码上下间距 -->
-      <div class="printMargin" v-show="pcStatus === true">
+      <div v-show="pcStatus===true" class="printMargin">
         <span class="title">打印间距:</span>
         <el-input v-model="barcodeBottom" @blur="bottomChange"></el-input>
       </div>
@@ -369,12 +369,12 @@
       }
     },
     created() {
-      if(this.isPC() === true){
+        if(this.isPC() === true){
         this.pcStatus = true
       }
-      if(this.isPC() === false){
-        this.pcStatus = false
-      }
+        if(this.isPC() === false){
+          this.pcStatus = false
+        }
     },
     head() {
       return {
