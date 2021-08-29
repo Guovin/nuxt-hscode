@@ -336,7 +336,6 @@ export default {
           // 同行第一个条形码
           if (index % 2 == 0) {
             newTr = document.createElement("tr");
-            newTr.className = "tr" + index;
             newTr.appendChild(imgTd);
             // 最后一行且只有一个条形码时:
             if (index === imgTag.length - 1) {
@@ -348,17 +347,16 @@ export default {
             newTr = newTr.cloneNode(true);
             newTr.appendChild(imgTd);
             allTrDiv.appendChild(newTr);
-            allTrDiv.appendChild(allTrDiv.cloneNode(true));
+            allTrDiv.appendChild(allTrDiv.cloneNode());
           }
         }
         // 单排局中打印
         else {
           imgTd.style.width = "100%";
           newTr = document.createElement("tr");
-          newTr.className = "tr" + index;
           newTr.appendChild(imgTd);
           allTrDiv.appendChild(newTr);
-          allTrDiv.appendChild(allTrDiv.cloneNode(true));
+          allTrDiv.appendChild(allTrDiv.cloneNode());
         }
         // 控制条形码上下间距
         newTr.style.height = that.barcodeBottom + "px";
