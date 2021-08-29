@@ -4,7 +4,7 @@ import {
   TableColumn, Card, Button, Pagination, Dialog,
   Breadcrumb, BreadcrumbItem, Backtop, Icon,
   Row, Col, Footer, Drawer, Tree, Tooltip, Cascader,
-  ColorPicker
+  ColorPicker,Checkbox
 } from 'element-ui'
 
 Vue.use(Container)
@@ -29,5 +29,6 @@ Vue.use(Tree)
 Vue.use(Tooltip)
 Vue.use(Cascader)
 Vue.use(ColorPicker)
+Vue.use(Checkbox)
 
 Vue.prototype.$message = Message
