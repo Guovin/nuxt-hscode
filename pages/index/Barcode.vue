@@ -312,7 +312,7 @@ export default {
       // 创建打印表格
       let table = document.createElement("table");
       table.style.width = "100%";
-      table.style.border = "1px solid #dcdfe6";
+      // table.style.border = "1px solid #dcdfe6";
       table.style.borderRadius = "4px";
       // 遍历生成含img标签的div
       let allTrDiv = document.createElement("div");
@@ -322,7 +322,7 @@ export default {
         // let htmlBase64 = item.toDataURL()
         let newImg = document.createElement("img");
         let imgTd = document.createElement("td");
-        imgTd.style.border = "1px solid #dcdfe6";
+        // imgTd.style.border = "1px solid #dcdfe6";
         imgTd.style.borderRadius = "4px";
         imgTd.style.textAlign = "center";
         // newImg.src = htmlBase64
@@ -665,6 +665,11 @@ export default {
   border-radius: 5px;
   padding: 2px 2px;
 }
+
+.canvas-show-div table,td{
+  border: 1px solid #dcdfe6;
+}
+
 
 @media screen and (max-width: 480px) {
   .barcode {
