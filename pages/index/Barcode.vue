@@ -596,12 +596,12 @@ export default {
 
 .printDouble,.printBorder {
   position: relative;
-  top: 5px;
+  top: 6px;
 }
 
 .color {
   display: flex;
-  width: 8%;
+  width: 6%;
   justify-content: space-between;
 }
 
