@@ -123,7 +123,6 @@
 <script>
 import axios from "axios";
 import { Message } from "element-ui";
-import Sortable from 'sortable';
 export default {
   data() {
     return {
