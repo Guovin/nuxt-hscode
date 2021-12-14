@@ -368,8 +368,12 @@ export default {
   mounted() {
     //由于nuxt服务端渲染，document是不存在的，需要判断process.client来获取
     if (process.client) {
-      this.rowDrop()
+      // 列拖拽数据缓存
       this.columnDrop()
+      // 移动端不允许行拖拽，避免与滑动显示区域冲突
+      if(!('ontouchstart' in document.documentElement)){
+        this.rowDrop()
+      }
       const that = this;
       that.screenWidth = document.body.clientWidth;
       this.changeStyle();
