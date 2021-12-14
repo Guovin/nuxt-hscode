@@ -7,86 +7,41 @@
       <!-- 表格区域 -->
       <transition name="emerge" appear>
         <keep-alive>
-          <el-table :data="keyList" border stripe class="outTable">
+          <el-table :data="keyList" border stripe :row-key="getRowKey" class="outTable">
             <el-table-column
-              prop="hscode"
-              label="商品编号"
-              header-align="center"
-              align="center"
-              min-width="100"
-            >
-            </el-table-column>
-            <el-table-column
-              label="商品名称"
-              header-align="center"
-              align="center"
-              min-width="100"
-            >
-              <template slot-scope="scope">
-                <span v-html="showDate(scope.row.product_name)"></span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              prop="hscode_name"
-              label="商品分类"
-              header-align="center"
-              align="center"
-              min-width="100"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="unit"
-              label="计量单位"
-              header-align="center"
-              align="center"
-              min-width="100"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="export_retax"
-              label="出口退税率"
-              header-align="center"
-              align="center"
-              min-width="110"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="supervision_code"
-              label="监管条件"
-              header-align="center"
-              align="center"
-              min-width="100"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="ciq_code"
-              label="检验检疫"
-              header-align="center"
-              align="center"
-              min-width="100"
-            >
-            </el-table-column>
-            <el-table-column
-              label="更多信息"
-              header-align="center"
-              align="center"
-              min-width="100"
-            >
-              <template slot-scope="scope">
-                <el-button
-                  type="primary"
-                  @click="
-                    showDetail(
-                      scope.row.hscode,
-                      scope.row.product_name,
-                      scope.row.element_example
-                    )
-                  "
-                  size="mini"
-                  >详情
-                </el-button>
-              </template>
-            </el-table-column>
+                v-for="(item, index) in col" :key="index"
+                :prop="dropCol[index].prop"
+                :label="item.label"
+                header-align="center"
+                align="center"
+                min-width="100"
+              >
+                <template slot-scope="scope">
+                    <!-- 商品名称 -->
+                    <!-- 注意：这里要使用dropCol,而不是item，否则引起排序问题 -->
+                    <span
+                      v-if="dropCol[index].prop === 'product_name'"
+                      v-html="showDate(scope.row[dropCol[index].prop])"
+                    >
+                    </span>
+                    <!-- 更多信息 -->
+                    <el-button
+                      v-else-if="dropCol[index].prop === 'element_example'"
+                      type="primary"
+                      @click="
+                        showDetail(
+                          scope.row.hscode,
+                          scope.row.product_name,
+                          scope.row.element_example
+                        )
+                      "
+                      size="mini"
+                      >详情
+                    </el-button>
+                    <!-- 其它 -->
+                    <div v-else>{{ scope.row[dropCol[index].prop] }}</div>
+                </template>
+              </el-table-column>
           </el-table>
         </keep-alive>
       </transition>
@@ -168,6 +123,7 @@
 <script>
 import axios from "axios";
 import { Message } from "element-ui";
+import Sortable from 'sortable';
 export default {
   data() {
     return {
@@ -175,6 +131,80 @@ export default {
       key: "",
       //控制卡片是否显示
       showCard: false,
+      // 获取每行的key值，必须指定，否则拖拽引起排序错误问题
+      getRowKey(row) {
+        return row.hscode;
+      },
+      // 列属性
+      col: [
+        {
+          label: '商品编号',
+          prop: 'hscode'
+        },
+        {
+          label: '商品名称',
+          prop: 'product_name'
+        },
+        {
+          label: '商品分类',
+          prop: 'hscode_name'
+        },
+        {
+          label: '计量单位',
+          prop: 'unit'
+        },
+        {
+          label: '出口退税率',
+          prop: 'export_retax'
+        },
+        {
+          label: '监管条件',
+          prop: 'supervision_code'
+        },
+        {
+          label: '检验检疫',
+          prop: 'ciq_code'
+        },
+        {
+          label: '更多信息',
+          prop: 'element_example'
+        }
+      ],
+      // 拖拽列属性
+      dropCol: [
+        {
+          label: '商品编号',
+          prop: 'hscode'
+        },
+        {
+          label: '商品名称',
+          prop: 'product_name'
+        },
+        {
+          label: '商品分类',
+          prop: 'hscode_name'
+        },
+        {
+          label: '计量单位',
+          prop: 'unit'
+        },
+        {
+          label: '出口退税率',
+          prop: 'export_retax'
+        },
+        {
+          label: '监管条件',
+          prop: 'supervision_code'
+        },
+        {
+          label: '检验检疫',
+          prop: 'ciq_code'
+        },
+        {
+          label: '更多信息',
+          prop: 'element_example'
+        }
+      ],
       // 关键词搜索列表
       keyList: [],
       // hscode
@@ -201,18 +231,37 @@ export default {
       needSlide: false,
     };
   },
+  computed: {
+    // 筛选变色
+    showDate() {
+      return function(val){
+        val = val + "";
+        const keys = this.key.split("");
+        //遍历搜索词，商品名称存在该字的话就变色
+        keys.forEach((item) => {
+          if (val.indexOf(item) !== -1 && item !== "") {
+            return (val = val.replace(
+              eval(`/${item}/g`),
+              '<font color="#409EFF">' + item + "</font>"
+            ));
+          } else {
+            return (val = val);
+          }
+        });
+        return val;
+      }
+    }
+  },
   methods: {
     // 根据关键词获取数据列表
     async getListByKey(key) {
       //传入的key是经转码的
       //解码保存
-      console.log(key);
       let decodeKey = decodeURIComponent(key);
       this.key = decodeKey;
       //保存当前查询结果的key，避免用户修改输入框导致分页错误
       this.urlKey = decodeKey;
       const { data: res } = await this.$http.post(`search?keyword=${key}`);
-      console.log(res);
       if (res.code !== 200) {
         return this.$message.error({ message: `${res.data}`, center: true });
       }
@@ -254,23 +303,6 @@ export default {
         },
       });
     },
-    // 筛选变色
-    showDate(val) {
-      val = val + "";
-      const keys = this.key.split("");
-      //遍历搜索词，商品名称存在该字的话就变色
-      keys.forEach((item) => {
-        if (val.indexOf(item) !== -1 && item !== "") {
-          return (val = val.replace(
-            eval(`/${item}/g`),
-            '<font color="#409EFF">' + item + "</font>"
-          ));
-        } else {
-          return (val = val);
-        }
-      });
-      return val;
-    },
     //根据实时显示宽度调整页面样式
     changeStyle() {
       //显示区域过小，提醒滑动表格
@@ -302,6 +334,30 @@ export default {
         this.phonePage = false;
       }
     },
+    // 行拖拽
+    rowDrop() {
+      const tbody = document.querySelector('.el-table__body-wrapper tbody')
+      const _this = this
+      Sortable.create(tbody, {
+        onEnd({ newIndex, oldIndex }) {
+          const currRow = _this.keyList.splice(oldIndex, 1)[0]
+          _this.keyList.splice(newIndex, 0, currRow)
+        }
+      })
+    },
+    // 列拖拽
+    columnDrop() {
+      const wrapperTr = document.querySelector('.el-table__header-wrapper tr')
+      this.sortable = Sortable.create(wrapperTr, {
+        animation: 180,
+        delay: 0,
+        onEnd: evt => {
+          const oldItem = this.dropCol[evt.oldIndex]
+          this.dropCol.splice(evt.oldIndex, 1)
+          this.dropCol.splice(evt.newIndex, 0, oldItem)
+        }
+      })
+    }
   },
   created() {
     if (process.client) {
@@ -312,6 +368,8 @@ export default {
   mounted() {
     //由于nuxt服务端渲染，document是不存在的，需要判断process.client来获取
     if (process.client) {
+      this.rowDrop()
+      this.columnDrop()
       const that = this;
       that.screenWidth = document.body.clientWidth;
       this.changeStyle();
@@ -329,7 +387,6 @@ export default {
     // watch侦听器监听的是data中的属性,不能直接监听window
     screenWidth(val) {
       this.screenWidth = val;
-      // console.log("this.screenWidth", this.screenWidth)
       this.changeStyle();
     },
   },
