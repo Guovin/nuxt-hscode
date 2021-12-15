@@ -679,7 +679,6 @@ export default {
   border: 1px solid #dcdfe6;
 }
 
-
 @media screen and (max-width: 480px) {
   .barcode {
     width: 100%;
