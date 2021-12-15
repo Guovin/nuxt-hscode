@@ -63,6 +63,12 @@
             >双排</el-checkbox
           >
         </div>
+        <!-- 打印边框 -->
+        <div class="printBorder">
+          <el-checkbox v-model="borderPrint" @change="doubleChange"
+            >边框</el-checkbox
+          >
+        </div>
       </div>
     </div>
     <!-- 条码原始数据 -->
@@ -159,6 +165,8 @@ export default {
       nowBottom: 50,
       // 双排打印
       doublePrint: true,
+      // 打印边框显示
+      borderPrint: false,
       // 条码格式
       options: [
         {
@@ -312,7 +320,9 @@ export default {
       // 创建打印表格
       let table = document.createElement("table");
       table.style.width = "100%";
-      table.style.border = "1px solid #dcdfe6";
+      if(this.borderPrint){
+        table.style.border = "1px solid #dcdfe6";
+      }
       table.style.borderRadius = "4px";
       // 遍历生成含img标签的div
       let allTrDiv = document.createElement("div");
@@ -322,7 +332,9 @@ export default {
         // let htmlBase64 = item.toDataURL()
         let newImg = document.createElement("img");
         let imgTd = document.createElement("td");
-        imgTd.style.border = "1px solid #dcdfe6";
+        if(that.borderPrint){
+          imgTd.style.border = "1px solid #dcdfe6";
+        }
         imgTd.style.borderRadius = "4px";
         imgTd.style.textAlign = "center";
         // newImg.src = htmlBase64
@@ -582,17 +594,14 @@ export default {
   justify-content: space-around;
 }
 
-.printDouble {
-  width: 43%;
-  display: flex;
-  justify-content: space-around;
+.printDouble,.printBorder {
   position: relative;
-  top: 10px;
+  top: 6px;
 }
 
 .color {
   display: flex;
-  width: 8%;
+  width: 6%;
   justify-content: space-between;
 }
 
@@ -664,6 +673,10 @@ export default {
   border: 0.5px solid rgba(0, 0, 0, 0.15);
   border-radius: 5px;
   padding: 2px 2px;
+}
+
+.canvas-show-div table,td{
+  border: 1px solid #dcdfe6;
 }
 
 @media screen and (max-width: 480px) {
