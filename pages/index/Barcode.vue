@@ -287,11 +287,11 @@ export default {
             // 提前生成打印内容标签
             this.createPrint();
             let html = document.getElementsByClassName("code");
-            html.forEach((item) => {
+            Array.prototype.forEach.call(html, item => {
               // 获取canvas的Base64用于转换图片
               // this.base64.push(item.toDataURL())
               this.imgSrc.push(item.src);
-            });
+            })
             return Message.success({
               message: "生成条形码成功！",
               center: true,
