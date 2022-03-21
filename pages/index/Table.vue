@@ -42,6 +42,7 @@
                     <div v-else>{{ scope.row[dropCol[index].prop] }}</div>
                 </template>
               </el-table-column>
+
           </el-table>
         </keep-alive>
       </transition>
@@ -401,6 +402,7 @@ export default {
     if (res.code !== 200) {
       return Message.error({ message: `${res.data}`, center: true });
     }
+
     return {
       key: decodeURIComponent(query.key),
       urlKey: decodeURIComponent(query.key),
