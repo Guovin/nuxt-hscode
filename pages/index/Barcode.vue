@@ -327,7 +327,7 @@ export default {
       // 遍历生成含img标签的div
       let allTrDiv = document.createElement("div");
       let newTr;
-      imgTag.forEach((item, index) => {
+      Array.prototype.forEach.call(imgTag, (item, index) => {
         // 获取canvas的Base64用于转换图片
         // let htmlBase64 = item.toDataURL()
         let newImg = document.createElement("img");
@@ -374,7 +374,7 @@ export default {
         newTr.style.height = that.barcodeBottom + "px";
       });
       let newTbody = document.createElement("tbody");
-      allTrDiv.childNodes.forEach((tr) => {
+      Array.prototype.forEach.call(allTrDiv.childNodes, tr => {
         newTbody.appendChild(tr);
       });
       table.appendChild(newTbody);
